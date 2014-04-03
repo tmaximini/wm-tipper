@@ -16,8 +16,20 @@ exports.load = function(req, res, next, id) {
 }
 
 exports.index = function (req, res, next) {
-  res.render('group/index.jade', {
-    title: "Alle Gruppen"
+
+  // pagination
+  var totalCount = Group.count();
+  var perPage = 10;
+  var page = req.query.page || 1;
+
+  Group.list({}, function (err, _groups) {
+    if (err) return next(err);
+
+    res.render('group/index.jade', {
+      title: 'Alle Gruppen',
+      groups: _groups
+    });
+
   });
 }
 
