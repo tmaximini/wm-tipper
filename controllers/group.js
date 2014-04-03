@@ -31,45 +31,32 @@ exports.new = function (req, res, next) {
   console.dir(res.locals);
 }
 
-/*
+
 exports.create = function (req, res, next) {
+
+  console.log('creating new group:');
+  console.dir(req.body);
+  console.log('current user:');
+  console.dir(req.user);
+
   var group = new Group(req.body);
-  group.author = req.user;
+  group.founder = req.user;
 
-  var groupId = utils.convertToSlug(req.body.title);
+  var newGroup = new Group(req.body);
 
-  Group.findOne({ 'slug': groupId }, function (err, doc) {
-    if (err) return next(err);
-    if (doc) {
-      console.log("group already exists!");
+  // generate slug from title
+  // newStory.slug = utils.convertToSlug(newStory.title);
 
-      return res.status(400).render('groups/new', {
-        title: 'New Group',
-        group: group,
-        errors: ["Group with that name already exists"]
-      });
-
+  newGroup.save(function(err, group) {
+    if (err) {
+      return next(err);
     }
-    else {
-      group.slug = groupId;
-      group.uploadAndSave(req.files.image, function (err) {
-        if (!err) {
-          req.flash('success', 'Successfully created group!');
-          console.log('Successfully created group!');
-          return res.redirect('/groups/' + group.slug);
-        } else {
-          // error occured
-          res.redirect('groups/new', {
-            title: "New Group",
-            group: group,
-            errors: utils.errors(err.errors || err)
-          });
-        }
-      });
-    }
-  })
+    return res.json(group);
+  });
 }
 
+
+/*
 
 exports.index = function (req, res, next) {
 

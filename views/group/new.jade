@@ -3,6 +3,7 @@ extends ../layout
 block content
   form(method='POST', action='/groups')
     legend Neue Gruppe gründen
+    input(type='hidden', name='_csrf', value=token)
     .col-sm-8.col-sm-offset-2
       .form-group
         label.control-label(for='name') Name
@@ -13,6 +14,12 @@ block content
       .form-group
         label.control-label(for='password') Passwort
         input.form-control(type='password', name='password', id='password', placeholder='Passwort')
+      .form-group
+        label.control-label(for='price') Preis
+        textarea.form-control(type='text', name='price', id='price', placeholder='Preis')
+      .form-group
+        label.control-label(for='rules') Regeln
+        textarea.form-control(type='text', name='rules', id='rules', placeholder='Regeln')
       .form-group
         button.btn.btn-primary(type='submit')
           i.fa.fa-unlock-alt

@@ -10,6 +10,7 @@ var groupSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+  founder: { type: Schema.Types.ObjectId, ref: 'User' },
   price: String,
   rules: String,
   is_public: Boolean,

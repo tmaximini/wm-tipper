@@ -133,6 +133,7 @@ app.get('/account/unlink/:provider', passportConf.isAuthenticated, userControlle
 app.param('group', groupController.load);
 app.get('/groups', groupController.index);
 app.get('/groups/new', passportConf.isAuthenticated, groupController.new);
+app.post('/groups', passportConf.isAuthenticated, groupController.create);
 
 
 /**
