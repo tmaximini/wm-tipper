@@ -26,8 +26,8 @@ exports.getLogin = function(req, res) {
  */
 
 exports.postLogin = function(req, res, next) {
-  req.assert('email', 'Email is not valid').isEmail();
-  req.assert('password', 'Password cannot be blank').notEmpty();
+  req.assert('email', 'Email ungültig').isEmail();
+  req.assert('password', 'Passwort darf nicht leer sein').notEmpty();
 
   var errors = req.validationErrors();
 
@@ -309,7 +309,7 @@ exports.getForgot = function(req, res) {
     return res.redirect('/');
   }
   res.render('account/forgot', {
-    title: 'Forgot Password'
+    title: 'Passwort vergessen'
   });
 };
 
@@ -320,7 +320,7 @@ exports.getForgot = function(req, res) {
  */
 
 exports.postForgot = function(req, res, next) {
-  req.assert('email', 'Please enter a valid email address.').isEmail();
+  req.assert('email', 'Email Adresse nicht gültig.').isEmail();
 
   var errors = req.validationErrors();
 
@@ -339,7 +339,7 @@ exports.postForgot = function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (!user) {
-          req.flash('errors', { msg: 'No account with that email address exists.' });
+          req.flash('errors', { msg: 'Es existiert kein Account mit dieser Email Adresse.' });
           return res.redirect('/forgot');
         }
 

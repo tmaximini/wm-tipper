@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  form(method='POST', action='/groups')
+    legend Neue Gruppe gründen
+    .col-sm-8.col-sm-offset-2
+      .form-group
+        label.control-label(for='name') Name
+        input.form-control(type='text', name='name', id='name', placeholder='Name', autofocus=true)
+      .form-group
+        label.control-label(for='is_public') Öffentliche Gruppe
+        input.form-control(type='checkbox', name='is_public', id='is_public')
+      .form-group
+        label.control-label(for='password') Passwort
+        input.form-control(type='password', name='password', id='password', placeholder='Passwort')
+      .form-group
+        button.btn.btn-primary(type='submit')
+          i.fa.fa-unlock-alt
+          | Gruppe erstellen
+      hr

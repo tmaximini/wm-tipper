@@ -18,6 +18,7 @@ var connectAssets = require('connect-assets');
 var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
+var groupController = require('./controllers/group');
 
 /**
  * API keys + Passport configuration.
@@ -66,6 +67,7 @@ app.use(expressValidator());
 app.use(express.methodOverride());
 app.use(express.session({
   secret: secrets.sessionSecret,
+  cookie: { maxAge: 7 * day },
   store: new MongoStore({
     url: secrets.db,
     auto_reconnect: true
@@ -101,6 +103,8 @@ app.use(express.errorHandler());
  * Application routes.
  */
 
+
+//// USER ////
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
@@ -111,13 +115,24 @@ app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+
+//// CONTACT ////
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
+
+
+//// ACCOUNT ////
 app.get('/account', passportConf.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile);
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+
+
+//// GROUPS ////
+app.param('group', groupController.load);
+app.get('/groups', groupController.index);
+app.get('/groups/new', passportConf.isAuthenticated, groupController.new);
 
 
 /**
