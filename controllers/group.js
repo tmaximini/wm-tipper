@@ -25,8 +25,15 @@ exports.index = function (req, res, next) {
 exports.new = function (req, res, next) {
   res.render('group/new.jade', {
     title: "Create Group",
-    group: new Group({}),
-    errors: []
+    group: new Group({})
+  });
+  console.dir(res.locals);
+}
+
+exports.edit = function (req, res, next) {
+  res.render('group/edit.jade', {
+    title: "Edit Group",
+    group: req.group
   });
   console.dir(res.locals);
 }
@@ -54,6 +61,58 @@ exports.create = function (req, res, next) {
     return res.json(group);
   });
 }
+
+
+/**
+ *  Get group by id
+ */
+exports.show = function (req, res, next) {
+  var group = req.group;
+
+  if(!group) {
+    res.send(404, 'STORY_NOT_FOUND');
+  } else {
+    res.send(group);
+  }
+
+};
+
+/**
+ *  Delete group
+ */
+exports.delete = function (req, res, next) {
+
+  var group = req.group;
+
+  group.remove(function (err) {
+    if (err) return next(err);
+
+    res.send(200, 'Story removed');
+  });
+};
+
+/**
+ * Update Story
+ */
+exports.update = function (req, res, next) {
+
+  var group = req.group;
+
+  console.dir(req.body);
+
+  group.set(req.body);
+  group.slug = utils.convertToSlug(req.body.title);
+
+  group.save(function(err, group) {
+    if (!err) {
+      console.log('update successful');
+      return res.send(group);
+    } else {
+      return next(err);
+    }
+  });
+
+};
 
 
 /*

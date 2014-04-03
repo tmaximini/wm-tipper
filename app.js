@@ -137,7 +137,9 @@ app.param('group', groupController.load);
 app.get('/groups', groupController.index);
 app.get('/groups/new', passportConf.isAuthenticated, groupController.new);
 app.post('/groups', passportConf.isAuthenticated, groupController.create);
-
+app.get('/groups/:group', passportConf.isAuthenticated, groupController.show);
+app.put('/groups/:group', passportConf.isAuthenticated, groupController.update);
+app.get('/groups/:group/edit', passportConf.isAuthenticated, groupController.edit);
 
 /**
  * OAuth routes for sign-in.
