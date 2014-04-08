@@ -70,7 +70,8 @@ exports.create = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    return res.json(group);
+    req.flash('success', { msg: 'Gruppe wurde erstellt.' });
+    return res.redirect('/groups');
   });
 }
 

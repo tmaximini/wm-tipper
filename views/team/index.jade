@@ -6,3 +6,6 @@ block content
     each team in teams
       .team
         a(href='/teams/#{team.slug}')= team.name
+  .actions
+    a.btn.btn-primary(href='/teams/new')
+      | Neues Team anlegen

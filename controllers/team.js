@@ -69,7 +69,8 @@ exports.create = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    return res.json(team);
+    req.flash('success', { msg: 'Mannschaft wurde erstellt.' });
+    return res.redirect('/teams');
   });
 }
 

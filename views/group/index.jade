@@ -5,7 +5,7 @@ block content
   .groups
     each group in groups
       .group
-        a(href='/groups/#{group._id}')= group.name
+        a(href='/groups/#{group.slug}')= group.name
   .actions
     a.btn.btn-primary(href='/groups/new')
       | Neue Gruppe erstellen
