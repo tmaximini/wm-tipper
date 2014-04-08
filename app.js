@@ -55,6 +55,10 @@ app.use(connectAssets({
   paths: ['public/css', 'public/js'],
   helperContext: app.locals
 }));
+
+/**
+ * middleware
+ */
 app.use(express.compress());
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -74,12 +78,18 @@ app.use(express.session({
 app.use(express.csrf());
 app.use(passport.initialize());
 app.use(passport.session());
+
+/**
+ * pass in local variables for all views via middleware
+ */
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   res.locals.token = req.csrfToken();
   res.locals.secrets = secrets;
+  res.locals.currentPath = req.originalUrl;
   next();
 });
+
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: month }));
 app.use(function(req, res, next) {
@@ -100,15 +110,12 @@ app.use(express.errorHandler());
 /**
  * Application routes.
  */
-
-
 routes(app);
 
 
 /**
  * Start Express server.
  */
-
 app.listen(app.get('port'), function() {
   console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });

@@ -25,7 +25,7 @@ exports.index = function (req, res, next) {
     if (err) return next(err);
 
     res.render('team/index.jade', {
-      title: 'Alle Gruppen',
+      title: 'Alle Mannschaften',
       teams: _teams
     });
 

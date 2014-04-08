@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
-  // Place JavaScript code here...
+  $('input#startDate').datepicker({
+      todayBtn: "linked",
+      autoclose: true,
+      todayHighlight: true
+  });
 
 });

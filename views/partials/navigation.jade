@@ -9,24 +9,24 @@
       a.navbar-brand(href='/') WM Tipper
     .collapse.navbar-collapse
       ul.nav.navbar-nav
-        li(class=title=='Home'?'active':undefined)
+        li(class=currentPath=='/'?'active':undefined)
           a(href='/') Home
-        li(class=title=='Tippen'?'active':undefined)
+        li(class=currentPath=='/tips'?'active':undefined)
           a(href='/tips') Tippen
-        li(class=title=='Spielplan'?'active':undefined)
+        li(class=currentPath=='/plan'?'active':undefined)
           a(href='/plan') Spielplan
-        li(class=title=='Gruppe'?'active':undefined)
+        li(class=currentPath=='/groups'?'active':undefined)
           a(href='/groups') Gruppen
-        li(class=title=='Bestenliste'?'active':undefined)
+        li(class=currentPath=='/top'?'active':undefined)
           a(href='/top') Bestenliste
-        li(class=title=='Contact'?'active':undefined)
+        li(class=currentPath=='/contact'?'active':undefined)
           a(href='/contact') Contact
       ul.nav.navbar-nav.navbar-right
         if !user
-          li(class=title=='Anmelden'?'active':undefined)
+          li(class=currentPath=='Anmelden'?'active':undefined)
             a(href='/login') Anmelden
           if secrets.localAuth
-            li(class=title=='Registrieren'?'active':undefined)
+            li(class=req.originalUrl=='Registrieren'?'active':undefined)
               a(href='/signup') Registrieren
         else
           li.dropdown(class=title=='Account Management'?'active':undefined)

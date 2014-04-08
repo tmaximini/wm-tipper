@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h1= group.name
+  .groups-details
+    | group details
+  .actions
+    a.btn.btn-primary(href='/groups/#{group.slug}/edit')
+      | Gruppe editieren

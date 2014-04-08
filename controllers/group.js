@@ -63,9 +63,6 @@ exports.create = function (req, res, next) {
 
   var newGroup = new Group(req.body);
 
-  // generate slug from title
-  // newStory.slug = utils.convertToSlug(newStory.title);
-
   newGroup.save(function(err, group) {
     if (err) {
       return next(err);
@@ -85,9 +82,13 @@ exports.show = function (req, res, next) {
   // TODO: render correctly
 
   if(!group) {
-    res.send(404, 'GROUP_NOT_FOUND');
+    req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
+    res.redirect('/groups');
   } else {
-    res.send(group);
+    res.render('group/show.jade', {
+      title: req.group.name,
+      group: req.group
+    });
   }
 
 };

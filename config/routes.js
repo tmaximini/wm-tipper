@@ -8,12 +8,13 @@ var userController = require('../controllers/user');
 var contactController = require('../controllers/contact');
 var groupController = require('../controllers/group');
 var teamController = require('../controllers/team');
+var matchController = require('../controllers/match');
 
 /**
  * API keys + Passport configuration.
  */
 
- var passport = require('passport');
+var passport = require('passport');
 var secrets = require('./secrets');
 var passportConf = require('./passport');
 
@@ -62,6 +63,15 @@ module.exports = exports = function (app) {
   app.get('/teams/:team', passportConf.isAuthenticated, teamController.show);
   app.put('/teams/:team', passportConf.isAuthenticated, teamController.update);
   app.get('/teams/:team/edit', passportConf.isAuthenticated, teamController.edit);
+
+  //// MATCHES ////
+  app.param('match', matchController.load);
+  app.get('/matches', matchController.index);
+  app.get('/matches/new', passportConf.isAuthenticated, matchController.new);
+  app.post('/matches', passportConf.isAuthenticated, matchController.create);
+  app.get('/matches/:match', passportConf.isAuthenticated, matchController.show);
+  app.put('/matches/:match', passportConf.isAuthenticated, matchController.update);
+  app.get('/matches/:match/edit', passportConf.isAuthenticated, matchController.edit);
 
 
   /**
