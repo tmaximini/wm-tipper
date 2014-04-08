@@ -1,16 +1,15 @@
 var mongoose = require('mongoose');
-var Group = require('../models/Group');
+var Team = require('../models/Team');
 
 var passportConf = require('../config/passport');
 
 'use strict';
 
-
 exports.load = function(req, res, next, id) {
-  Group.load(id, function (err, group) {
+  Team.load(id, function (err, team) {
     if (err) return next(err);
-    if (!group) return next(new Error('not found'));
-    req.group = group;
+    if (!team) return next(new Error('not found'));
+    req.team = team;
     next();
   });
 }
@@ -18,16 +17,16 @@ exports.load = function(req, res, next, id) {
 exports.index = function (req, res, next) {
 
   // pagination
-  var totalCount = Group.count();
+  var totalCount = Team.count();
   var perPage = 10;
   var page = req.query.page || 1;
 
-  Group.list({}, function (err, _groups) {
+  Team.list({}, function (err, _teams) {
     if (err) return next(err);
 
-    res.render('group/index.jade', {
+    res.render('team/index.jade', {
       title: 'Alle Gruppen',
-      groups: _groups
+      teams: _teams
     });
 
   });
@@ -35,17 +34,17 @@ exports.index = function (req, res, next) {
 
 
 exports.new = function (req, res, next) {
-  res.render('group/new.jade', {
-    title: "Create Group",
-    group: new Group({})
+  res.render('team/new.jade', {
+    title: "Create Team",
+    team: new Team({})
   });
   console.dir(res.locals);
 }
 
 exports.edit = function (req, res, next) {
-  res.render('group/edit.jade', {
-    title: "Edit Group",
-    group: req.group
+  res.render('team/edit.jade', {
+    title: "Edit Team",
+    team: req.team
   });
   console.dir(res.locals);
 }
@@ -53,77 +52,74 @@ exports.edit = function (req, res, next) {
 
 exports.create = function (req, res, next) {
 
-  console.log('creating new group:');
+  console.log('creating new team:');
   console.dir(req.body);
   console.log('current user:');
   console.dir(req.user);
 
-  var group = new Group(req.body);
-  group.founder = req.user;
+  var team = new Team(req.body);
+  team.founder = req.user;
 
-  var newGroup = new Group(req.body);
+  var newTeam = new Team(req.body);
 
   // generate slug from title
   // newStory.slug = utils.convertToSlug(newStory.title);
 
-  newGroup.save(function(err, group) {
+  newTeam.save(function(err, team) {
     if (err) {
       return next(err);
     }
-    return res.json(group);
+    return res.json(team);
   });
 }
 
 
 /**
- *  Get group by id
+ *  Get team by id
  */
 exports.show = function (req, res, next) {
-  var group = req.group;
+  var team = req.team;
 
-  // TODO: render correctly
-
-  if(!group) {
-    res.send(404, 'GROUP_NOT_FOUND');
+  if(!team) {
+    res.send(404, 'TEAM_NOT_FOUND');
   } else {
-    res.send(group);
+    res.send(team);
   }
 
 };
 
 /**
- *  Delete Group
+ *  Delete team
  */
 exports.delete = function (req, res, next) {
 
-  var group = req.group;
+  var team = req.team;
 
-  group.remove(function (err) {
+  team.remove(function (err) {
     if (err) return next(err);
 
-    res.send(200, 'Group removed');
+    res.send(200, 'Team removed');
   });
 };
 
 /**
- * Update Group
+ * Update Team
  */
 exports.update = function (req, res, next) {
 
-  var group = req.group;
+  var team = req.team;
 
   console.dir(req.body);
 
-  group.set(req.body);
+  team.set(req.body);
 
-  group.save(function(err, group) {
+  team.save(function(err, team) {
     if (!err) {
       console.log('update successful');
-      return res.send(group);
+      return res.send(team);
     } else {
       return next(err);
     }
   });
 
 };
-

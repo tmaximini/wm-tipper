@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  - var action = team.isNew ? '/teams' : '/teams/' + team._id
+  form(method='POST', action=action)
+    legend Neue Mannschaft anlegen
+    input(type='hidden', name='_csrf', value=token)
+    .col-sm-8.col-sm-offset-2
+      - if (!team.isNew)
+        input(type="hidden", name="_method", value="PUT")
+      .form-group
+        label.control-label(for='name') Name
+        input.form-control(type='text', name='name', id='name', value=team.name, placeholder='Name', autofocus=true)
+      .form-group
+        - var buttonText = team.isNew ? 'Mannschaft erstellen' : 'Mannschaft ändern'
+        button.btn.btn-primary(type='submit')
+          | #{buttonText}
+      hr

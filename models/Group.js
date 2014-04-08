@@ -4,8 +4,11 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 
+var utils = require('../helpers/utils');
+
 var groupSchema = new Schema({
   name: { type: String, unique: true },
+  slug: { type: String, unique: true },
   members: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -46,8 +49,8 @@ groupSchema.pre('save', function(next) {
 groupSchema.statics = {
 
   load: function (id, cb) {
-    this.findOne({ _id : id })
-      .populate('author', 'username email')
+    this.findOne({ slug : id })
+      //.populate('author', 'username email')
       .exec(cb)
   },
 
@@ -67,6 +70,18 @@ groupSchema.statics = {
   }
 
 };
+
+/**
+ * Pre-save hook
+ */
+ groupSchema
+  .pre('save', function(next) {
+    if (!this.slug) {
+      this.slug = utils.convertToSlug(this.name);
+    }
+    next();
+  });
+
 
 
 module.exports = mongoose.model('Group', groupSchema);

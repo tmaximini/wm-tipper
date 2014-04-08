@@ -22,6 +22,7 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var groupController = require('./controllers/group');
+var teamController = require('./controllers/team');
 
 /**
  * API keys + Passport configuration.
@@ -140,6 +141,16 @@ app.post('/groups', passportConf.isAuthenticated, groupController.create);
 app.get('/groups/:group', passportConf.isAuthenticated, groupController.show);
 app.put('/groups/:group', passportConf.isAuthenticated, groupController.update);
 app.get('/groups/:group/edit', passportConf.isAuthenticated, groupController.edit);
+
+//// TEAMS ////
+app.param('team', teamController.load);
+app.get('/teams', teamController.index);
+app.get('/teams/new', passportConf.isAuthenticated, teamController.new);
+app.post('/teams', passportConf.isAuthenticated, teamController.create);
+app.get('/teams/:team', passportConf.isAuthenticated, teamController.show);
+app.put('/teams/:team', passportConf.isAuthenticated, teamController.update);
+app.get('/teams/:team/edit', passportConf.isAuthenticated, teamController.edit);
+
 
 /**
  * OAuth routes for sign-in.

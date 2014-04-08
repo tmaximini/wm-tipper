@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  h1 Alle Mannschaften
+  .teams
+    each team in teams
+      .team
+        a(href='/teams/#{team.slug}')= team.name
