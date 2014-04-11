@@ -35,7 +35,7 @@ exports.index = function (req, res, next) {
     if (err) return next(err);
 
     res.render('tip/index.jade', {
-      title: 'Alle Partien',
+      title: 'Alle Tips',
       tips: _tips
     });
 
@@ -43,18 +43,12 @@ exports.index = function (req, res, next) {
 }
 
 
-exports.new = function (req, res, next) {
+exports.newMatchTip = function (req, res, next) {
 
-  Team.list({}, function (err, _teams) {
-
-    if (err) return next(err);
-
-    res.render('tip/new.jade', {
-      title: "Neue Partie erstellen",
-      tip: new Tip({}),
-      teams: _teams
-    });
-
+  res.render('tip/new.jade', {
+    title: "Neuen Tip erstellen",
+    tip: new Tip({}),
+    match: req.match
   });
 
 }
@@ -78,17 +72,16 @@ exports.create = function (req, res, next) {
   console.log('creating new tip:');
   console.dir(req.body);
 
-  var tip = new Tip(req.body);
-  tip.founder = req.user;
-
   var newTip = new Tip(req.body);
+
+  newTip.user = req.user;
 
   newTip.save(function(err, tip) {
     if (err) {
       return next(err);
     }
-    req.flash('success', { msg: 'Partie wurde erstellt.' });
-    return res.redirect('/tips');
+    req.flash('success', { msg: 'Dein Tip wurde gespeichert.' });
+    return res.redirect('/matches');
   });
 }
 

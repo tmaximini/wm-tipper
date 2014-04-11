@@ -2,8 +2,9 @@ extends ../layout
 
 block content
   - var action = group.isNew ? '/groups' : '/groups/' + group._id
+  - var legend = group.isNew ? 'Neue Gruppe gründen' : 'Gruppe bearbeiten'
   form(method='POST', action=action)
-    legend Neue Gruppe gründen
+    legend= legend
     input(type='hidden', name='_csrf', value=token)
     .col-sm-8.col-sm-offset-2
       - if (!group.isNew)

@@ -2,8 +2,9 @@ extends ../layout
 
 block content
   - var action = match.isNew ? '/matches' : '/matches/' + match._id
+  - var legend = match.isNew ? 'Neue Partie erstellen' : 'Partie bearbeiten'
   form(method='POST', action=action)
-    legend Neue Gruppe gründen
+    legend= legend
     input(type='hidden', name='_csrf', value=token)
     .col-sm-8.col-sm-offset-2
       - if (!match.isNew)

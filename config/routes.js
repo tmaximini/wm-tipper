@@ -9,6 +9,7 @@ var contactController = require('../controllers/contact');
 var groupController = require('../controllers/group');
 var teamController = require('../controllers/team');
 var matchController = require('../controllers/match');
+var tipController = require('../controllers/tip');
 
 /**
  * API keys + Passport configuration.
@@ -72,6 +73,10 @@ module.exports = exports = function (app) {
   app.get('/matches/:match', passportConf.isAuthenticated, matchController.show);
   app.put('/matches/:match', passportConf.isAuthenticated, matchController.update);
   app.get('/matches/:match/edit', passportConf.isAuthenticated, matchController.edit);
+
+  ///// TIPS ////
+  app.get('/matches/:match/tip', passportConf.isAuthenticated, tipController.newMatchTip);
+  app.post('/tips', passportConf.isAuthenticated, tipController.create);
 
 
   /**

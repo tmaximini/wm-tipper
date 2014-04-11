@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h1= match.name
+  .groups-details
+    | match details
+  .actions
+    a.btn.btn-primary(href='/match/#{match._id}/edit')
+      | Match editieren

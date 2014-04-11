@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  - var action = tip.isNew ? '/tips' : '/tips/' + tip._id
+  form(method='POST', action=action)
+    legend
+      | Dein Tip für #{match.team1.name} - #{match.team2.name}
+    input(type='hidden', name='_csrf', value=token)
+    .col-sm-8.col-sm-offset-2
+      - if (!tip.isNew)
+        input(type="hidden", name="_method", value="PUT")
+      .form-group
+        label.control-label(for='scoreTeam1')
+          | #{match.team1.name}
+        input.form-control(type='number', name='scoreTeam1', id='scoreTeam1')
+      .form-group
+        label.control-label(for='scoreTeam2')
+          | #{match.team2.name}
+        input.form-control(type='number', name='scoreTeam2', id='scoreTeam2')
+      .form-group
+        input(type="hidden", name="match", value=match._id)
+        - var buttonText = tip.isNew ? 'Tippen' : 'Tip ändern'
+        button.btn.btn-primary(type='submit')
+          i.fa.fa-unlock-alt
+          | #{buttonText}
+      hr
