@@ -13,6 +13,8 @@ var userSchema = new mongoose.Schema({
   linkedin: String,
   tokens: Array,
 
+  admin: { type: Boolean, default: false },
+
   profile: {
     name: { type: String, default: '' },
     gender: { type: String, default: '' },

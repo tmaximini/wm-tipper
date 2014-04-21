@@ -14,9 +14,7 @@ var connectAssets = require('connect-assets');
 var http = require('http');
 http.globalAgent.maxSockets = 1000; // concurrent requests
 
-
 var routes = require('./config/routes');
-
 
 /**
  * API keys + Passport configuration.

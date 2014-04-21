@@ -9,7 +9,7 @@ var passportConf = require('../config/passport');
 exports.load = function(req, res, next, id) {
   Group.load(id, function (err, group) {
     if (err) return next(err);
-    if (!group) return next(new Error('not found'));
+    //if (!group) return next(new Error('not found'));
     req.group = group;
     next();
   });

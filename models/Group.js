@@ -49,9 +49,17 @@ groupSchema.pre('save', function(next) {
 groupSchema.statics = {
 
   load: function (id, cb) {
-    this.findOne({ slug : id })
+    this.findOne({ slug : id }, function(err, group) {
+
+      if (err) {
+        return cb(null, 'not found');
+      } else {
+        return cb(group);
+      }
+
+
+    });
       //.populate('author', 'username email')
-      .exec(cb)
   },
 
   list: function (o, cb) {

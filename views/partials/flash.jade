@@ -1,7 +1,7 @@
 #flash
-  if messages.errors
+  if messages.error
     .alert.alert-danger.animated.fadeIn
-      for error in messages.errors
+      for error in messages.error
         div= error.msg
   if messages.info
     .alert.alert-info.animated.fadeIn

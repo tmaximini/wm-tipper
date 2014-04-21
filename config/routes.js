@@ -59,20 +59,20 @@ module.exports = exports = function (app) {
   //// TEAMS ////
   app.param('team', teamController.load);
   app.get('/teams', teamController.index);
-  app.get('/teams/new', passportConf.isAuthenticated, teamController.new);
-  app.post('/teams', passportConf.isAuthenticated, teamController.create);
-  app.get('/teams/:team', passportConf.isAuthenticated, teamController.show);
-  app.put('/teams/:team', passportConf.isAuthenticated, teamController.update);
-  app.get('/teams/:team/edit', passportConf.isAuthenticated, teamController.edit);
+  app.get('/teams/new', passportConf.isAdmin, teamController.new);
+  app.post('/teams', passportConf.isAdmin, teamController.create);
+  app.get('/teams/:team', teamController.show);
+  app.put('/teams/:team', passportConf.isAdmin, teamController.update);
+  app.get('/teams/:team/edit', passportConf.isAdmin, teamController.edit);
 
   //// MATCHES ////
   app.param('match', matchController.load);
   app.get('/matches', matchController.index);
-  app.get('/matches/new', passportConf.isAuthenticated, matchController.new);
-  app.post('/matches', passportConf.isAuthenticated, matchController.create);
-  app.get('/matches/:match', passportConf.isAuthenticated, matchController.show);
-  app.put('/matches/:match', passportConf.isAuthenticated, matchController.update);
-  app.get('/matches/:match/edit', passportConf.isAuthenticated, matchController.edit);
+  app.get('/matches/new', passportConf.isAdmin, matchController.new);
+  app.post('/matches', passportConf.isAdmin, matchController.create);
+  app.get('/matches/:match', matchController.show);
+  app.put('/matches/:match', passportConf.isAdmin, matchController.update);
+  app.get('/matches/:match/edit', passportConf.isAdmin, matchController.edit);
 
   ///// TIPS ////
   app.get('/matches/:match/tip', passportConf.isAuthenticated, tipController.newMatchTip);
