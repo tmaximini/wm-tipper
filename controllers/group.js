@@ -129,3 +129,12 @@ exports.update = function (req, res, next) {
 
 };
 
+/**
+ * Beitreten oder Gründen
+ */
+
+exports.joinOrCreate = function(req, res, next) {
+  res.render('group/joinOrCreate.jade', {
+    title: 'Gruppe beitreten'
+  });
+};

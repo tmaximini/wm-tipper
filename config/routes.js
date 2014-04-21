@@ -51,6 +51,7 @@ module.exports = exports = function (app) {
   //// GROUPS ////
   app.param('group', groupController.load);
   app.get('/groups', groupController.index);
+  app.get('/erste-schritte', groupController.joinOrCreate);
   app.get('/groups/new', passportConf.isAuthenticated, groupController.new);
   app.post('/groups', passportConf.isAuthenticated, groupController.create);
   app.get('/groups/:group', passportConf.isAuthenticated, groupController.show);
