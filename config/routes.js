@@ -8,6 +8,7 @@ var userController = require('../controllers/user');
 var contactController = require('../controllers/contact');
 var groupController = require('../controllers/group');
 var teamController = require('../controllers/team');
+var topController = require('../controllers/top');
 var matchController = require('../controllers/match');
 var tipController = require('../controllers/tip');
 
@@ -77,6 +78,15 @@ module.exports = exports = function (app) {
   ///// TIPS ////
   app.get('/matches/:match/tip', passportConf.isAuthenticated, tipController.newMatchTip);
   app.post('/tips', passportConf.isAuthenticated, tipController.create);
+
+
+  /// SPIELPLAN ////
+  app.get('/plan', matchController.index); // use match index for now until we have a better layouted version
+
+  /// BESTENLISTE ////
+  app.get('/bestenliste', topController.index);
+
+
 
 
   /**

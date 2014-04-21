@@ -10,5 +10,6 @@ block content
           br
           a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
   .actions
-    a.btn.btn-primary(href='/matches/new')
-      | Neue Partie erstellen
+    if user && user.admin
+      a.btn.btn-primary(href='/matches/new')
+        | Neue Partie erstellen

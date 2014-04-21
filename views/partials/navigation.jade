@@ -11,16 +11,14 @@
       ul.nav.navbar-nav
         li(class=currentPath=='/'?'active':undefined)
           a(href='/') Home
-        li(class=currentPath=='/tips'?'active':undefined)
-          a(href='/tips') Tippen
         li(class=currentPath=='/plan'?'active':undefined)
           a(href='/plan') Spielplan
         li(class=currentPath=='/groups'?'active':undefined)
           a(href='/groups') Gruppen
-        li(class=currentPath=='/top'?'active':undefined)
-          a(href='/top') Bestenliste
+        li(class=currentPath=='/bestenliste'?'active':undefined)
+          a(href='/bestenliste') Bestenliste
         li(class=currentPath=='/contact'?'active':undefined)
-          a(href='/contact') Contact
+          a(href='/contact') Kontakt
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=currentPath=='Anmelden'?'active':undefined)
@@ -38,6 +36,6 @@
               | #{user.profile.name || user.email || user.id}&nbsp;
               i.caret
             ul.dropdown-menu
-              li: a(href='/account') My Account
+              li: a(href='/account') Mein Account
               li.divider
-              li: a(href='/logout') Logout
+              li: a(href='/logout') Ausloggen

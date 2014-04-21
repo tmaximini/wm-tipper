@@ -212,7 +212,7 @@ exports.isAdmin = function(req, res, next) {
   if (req.isAuthenticated() && req.user.admin) {
     return next();
   } else {
-    req.flash('success', { msg: 'Keine Berechtigung.' });
+    req.flash('error', { msg: 'Keine Berechtigung.' });
     res.redirect('/');
   }
 };
