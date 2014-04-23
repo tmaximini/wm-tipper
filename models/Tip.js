@@ -16,7 +16,7 @@ tipSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      //.populate('team1', 'name slug')
+      .populate('user')
       .exec(cb)
   },
 
@@ -29,7 +29,7 @@ tipSchema.statics = {
 
     this.find(criteria)
       //.select('_id slug title body created points image meta attempts locations')
-      //.populate('team1', 'name slug')
+      .populate('user')
       .sort(options.order)
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -37,6 +37,7 @@ tipSchema.statics = {
   }
 
 };
+
 
 
 module.exports = mongoose.model('Tip', tipSchema);

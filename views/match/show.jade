@@ -3,7 +3,8 @@ extends ../layout
 block content
   h1= match.name
   .groups-details
-    | match details
+    h1= match.team1.name + ' - ' + match.team2.name
+    .date= match.when.toUTCString()
   .actions
     a.btn.btn-primary(href='/match/#{match._id}/edit')
       | Match editieren
