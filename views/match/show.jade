@@ -6,5 +6,7 @@ block content
     h1= match.team1.name + ' - ' + match.team2.name
     .date= match.when.toUTCString()
   .actions
-    a.btn.btn-primary(href='/match/#{match._id}/edit')
+    a.btn.btn-primary(href='/matches/#{match._id}/edit')
       | Match editieren
+    a.btn.btn-primary(href='/matches/#{match._id}/tip')
+      | Tip abgeben

@@ -87,7 +87,7 @@ exports.postSignup = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
+    req.flash('error', errors);
     return res.redirect('/signup');
   }
 
@@ -105,7 +105,7 @@ exports.postSignup = function(req, res, next) {
     }
     req.logIn(user, function(err) {
       if (err) return next(err);
-      res.redirect('/');
+      res.redirect('/erste-schritte');
     });
   });
 };

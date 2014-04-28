@@ -5,8 +5,9 @@ var tipSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   match: { type: Schema.Types.ObjectId, ref: 'Match', required: true },
   scoreTeam1: { type: String, required: true },
-  scoreTeam1: { type: String, required: true },
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+  scoreTeam2: { type: String, required: true },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  private: { type: Boolean, default: false }
 });
 
 /**
@@ -17,7 +18,17 @@ tipSchema.statics = {
   load: function (id, cb) {
     this.findOne({ _id : id })
       .populate('user')
-      .exec(cb)
+      .exec(cb);
+  },
+
+
+  // retrieves all Tips from a current user
+  getUserTips: function (user, cb) {
+    this.find({ user : user })
+      .populate('match')
+      .populate('team1')
+      .populate('team2')
+      .exec(cb);
   },
 
   list: function (o, cb) {

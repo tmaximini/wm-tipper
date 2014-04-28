@@ -18,6 +18,10 @@ block content
           | #{match.team2.name}
         input.form-control(type='number', name='scoreTeam2', id='scoreTeam2')
       .form-group
+        label.control-label(for='private')
+          | Tip ist geheim (nicht einsehbar in der Gruppe)
+        input.form-control(type='checkbox', name='private', id='private')
+      .form-group
         input(type="hidden", name="match", value=match._id)
         - var buttonText = tip.isNew ? 'Tippen' : 'Tip ändern'
         button.btn.btn-primary(type='submit')

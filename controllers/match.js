@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Match = require('../models/Match');
+var Tip = require('../models/Tip');
 var Team = require('../models/Team');
 
 var passportConf = require('../config/passport');
@@ -28,6 +29,16 @@ exports.index = function (req, res, next) {
       'when': '1'
     }
   };
+
+  var user = req.user;
+
+  var userTips = Tip.getUserTips(user, function(err, tips) {
+    if (err) {
+      next(err);
+    } else {
+      console.dir(tips);
+    }
+  });
 
   Match.list(options, function (err, _matches) {
     if (err) return next(err);
