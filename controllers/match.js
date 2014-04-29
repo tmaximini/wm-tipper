@@ -30,18 +30,31 @@ exports.index = function (req, res, next) {
     }
   };
 
-  var user = req.user;
 
-  var userTips = Tip.getUserTips(user, function(err, tips) {
-    if (err) {
-      next(err);
-    } else {
-      console.dir(tips);
-    }
-  });
 
   Match.list(options, function (err, _matches) {
     if (err) return next(err);
+
+    // map user's tips to matches
+    if (req.user) {
+      Tip.getUserTips(req.user, function(err, tips) {
+        if (err) {
+          next(err);
+        } else {
+          console.log('current user has ' + tips.length + ' tips');
+          _matches.forEach(function(match) {
+            for (var i = 0; i < tips.length; i++) {
+              if (match._id.equals(tips[i].match._id)) {
+                match.userTip = tips[i];
+                console.log('found user tip for ' + match._id);
+              } else {
+                match.userTip = null;
+              }
+            }
+          });
+        }
+      });
+    }
 
     res.render('match/index.jade', {
       title: 'Alle Partien',

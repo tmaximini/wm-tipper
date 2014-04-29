@@ -26,8 +26,6 @@ tipSchema.statics = {
   getUserTips: function (user, cb) {
     this.find({ user : user })
       .populate('match')
-      .populate('team1')
-      .populate('team2')
       .exec(cb);
   },
 
