@@ -54,16 +54,13 @@ exports.newMatchTip = function (req, res, next) {
 }
 
 exports.edit = function (req, res, next) {
-  Team.list({}, function (err, _teams) {
-    if (err) return next(err);
 
-    res.render('tip/edit.jade', {
-      title: "Partie bearbeiten",
-      tip: req.tip,
-      teams: _teams
-    });
-
+  res.render('tip/edit.jade', {
+    title: "Tip editieren",
+    tip: req.tip,
+    match: req.match
   });
+
 }
 
 

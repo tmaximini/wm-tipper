@@ -77,7 +77,9 @@ module.exports = exports = function (app) {
   app.get('/matches/:match/edit', passportConf.isAdmin, matchController.edit);
 
   ///// TIPS ////
-  app.get('/matches/:match/tip', passportConf.isAuthenticated, tipController.newMatchTip);
+  app.param('tip', tipController.load);
+  app.get('/matches/:match/tips/new', passportConf.isAuthenticated, tipController.newMatchTip);
+  app.get('/matches/:match/tips/:tip/edit', passportConf.isAuthenticated, tipController.edit);
   app.post('/tips', passportConf.isAuthenticated, tipController.create);
 
 

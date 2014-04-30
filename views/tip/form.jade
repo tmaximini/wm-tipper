@@ -12,11 +12,11 @@ block content
       .form-group
         label.control-label(for='scoreTeam1')
           | #{match.team1.name}
-        input.form-control(type='number', name='scoreTeam1', id='scoreTeam1')
+        input.form-control(type='number', value=tip.scoreTeam1, name='scoreTeam1', id='scoreTeam1')
       .form-group
         label.control-label(for='scoreTeam2')
           | #{match.team2.name}
-        input.form-control(type='number', name='scoreTeam2', id='scoreTeam2')
+        input.form-control(type='number', value=tip.scoreTeam2, name='scoreTeam2', id='scoreTeam2')
       .form-group
         label.control-label(for='private')
           | Tip ist geheim (nicht einsehbar in der Gruppe)

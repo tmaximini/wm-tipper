@@ -1,6 +1,10 @@
 {
   "name": "wm-tipper",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha1",
+  "description": "wm tip game for brazil worldcup 2014",
+  "authors": [
+    "thomas maximini <tmaximini@gmail.com>"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/tmaximini/wm-tipper.git"

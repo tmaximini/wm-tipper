@@ -45,22 +45,30 @@ exports.index = function (req, res, next) {
           _matches.forEach(function(match) {
             for (var i = 0; i < tips.length; i++) {
               if (match._id.equals(tips[i].match._id)) {
+                console.log('found user tip');
+                console.dir(tips[i]);
                 match.userTip = tips[i];
-                console.log('found user tip for ' + match._id);
+                break;
               } else {
                 match.userTip = null;
               }
             }
           });
+          console.dir(_matches);
+          res.render('match/index.jade', {
+            title: 'Alle Partien',
+            matches: _matches
+          });
         }
       });
     }
-
-    res.render('match/index.jade', {
-      title: 'Alle Partien',
-      matches: _matches
-    });
-
+    // just render without user tips
+    else {
+      res.render('match/index.jade', {
+        title: 'Alle Partien',
+        matches: _matches
+      });
+    }
   });
 }
 
