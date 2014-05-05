@@ -67,6 +67,20 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
   });
 };
 
+
+/**
+ * Add a group to the user's profile
+ * (max 3 groups, no dupes)
+ */
+
+userSchema.methods.addGroup = function(group, cb) {
+  this.groups.push(group);
+  this.save(function(err, user) {
+    if (err) return cb(err);
+    cb(null, user);
+  });
+};
+
 /**
  * Get URL to a user's gravatar.
  * Used in Navbar and Account Management page.

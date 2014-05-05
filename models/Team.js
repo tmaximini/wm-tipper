@@ -6,6 +6,7 @@ var utils = require('../helpers/utils');
 var teamSchema = new Schema({
   name: { type: String, unique: true },
   slug: { type: String, unique: true },
+  gruppe: String,
   image: String
 });
 
@@ -16,7 +17,11 @@ var teamSchema = new Schema({
  teamSchema.statics = {
 
   load: function (id, cb) {
-    this.findOne( { slug : id } )
+    var query = {$or: [{slug: id}]};
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      query.$or.push({_id: id});
+    }
+    this.findOne(query)
       //.populate('author', 'username email')
       .exec(cb)
   },

@@ -65,8 +65,11 @@ exports.create = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    req.flash('success', { msg: 'Gruppe wurde erstellt.' });
-    return res.redirect('/groups');
+    // need to add group also to user
+    req.user.addGroup(group, function() {
+      req.flash('success', { msg: 'Gruppe wurde erstellt.' });
+      return res.redirect('/groups');
+    });
   });
 }
 

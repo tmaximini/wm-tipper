@@ -98,8 +98,8 @@ exports.delete = function (req, res, next) {
 
   team.remove(function (err) {
     if (err) return next(err);
-
-    res.send(200, 'Team removed');
+    req.flash('success', { msg: 'Mannschaft wurde gelöscht.' });
+    return res.redirect('/teams');
   });
 };
 
@@ -117,7 +117,7 @@ exports.update = function (req, res, next) {
   team.save(function(err, team) {
     if (!err) {
       console.log('update successful');
-      return res.send(team);
+      return res.redirect('/teams');
     } else {
       return next(err);
     }
