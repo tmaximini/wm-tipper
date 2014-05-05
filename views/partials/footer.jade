@@ -1,7 +1,9 @@
 #footer
   .container
     ul.list-inline.pull-left
-      li © 2014 wm-tipper.de
+      li
+        | © 2014
+        a(href='/') &nbsp;wm-tipper.de
     ul.list-inline.pull-right
       li(class=currentPath=='/contact'?'active':undefined)
         a(href='/contact') Kontakt
@@ -9,4 +11,5 @@
         a(href='#') Nutzungsbedingungen
       li
         a(href='#') Impressum
+  != js('application')
 

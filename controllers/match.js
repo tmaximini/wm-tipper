@@ -90,12 +90,16 @@ exports.new = function (req, res, next) {
 }
 
 exports.edit = function (req, res, next) {
+
+  var match = req.match;
+  console.dir(match);
+
   Team.list({}, function (err, _teams) {
     if (err) return next(err);
 
     res.render('match/edit.jade', {
       title: "Partie bearbeiten",
-      match: req.match,
+      match: match,
       teams: _teams
     });
 

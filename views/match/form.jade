@@ -3,32 +3,30 @@ extends ../layout
 block content
   - var action = match.isNew ? '/matches' : '/matches/' + match._id
   - var legend = match.isNew ? 'Neue Partie erstellen' : 'Partie bearbeiten'
-  form(method='POST', action=action)
+  form(method='POST', action=action, autocomplete='off')
     legend= legend
     input(type='hidden', name='_csrf', value=token)
     .col-sm-8.col-sm-offset-2
       - if (!match.isNew)
         input(type="hidden", name="_method", value="PUT")
       .form-group
-        label.control-label(for='startDate') Datum (UTC)
-        input.form-control(type='text', name='startDate', id='startDate', placeholder='Datum?', autofocus=true)
+        label.control-label(for='startDate', autocomplete='off') Datum (UTC)
+        input.form-control(type='text', value=match.startDate, name='startDate', id='startDate', placeholder='Datum?', autofocus=true)
       .form-group
         label.control-label(for='startTime') Uhrzeit (UTC)
-        input.form-control(type='text', name='startTime', id='startTime', placeholder='Uhrzeit?', autofocus=true)
+        input.form-control(type='text', name='startTime', value=match.startTime, id='startTime', placeholder='Uhrzeit?', autofocus=true)
       .form-group
         label.control-label(for='team1') Team 1
         select.form-control(name='team1')
           option(value='')
           each team in teams
-            - var select=null; if (match.team1 && (team._id == match.team1._id)) select='selected';
-              option(value=team._id, selected=select)= team.name
+            option(value=team._id, selected=team.slug == match.team1.slug)= team.name
       .form-group
         label.control-label(for='team2') Team 2
         select.form-control(name='team2')
           option(value='')
           each team in teams
-            - var select=null; if (match.team2 && (team._id == match.team2._id)) select='selected';
-              option(value=team._id, selected=select)= team.name
+            option(value=team._id, selected=team.slug == match.team2.slug)= team.name
       .form-group
         label.control-label(for='result') Ergebnis
         input.form-control(type='text', name='result', id='result', placeholder='Ergebnis')
