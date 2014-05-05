@@ -49,7 +49,6 @@ matchSchema.statics = {
  matchSchema
   .pre('save', function(next) {
     this.when = new Date(this.startDate + ' ' + this.startTime);
-    console.dir(this.when.toUTCString());
     next();
   });
 

@@ -6,4 +6,6 @@ $(document).ready(function() {
       todayHighlight: true
   });
 
+  moment.lang('de');
+
 });

@@ -20,8 +20,14 @@ var passport = require('passport');
 var secrets = require('./secrets');
 var passportConf = require('./passport');
 
+var moment = require('moment');
+moment.lang('de');
 
 module.exports = exports = function (app) {
+
+
+  // make moment.js available in all .jade views
+  app.locals.moment = moment;
 
   //// USER ////
   app.get('/', homeController.index);

@@ -20,13 +20,13 @@ block content
         select.form-control(name='team1')
           option(value='')
           each team in teams
-            option(value=team._id, selected=team.slug == match.team1.slug)= team.name
+            option(value=team._id, selected=match.team1 && team.slug == match.team1.slug)= team.name
       .form-group
         label.control-label(for='team2') Team 2
         select.form-control(name='team2')
           option(value='')
           each team in teams
-            option(value=team._id, selected=team.slug == match.team2.slug)= team.name
+            option(value=team._id, selected=match.team2 && team.slug == match.team2.slug)= team.name
       .form-group
         label.control-label(for='result') Ergebnis
         input.form-control(type='text', name='result', id='result', placeholder='Ergebnis')
