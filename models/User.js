@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 
@@ -14,6 +16,11 @@ var userSchema = new mongoose.Schema({
   tokens: Array,
 
   admin: { type: Boolean, default: false },
+  // holds all the group IDs the user is in
+  groups: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Group'
+  }],
 
   profile: {
     name: { type: String, default: '' },

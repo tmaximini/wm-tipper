@@ -32,14 +32,14 @@ exports.postLogin = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
+    req.flash('error', errors);
     return res.redirect('/login');
   }
 
   passport.authenticate('local', function(err, user, info) {
     if (err) return next(err);
     if (!user) {
-      req.flash('errors', { msg: info.message });
+      req.flash('error', { msg: info.message });
       return res.redirect('/login');
     }
     req.logIn(user, function(err) {
@@ -99,7 +99,7 @@ exports.postSignup = function(req, res, next) {
   user.save(function(err) {
     if (err) {
       if (err.code === 11000) {
-        req.flash('errors', { msg: 'Es existiert bereits ein Benutzer mit dieser Email.' });
+        req.flash('error', { msg: 'Es existiert bereits ein Benutzer mit dieser Email.' });
       }
       return res.redirect('/signup');
     }
@@ -156,7 +156,7 @@ exports.postUpdatePassword = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
+    req.flash('error', errors);
     return res.redirect('/account');
   }
 
@@ -246,7 +246,7 @@ exports.postReset = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
+    req.flash('error', errors);
     return res.redirect('back');
   }
 
@@ -257,7 +257,7 @@ exports.postReset = function(req, res, next) {
         .where('resetPasswordExpires').gt(Date.now())
         .exec(function(err, user) {
           if (!user) {
-            req.flash('errors', { msg: 'Password reset token is invalid or has expired.' });
+            req.flash('error', { msg: 'Password reset token is invalid or has expired.' });
             return res.redirect('back');
           }
 
@@ -325,7 +325,7 @@ exports.postForgot = function(req, res, next) {
   var errors = req.validationErrors();
 
   if (errors) {
-    req.flash('errors', errors);
+    req.flash('error', errors);
     return res.redirect('/forgot');
   }
 
@@ -339,7 +339,7 @@ exports.postForgot = function(req, res, next) {
     function(token, done) {
       User.findOne({ email: req.body.email.toLowerCase() }, function(err, user) {
         if (!user) {
-          req.flash('errors', { msg: 'Es existiert kein Account mit dieser Email Adresse.' });
+          req.flash('error', { msg: 'Es existiert kein Account mit dieser Email Adresse.' });
           return res.redirect('/forgot');
         }
 
@@ -361,7 +361,7 @@ exports.postForgot = function(req, res, next) {
       });
       var mailOptions = {
         to: user.email,
-        from: 'hackathon@starter.com',
+        from: 'reset@wm-tipper.de',
         subject: 'Reset your password on Hackathon Starter',
         text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +

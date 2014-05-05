@@ -58,10 +58,8 @@ exports.create = function (req, res, next) {
   console.log('current user:');
   console.dir(req.user);
 
-  var group = new Group(req.body);
-  group.founder = req.user;
-
   var newGroup = new Group(req.body);
+  newGroup.founder = req.user;
 
   newGroup.save(function(err, group) {
     if (err) {
