@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  h1= match.name
+  h1= user.profile.name
   .groups-details
     h1= match.team1.name + ' - ' + match.team2.name
     .date= moment(match.when).calendar() + ' - ' + match.startTime + ' '

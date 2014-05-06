@@ -49,16 +49,14 @@ groupSchema.pre('save', function(next) {
 groupSchema.statics = {
 
   load: function (id, cb) {
-    this.findOne({ slug : id }, function(err, group) {
-
-      if (err) {
-        return cb(null, 'not found');
-      } else {
-        return cb(group);
-      }
-
-
-    });
+    var query = { $or: [{ slug: id }] };
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      query.$or.push({ _id: id });
+    }
+    this.findOne(query)
+    .populate('founder')
+    .populate('members')
+    .exec(cb)
       //.populate('author', 'username email')
   },
 

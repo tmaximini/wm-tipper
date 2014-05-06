@@ -33,6 +33,16 @@ exports.index = function (req, res, next) {
   });
 }
 
+exports.indexJson = function (req, res, next) {
+
+  Group.list({}, function (err, _groups) {
+    if (err) return next(err);
+
+    res.json(_groups);
+
+  });
+}
+
 
 exports.new = function (req, res, next) {
   res.render('group/new.jade', {
@@ -86,9 +96,11 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
+    console.log('render group view');
+    console.dir(group)
     res.render('group/show.jade', {
-      title: req.group.name,
-      group: req.group
+      title: 'Gruppen Details',
+      group: group
     });
   }
 
@@ -135,7 +147,15 @@ exports.update = function (req, res, next) {
  */
 
 exports.joinOrCreate = function(req, res, next) {
-  res.render('group/joinOrCreate.jade', {
-    title: 'Gruppe beitreten'
+  // send all current goups so it can be filtered
+  Group.list({}, function (err, _groups) {
+    if (err) return next(err);
+
+    res.render('group/joinOrCreate.jade', {
+      title: 'Erste Schritte',
+      groups: _groups
+    });
+
   });
+
 };

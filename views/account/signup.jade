@@ -5,9 +5,13 @@ block content
     input(type='hidden', name='_csrf', value=token)
     legend Registrieren
     .form-group
+      label.col-sm-3.control-label(for='name') Name
+      .col-sm-7
+        input.form-control(type='text', required, name='profile[name]', id='email', placeholder='Name', autofocus)
+    .form-group
       label.col-sm-3.control-label(for='email') Email
       .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus)
+        input.form-control(type='email', name='email', id='email', placeholder='Email')
     .form-group
       label.col-sm-3.control-label(for='password') Passwort
       .col-sm-7

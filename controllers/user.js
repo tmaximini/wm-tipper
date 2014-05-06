@@ -86,6 +86,10 @@ exports.postSignup = function(req, res, next) {
 
   var errors = req.validationErrors();
 
+  if (!req.body.profile.name) {
+    errors.push('Bitte gib einen namen ein.');
+  }
+
   if (errors) {
     req.flash('error', errors);
     return res.redirect('/signup');
@@ -96,10 +100,17 @@ exports.postSignup = function(req, res, next) {
     password: req.body.password
   });
 
+  console.dir(req.body);
+
+  user.profile.name = req.body.profile.name;
+
   user.save(function(err) {
     if (err) {
+      console.dir(err);
       if (err.code === 11000) {
         req.flash('error', { msg: 'Es existiert bereits ein Benutzer mit dieser Email.' });
+      } else {
+        req.flash('error', { msg: err });
       }
       return res.redirect('/signup');
     }

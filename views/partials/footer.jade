@@ -12,4 +12,7 @@
       li
         a(href='#') Impressum
   != js('application')
+  if currentPath=='/erste-schritte'
+    != js('lib/typeahead.bundle.min')
+    != js('groups-bloodhound')
 

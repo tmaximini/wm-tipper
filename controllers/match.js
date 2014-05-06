@@ -137,7 +137,7 @@ exports.show = function (req, res, next) {
 
   if(!match) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
-    res.redirect('/matchs');
+    res.redirect('/matches');
   } else {
     res.render('match/show.jade', {
       title: 'Match Details',
@@ -156,8 +156,8 @@ exports.delete = function (req, res, next) {
 
   match.remove(function (err) {
     if (err) return next(err);
-
-    res.send(200, 'Match removed');
+    req.flash('success', { msg: 'Partie wurde gelöscht.' });
+    return res.redirect('/matches');
   });
 };
 
@@ -175,7 +175,8 @@ exports.update = function (req, res, next) {
   match.save(function(err, match) {
     if (!err) {
       console.log('update successful');
-      return res.send(match);
+      req.flash('success', { msg: 'Partie wurde aktualisiert.' });
+      return res.redirect('/matches');
     } else {
       return next(err);
     }
