@@ -4,9 +4,15 @@ block content
   h1= group.name || 'Gruppen Details'
   .groups-details
     .founder
-      | Gründer: #{group.founder.profile.name || group.founder.email}
+      | Gründer: #{isOwner ? 'Du' : group.founder.profile.name}
     .members
 
   .actions
-    a.btn.btn-primary(href='/groups/#{group.slug}/edit')
-      | Gruppe editieren
+    a.btn.btn-success(href='/groups/#{group.slug}/join')
+      | beitreten
+    if isOwner || isAdmin
+      a.btn.btn-primary(href='/groups/#{group.slug}/edit')
+        | Gruppe editieren
+      a.btn.btn-danger(href='/groups/#{group.slug}/')
+        | Gruppe löschen
+

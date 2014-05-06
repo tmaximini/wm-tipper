@@ -97,10 +97,11 @@ exports.show = function (req, res, next) {
     res.redirect('/groups');
   } else {
     console.log('render group view');
-    console.dir(group)
     res.render('group/show.jade', {
       title: 'Gruppen Details',
-      group: group
+      group: group,
+      isOwner: group.founder._id.equals(req.user._id),
+      isAdmin: req.user.admin
     });
   }
 
