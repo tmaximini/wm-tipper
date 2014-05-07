@@ -18,25 +18,18 @@ module.exports = {
 
   facebookAuth: true,
   facebook: {
-    clientID: process.env.FACEBOOK_ID || '609878579097440',
-    clientSecret: process.env.FACEBOOK_SECRET || 'd6f6e8634e5d041bd5ee6e3b14af0bfe',
-    callbackURL: '/auth/facebook/callback',
+    clientID: process.env.FACEBOOK_ID || 'Your Facebook Username',
+    clientSecret: process.env.FACEBOOK_SECRET || 'Your Facebook Secret',
+    callbackURL: 'http://wm-tipper.de/auth/facebook/callback',
     passReqToCallback: true
   },
 
-  githubAuth: false,
-  github: {
-    clientID: process.env.GITHUB_ID || 'Your Client ID',
-    clientSecret: process.env.GITHUB_SECRET || 'Your Client Secret',
-    callbackURL: '/auth/github/callback',
-    passReqToCallback: true
-  },
 
   twitterAuth: true,
   twitter: {
     consumerKey: process.env.TWITTER_KEY || 'Your Consumer Key',
     consumerSecret: process.env.TWITTER_SECRET  || 'Your Consumer Secret',
-    callbackURL: '/auth/twitter/callback',
+    callbackURL: 'http://wm-tipper.de/auth/twitter/callback',
     passReqToCallback: true
   },
 
@@ -44,7 +37,7 @@ module.exports = {
   google: {
     clientID: process.env.GOOGLE_ID || 'Your Client ID',
     clientSecret: process.env.GOOGLE_SECRET || 'Your Client Secret',
-    callbackURL: '/auth/google/callback',
+    callbackURL: 'http://wm-tipper.de/auth/google/callback',
     passReqToCallback: true
   }
 
