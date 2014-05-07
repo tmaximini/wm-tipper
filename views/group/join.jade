@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  h1 Gruppe beitreten
+  .group-details
+    .join-group
+      h4 #{group.name}
+  .actions
+    form(method='POST', action='/groups/#{group._id}/join')
+      legend Du möchtest folgender Gruppe beitreten
+      input(type='hidden', name='_csrf', value=token)
+      .group-info
+        .name #{group.name}
+        .members #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
+        .founder #{group.founder.name}
+        if !group.is_public
+          .form-group
+            label.control-label(for='password') Passwort
+            input.form-control(type='password', name='password', id='password', placeholder='Passwort')
+        .form-group
+          button.btn.btn-primary(type='submit')
+            i.fa.fa-unlock-alt
+            | Beitreten
+        hr
+

@@ -77,6 +77,7 @@ exports.create = function (req, res, next) {
 
   var newGroup = new Group(req.body);
   newGroup.founder = req.user;
+  newGroup.members.push(req.user);
 
   newGroup.save(function(err, group) {
     if (err) {
@@ -103,16 +104,87 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
-    console.log('render group view');
+    var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
+      return userGroup.equals(group._id);
+    });
     res.render('group/show.jade', {
       title: 'Gruppen Details',
       group: group,
       isOwner: group.founder._id.equals(req.user._id),
-      isAdmin: req.user.admin
+      isAdmin: req.user.admin,
+      isMember: userAlreadyInGroup
     });
   }
 
 };
+
+/**
+ *  Join a group
+ */
+exports.join = function (req, res, next) {
+  var group = req.group;
+
+  var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
+    return userGroup.equals(group._id);
+  });
+
+  if (userAlreadyInGroup) {
+    req.flash('error', { msg: 'Du bist bereits in dieser Gruppe.' });
+    res.redirect('/groups');
+  }
+
+  if(!group) {
+    req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
+    res.redirect('/groups');
+  } else {
+    res.render('group/join.jade', {
+      title: 'Einer Gruppe beitreten',
+      group: group
+    });
+  }
+};
+
+
+/**
+ *  Join confirm
+ */
+exports.joinConfirm = function (req, res, next) {
+  var group = req.group;
+
+  /**
+   * 1. find group
+   * 2. check if user not yet in group
+   * 3. add user to group
+   * 4. add group to user
+   * 5 redirect with confirmation
+   */
+
+  var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
+    return userGroup.equals(group._id);
+  });
+
+  if(!group) {
+    req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
+    res.redirect('/groups');
+  }
+
+  group.members.push(req.user);
+
+  group.save(function(err, group) {
+    if (err) return next(err);
+    var user = req.user;
+    req.user.groups.push(group);
+    user.save(function(err, user) {
+      if (err) return next(err);
+      req.flash('success', { msg: 'Du bist der Gruppe beigetreten.' });
+      res.redirect('/groups/' + group.slug);
+    });
+  });
+
+
+};
+
+
 
 /**
  *  Delete Group

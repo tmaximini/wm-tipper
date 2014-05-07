@@ -5,11 +5,12 @@ block content
   .groups-details
     .founder
       | Gründer: #{isOwner ? 'Du' : group.founder.profile.name}
-    .members
+    .members #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
 
   .actions
-    a.btn.btn-success(href='/groups/#{group.slug}/join')
-      | beitreten
+    if !isOwner && !isMember
+      a.btn.btn-success(href='/groups/#{group.slug}/join')
+        | beitreten
     if isOwner || isAdmin
       a.btn.btn-primary(href='/groups/#{group.slug}/edit')
         | Gruppe editieren

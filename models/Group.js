@@ -16,7 +16,7 @@ var groupSchema = new Schema({
   founder: { type: Schema.Types.ObjectId, ref: 'User' },
   price: String,
   rules: String,
-  is_public: Boolean,
+  is_public: { type: Boolean, default: false },
   password: String
 });
 
