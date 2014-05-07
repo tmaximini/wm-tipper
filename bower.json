@@ -1,0 +1,23 @@
+{
+  "name": "wm-tipper",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tmaximini/wm-tipper",
+  "authors": [
+    "Thomas Maximini <tmaximini@gmail.com>"
+  ],
+  "description": "wm tip game",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "select2": "~3.4.8"
+  }
+}

@@ -38,7 +38,14 @@ exports.indexJson = function (req, res, next) {
   Group.list({}, function (err, _groups) {
     if (err) return next(err);
 
-    res.json(_groups);
+    var select_json = _groups.map(function(group) {
+      return {
+        id: group._id,
+        text: group.name
+      };
+    });
+
+    res.json(select_json);
 
   });
 }
