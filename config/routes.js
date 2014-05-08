@@ -11,6 +11,7 @@ var teamController = require('../controllers/team');
 var topController = require('../controllers/top');
 var matchController = require('../controllers/match');
 var tipController = require('../controllers/tip');
+var adminController = require('../controllers/admin');
 
 /**
  * API keys + Passport configuration.
@@ -40,6 +41,9 @@ module.exports = exports = function (app) {
   app.post('/reset/:token', userController.postReset);
   app.get('/signup', userController.getSignup);
   app.post('/signup', userController.postSignup);
+
+  //// ADMIN ////
+  app.get('/admin', passportConf.isAdmin, adminController.index);
 
   //// CONTACT ////
   app.get('/contact', contactController.getContact);

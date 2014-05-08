@@ -1,10 +1,10 @@
-jQuery(document).ready(function() {
+$(document).ready(function() {
 
-  jQuery.get('/groups.json', function (groups) {
+  $.get('/groups.json', function (groups) {
 
     console.log('found groups: ', groups);
 
-    jQuery('#join-group input').select2({
+    $('#join-group input').select2({
         width: '350px',
         placeholder: 'Wähle eine Gruppe',
         minimumInputLength: 1,
@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
     });
 
 
-    jQuery('#join-group input').on('change', function(e) {
+    $('#join-group input').on('change', function(e) {
       console.log('change ' + JSON.stringify( { val:e.val, added:e.added, removed:e.removed } ) );
     });
 

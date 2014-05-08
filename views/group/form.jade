@@ -13,22 +13,24 @@ block content
         label.control-label(for='name') Name
         input.form-control(type='text', name='name', id='name', value=group.name, placeholder='Name', autofocus=true)
       .form-group
-        label.control-label(for='is_public') Öffentliche Gruppe
-        input.form-control(type='checkbox', name='is_public', value=group.is_public, id='is_public')
+        label.control-label(for='password') Passwort (frei lassen für öffentliche Gruppe)
+        input.form-control(type='password', name='password', id='group_password', placeholder='Passwort')
       .form-group
-        label.control-label(for='password') Passwort
-        input.form-control(type='password', name='password', id='password', placeholder='Passwort')
-      .form-group
-        label.control-label(for='price') Preis
+        label.control-label(for='price') Preis (optional)
         textarea.form-control(type='text', name='price', id='price', placeholder='Preis')
           | #{group.price}
       .form-group
-        label.control-label(for='rules') Regeln
+        label.control-label(for='rules') Regeln (optional)
         textarea.form-control(type='text', name='rules', id='rules', placeholder='Regeln')
           | #{group.rules}
+      .form-group
+        label.control-label(for='freetext') Sonstiges (optional)
+        textarea.form-control(type='text', name='freetext', id='freetext', placeholder='Sonstiges')
+          | #{group.freetext}
       .form-group
         - var buttonText = group.isNew ? 'Gruppe erstellen' : 'Gruppe ändern'
         button.btn.btn-primary(type='submit')
           i.fa.fa-unlock-alt
           | #{buttonText}
       hr
+

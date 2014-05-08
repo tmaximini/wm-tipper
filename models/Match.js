@@ -7,7 +7,8 @@ var matchSchema = new Schema({
   startTime: { type: String, required: true },
   team1: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
   team2: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
-  stadion: { type: Schema.Types.ObjectId, ref: 'Stadion' },
+  scoreTeam1: { type: Number },
+  scoreTeam2: { type: Number },
   result: { type: String } // really String? default?
 });
 

@@ -5,7 +5,23 @@ block content
   .groups-details
     .founder
       | Gründer: #{isOwner ? 'Du' : group.founder.profile.name}
-    .members #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
+    .member-count #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
+
+
+  .group-members
+    h3 Mitglieder
+    for member in group.members
+      .member= member.profile.name
+
+  if group.price
+    .group-price
+      h3 Preis
+      p= group.price
+
+  if group.rules
+    .group-rules
+      h3 Regeln
+      p= group.rules
 
   .actions
     if !isOwner && !isMember

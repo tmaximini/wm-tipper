@@ -77,6 +77,9 @@ exports.create = function (req, res, next) {
 
   var newGroup = new Group(req.body);
   newGroup.founder = req.user;
+  if (!req.body.password || req.body.password === '') {
+    newGroup.is_public = true;
+  }
   newGroup.members.push(req.user);
 
   newGroup.save(function(err, group) {
@@ -214,7 +217,7 @@ exports.update = function (req, res, next) {
   group.save(function(err, group) {
     if (!err) {
       console.log('update successful');
-      return res.send(group);
+      return res.redirect('/groups/' + group.slug);
     } else {
       return next(err);
     }

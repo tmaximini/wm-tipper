@@ -47,7 +47,7 @@ exports.postContact = function(req, res) {
   var from = req.body.email;
   var name = req.body.name;
   var body = req.body.message;
-  var to = 'your@email.com';
+  var to = 'info@wm-tipper.de';
   var subject = 'Kontakt Form | WM Tipper';
 
   var mailOptions = {

@@ -35,5 +35,7 @@
               i.caret
             ul.dropdown-menu
               li: a(href='/account') Mein Account
+              if user.admin
+                li: a(href='/admin') Admin
               li.divider
               li: a(href='/logout') Ausloggen
