@@ -54,6 +54,14 @@
   "devDependencies": {
     "mocha": "~1.17.1",
     "chai": "~1.9.0",
-    "supertest": "~0.9.0"
+    "supertest": "~0.9.0",
+    "gulp-less": "~1.2.3",
+    "gulp": "~3.6.2",
+    "gulp-minify-css": "~0.3.4",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.2.1",
+    "gulp-clean": "~0.2.4",
+    "gulp-util": "~2.2.14",
+    "run-sequence": "~0.3.6"
   }
 }

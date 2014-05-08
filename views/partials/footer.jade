@@ -11,9 +11,9 @@
         a(href='#') Nutzungsbedingungen
       li
         a(href='#') Impressum
-  != js('application')
+  script(src='/js/vendor.js')
   if currentPath=='/erste-schritte'
-    != js('lib/select2.min')
-    != js('lib/select2_locale_de')
-    != js('groups-select')
+    script(src='/js/groups/select2.min.js')
+    script(src='/js/groups/select2_locale_de.js')
+    script(src='/js//groups/groups-select.js')
 

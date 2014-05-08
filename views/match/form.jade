@@ -36,3 +36,12 @@ block content
           i.fa.fa-unlock-alt
           | #{buttonText}
       hr
+      script.
+        $(document).ready(function() {
+          $('input#startDate').datepicker({
+              todayBtn: "linked",
+              autoclose: true,
+              todayHighlight: true
+          });
+          moment.lang('de');
+        });

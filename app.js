@@ -9,7 +9,6 @@ var path = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
-var connectAssets = require('connect-assets');
 
 var http = require('http');
 http.globalAgent.maxSockets = 1000; // concurrent requests
@@ -44,15 +43,12 @@ mongoose.connection.on('error', function() {
 
 var hour = 3600000;
 var day = (hour * 24);
+var week = (day * 7);
 var month = (day * 30);
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(connectAssets({
-  paths: ['public/css', 'public/js'],
-  helperContext: app.locals
-}));
 
 /**
  * middleware
@@ -76,6 +72,14 @@ app.use(express.session({
 app.use(express.csrf());
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function (req, res, next) {
+  if (req.url.match(/^\/(css|js|img|font)\/.+/)) {
+    //res.setHeader('Cache-Control', 'public, max-age=' + week);
+    res.setHeader('Cache-Control', 'no-cache'); // don't cache in dev, nginx will do in prod
+  }
+  next();
+});
 
 /**
  * pass in local variables for all views via middleware
