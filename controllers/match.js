@@ -17,12 +17,8 @@ exports.load = function(req, res, next, id) {
   });
 }
 
-exports.index = function (req, res, next) {
 
-  // pagination
-  var totalCount = Match.count();
-  var perPage = 20;
-  var page = req.query.page || 1;
+exports.index = function(req, res, next) {
 
   var options = {
     order: {
@@ -30,14 +26,31 @@ exports.index = function (req, res, next) {
     }
   };
 
+  Match.list(options, function (err, _matches) {
+    if (err) return next(err);
 
+    return res.render('match/index.jade', {
+      title: 'Alle Partien',
+      matches: _matches
+    });
+  });
+}
+
+
+exports.groupIndex = function (req, res, next) {
+
+  var options = {
+    order: {
+      'when': '1'
+    }
+  };
 
   Match.list(options, function (err, _matches) {
     if (err) return next(err);
 
     // map user's tips to matches
-    if (req.user) {
-      Tip.getUserTips(req.user, function(err, tips) {
+    if (req.user && req.group) {
+      Tip.getUserTipsForGroup(req.user, req.group, function(err, tips) {
         if (err) {
           next(err);
         } else {
@@ -55,19 +68,17 @@ exports.index = function (req, res, next) {
             }
           });
           console.dir(_matches);
-          res.render('match/index.jade', {
-            title: 'Alle Partien',
-            matches: _matches
+          res.render('match/groupIndex.jade', {
+            title: req.group.name + ' - Spielübersicht',
+            matches: _matches,
+            group: req.group
           });
         }
       });
     }
     // just render without user tips
     else {
-      res.render('match/index.jade', {
-        title: 'Alle Partien',
-        matches: _matches
-      });
+      return res.redirect('/plan');
     }
   });
 }

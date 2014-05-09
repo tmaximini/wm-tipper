@@ -24,6 +24,16 @@ block content
       h3 Regeln
       p= group.rules
 
+  if group.freetext
+    .group-other
+      h3 Sonstiges
+      p= group.freetext
+
+  .tips
+    a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tips
+
+  br
+
   .actions
     if !isOwner && !isMember
       a.btn.btn-success(href='/groups/#{group.slug}/join')

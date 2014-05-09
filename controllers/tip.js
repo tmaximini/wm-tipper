@@ -48,17 +48,23 @@ exports.newMatchTip = function (req, res, next) {
   res.render('tip/new.jade', {
     title: "Neuen Tip erstellen",
     tip: new Tip({}),
-    match: req.match
+    match: req.match,
+    group: req.group,
+    action: '/groups/'+req.group.slug+'/matches/'+req.match.id+'/tips'
   });
 
 }
 
 exports.edit = function (req, res, next) {
 
+  console.dir(req.tip);
+
   res.render('tip/edit.jade', {
     title: "Tip editieren",
     tip: req.tip,
-    match: req.match
+    match: req.match,
+    group: req.group,
+    action: '/groups/'+req.group.slug+'/matches/'+req.match._id+'/tips/'+req.tip._id
   });
 
 }
@@ -72,13 +78,14 @@ exports.create = function (req, res, next) {
   var newTip = new Tip(req.body);
 
   newTip.user = req.user;
+  newTip.group = req.group;
 
   newTip.save(function(err, tip) {
     if (err) {
       return next(err);
     }
     req.flash('success', { msg: 'Dein Tip wurde gespeichert.' });
-    return res.redirect('/matches');
+    return res.redirect('groups/' + req.group.slug + '/spielplan');
   });
 }
 
@@ -89,7 +96,6 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var tip = req.tip;
 
-  // TODO: render correctly
 
   if(!tip) {
     req.flash('error', { msg: 'Dieser Tip existiert nicht.' });
@@ -123,6 +129,7 @@ exports.delete = function (req, res, next) {
 exports.update = function (req, res, next) {
 
   var tip = req.tip;
+  var group = req.group;
 
   console.dir(req.body);
 
@@ -130,8 +137,8 @@ exports.update = function (req, res, next) {
 
   tip.save(function(err, tip) {
     if (!err) {
-      console.log('update successful');
-      return res.send(tip);
+      req.flash('success', { msg: 'Dein Tip wurde aktualisiert.' });
+      return res.redirect('/groups/'+group.slug+'/spielplan')
     } else {
       return next(err);
     }

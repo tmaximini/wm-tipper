@@ -6,9 +6,33 @@ var tipSchema = new Schema({
   match: { type: Schema.Types.ObjectId, ref: 'Match', required: true, index: true },
   scoreTeam1: { type: String, required: true },
   scoreTeam2: { type: String, required: true },
+  bet: { type: String, required: true, default: 'X', index: true },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  group: { type: Schema.Types.ObjectId, ref: 'Group', required: true, index: true },
   private: { type: Boolean, default: false }
 });
+
+
+
+/**
+ * compute 'bet' before save
+ * '1': team 1 wins
+ * '2': Team 2 wins
+ * 'X': draw
+ *
+ *  also add user's group as group to tip for better indexing later
+ *
+ */
+tipSchema.pre('save', function(next) {
+  if (this.scoreTeam1 > this.scoreTeam2) {
+    this.bet = '1';
+  }
+  if (this.scoreTeam1 < this.scoreTeam2) {
+    this.bet = '2';
+  }
+  next();
+});
+
 
 /**
  * Static Methods
@@ -24,8 +48,8 @@ tipSchema.statics = {
 
 
   // retrieves all Tips from a current user
-  getUserTips: function (user, cb) {
-    this.find({ user : user })
+  getUserTipsForGroup: function (user, group, cb) {
+    this.find({ user : user, group: group })
       .populate('match')
       .exec(cb);
   },

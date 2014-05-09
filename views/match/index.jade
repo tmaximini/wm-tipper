@@ -2,6 +2,11 @@ extends ../layout
 
 block content
   h1 Alle Partien
+  .info
+    p
+      | Zum Tippen besuche bitte eine
+      a(href='/groups') Gruppe
+
   .groups
     each match in matches
       .group
@@ -9,19 +14,7 @@ block content
           //- i= moment(match.when).fromNow()
           br
           a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
-        .userTip
-          if match.userTip
-            .title
-             | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
-            .editTip
-              a.btn.btn-primary(href='/matches/#{match._id}/tips/#{match.userTip._id}/edit')
-               | Tip editieren
-          else
-            .title
-             | noch nicht getippt
-            .editTip
-              a.btn.btn-success(href='/matches/#{match._id}/tips/new')
-               | Jetzt tippen
+
   .actions
     if user && user.admin
       a.btn.btn-primary(href='/matches/new')

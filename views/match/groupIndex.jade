@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  h1 Alle Partien
+  h1= group.name +  ' - Spielübersicht'
   .groups
     each match in matches
       .group
@@ -14,13 +14,13 @@ block content
             .title
              | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
             .editTip
-              a.btn.btn-primary(href='/matches/#{match._id}/tips/#{match.userTip._id}/edit')
+              a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
                | Tip editieren
           else
             .title
              | noch nicht getippt
             .editTip
-              a.btn.btn-success(href='/matches/#{match._id}/tips/new')
+              a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
                | Jetzt tippen
   .actions
     if user && user.admin

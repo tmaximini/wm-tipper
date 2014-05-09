@@ -7,5 +7,6 @@ block content
       .team
         a(href='/teams/#{team.slug}')= team.name
   .actions
-    a.btn.btn-primary(href='/teams/new')
-      | Neues Team anlegen
+    if user && user.admin
+      a.btn.btn-primary(href='/teams/new')
+        | Neues Team anlegen

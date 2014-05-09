@@ -1,7 +1,6 @@
 extends ../layout
 
 block content
-  - var action = tip.isNew ? '/tips' : '/tips/' + tip._id
   - var ergebnis = [0, 1, 2, 3, 4, 5, 6, 7, 7, 9]
   form(method='POST', action=action)
     legend
@@ -16,13 +15,13 @@ block content
 
         select.form-control(name='scoreTeam1', id='scoreTeam1')
           for nr in ergebnis
-            option(selected = nr === tip.scoreTeam1) #{nr}
+            option(selected = nr === parseInt(tip.scoreTeam1)) #{nr}
       .form-group
         label.control-label(for='scoreTeam2')
           | #{match.team2.name}
         select.form-control(name='scoreTeam2', id='scoreTeam2')
           for nr in ergebnis
-            option(selected = nr === tip.scoreTeam1) #{nr}
+            option(selected = nr === parseInt(tip.scoreTeam2)) #{nr}
       .form-group
         label.control-label(for='private')
           | Tip ist geheim (nicht einsehbar in der Gruppe)

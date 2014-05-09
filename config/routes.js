@@ -89,12 +89,17 @@ module.exports = exports = function (app) {
   app.get('/matches/:match', matchController.show);
   app.put('/matches/:match', passportConf.isAdmin, matchController.update);
   app.get('/matches/:match/edit', passportConf.isAdmin, matchController.edit);
+  // group matches
+  //app.get('/groups/:group/matches', matchController.groupIndex);
+  app.get('/groups/:group/spielplan', matchController.groupIndex);
 
   ///// TIPS ////
   app.param('tip', tipController.load);
-  app.get('/matches/:match/tips/new', passportConf.isAuthenticated, tipController.newMatchTip);
-  app.get('/matches/:match/tips/:tip/edit', passportConf.isAuthenticated, tipController.edit);
-  app.post('/tips', passportConf.isAuthenticated, tipController.create);
+  // tips only per group
+  app.get('/groups/:group/matches/:match/tips/new', passportConf.isAuthenticated, tipController.newMatchTip);
+  app.get('/groups/:group/matches/:match/tips/:tip/edit', passportConf.isAuthenticated, tipController.edit);
+  app.put('/groups/:group/matches/:match/tips/:tip', passportConf.isAuthenticated, tipController.update);
+  app.post('/groups/:group/matches/:match/tips', passportConf.isAuthenticated, tipController.create);
 
 
   /// SPIELPLAN ////
