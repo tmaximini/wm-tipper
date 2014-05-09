@@ -7,8 +7,9 @@ block content
     .date= moment(match.when).calendar() + ' - ' + match.startTime + ' '
     .fromNow= moment(match.when).fromNow()
   .actions
-    a.btn.btn-primary(href='/matches/#{match._id}/edit')
-      | Match editieren
+    if user && user.admin
+      a.btn.btn-primary(href='/matches/#{match._id}/edit')
+        | Match editieren
     p
     a.btn.btn-success(href='/groups')
       | Tippen

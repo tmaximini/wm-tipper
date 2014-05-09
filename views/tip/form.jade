@@ -23,10 +23,6 @@ block content
           for nr in ergebnis
             option(selected = nr === parseInt(tip.scoreTeam2)) #{nr}
       .form-group
-        label.control-label(for='private')
-          | Tip ist geheim (nicht einsehbar in der Gruppe)
-        input.form-control(type='checkbox', name='private', id='private')
-      .form-group
         input(type="hidden", name="match", value=match._id)
         - var buttonText = tip.isNew ? 'Tippen' : 'Tip ändern'
         button.btn.btn-primary(type='submit')
