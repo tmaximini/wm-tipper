@@ -110,8 +110,11 @@ exports.show = function (req, res, next) {
     var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
       return userGroup.equals(group._id);
     });
+    if (userAlreadyInGroup) {
+      console.log('YOU MEMBER');
+    }
     res.render('group/show.jade', {
-      title: 'Gruppen Details',
+      title: 'WM-Tipper Gruppe - ' + group.name,
       group: group,
       isOwner: group.founder._id.equals(req.user._id),
       isAdmin: req.user.admin,
@@ -153,6 +156,7 @@ exports.join = function (req, res, next) {
  */
 exports.joinConfirm = function (req, res, next) {
   var group = req.group;
+  var user = req.user;
 
   /**
    * 1. find group
@@ -161,29 +165,53 @@ exports.joinConfirm = function (req, res, next) {
    * 4. add group to user
    * 5 redirect with confirmation
    */
+  var password = req.body.password;
+  console.log('trying to join group with pw: ' + password);
+
+  var joinGroup = function(_group, _user, _req, _res) {
+    _group.members.push(_user);
+    _group.save(function(err, _group) {
+      if (err) return next(err);
+
+      _user.groups.push(_group);
+      _user.save(function(err, _user) {
+        if (err) return next(err);
+        _req.flash('success', { msg: 'Du bist der Gruppe beigetreten.' });
+        return _res.redirect('/groups/' + _group.slug);
+      });
+    });
+  };
+
+  if(!group) {
+    req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
+    return res.redirect('/groups');
+  }
 
   var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
     return userGroup.equals(group._id);
   });
 
-  if(!group) {
-    req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
-    res.redirect('/groups');
+  if (userAlreadyInGroup) {
+    req.flash('error', { msg: 'Du bist bereits in dieser Gruppe.' });
+    return res.redirect('/groups/' + group.slug);
   }
 
-  group.members.push(req.user);
-
-  group.save(function(err, group) {
-    if (err) return next(err);
-    var user = req.user;
-    req.user.groups.push(group);
-    user.save(function(err, user) {
-      if (err) return next(err);
-      req.flash('success', { msg: 'Du bist der Gruppe beigetreten.' });
-      res.redirect('/groups/' + group.slug);
+  if (!group.is_public) {
+    if (!password) {
+      req.flash('error', { msg: 'Du musst ein Passwort angeben.' });
+      return res.redirect('/groups/' + group.slug + '/join');
+    }
+    group.comparePassword(password, function(err, isMatch) {
+      if (!isMatch) {
+        req.flash('error', { msg: 'Das Passwort ist nicht korrekt.' });
+        return res.redirect('/groups/' + group.slug + '/join');
+      } else {
+        joinGroup(group, user, req, res);
+      }
     });
-  });
-
+  } else {
+    joinGroup(group, user, req, res);
+  }
 
 };
 
@@ -199,7 +227,32 @@ exports.delete = function (req, res, next) {
   group.remove(function (err) {
     if (err) return next(err);
 
-    res.send(200, 'Group removed');
+    req.flash('success', { msg: 'Die Gruppe wurde gelöscht.' });
+    return res.redirect('/groups');
+  });
+};
+
+/**
+ *  Leave Group
+ */
+exports.leave = function (req, res, next) {
+
+  var group = req.group;
+
+  console.dir(group.members);
+  console.log('user ' + req.user._id  + ' wants to leave');
+
+  // remove user from group
+  group.update({ $pull: { 'members': req.user._id } }, function (err) {
+    if (err) return next(err);
+    // remove group from user
+    req.user.update({ $pull: { 'groups': group._id } }, function(err) {
+      if (err) return next(err);
+
+      req.flash('success', { msg: 'Du hast die Gruppe verlassen.' });
+      return res.redirect('/groups');
+    });
+
   });
 };
 

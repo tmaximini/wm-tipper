@@ -8,7 +8,7 @@ var utils = require('../helpers/utils');
 
 var groupSchema = new Schema({
   name: { type: String, unique: true },
-  slug: { type: String, unique: true },
+  slug: { type: String, unique: true, index: true },
   members: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -29,8 +29,20 @@ var groupSchema = new Schema({
 groupSchema.pre('save', function(next) {
   var group = this;
 
-  if (!group.isModified('password')) return next();
+  // generate slug
+  if (!this.slug) {
+    this.slug = utils.convertToSlug(this.name);
+  }
+  // if nothing changed on pw, leave as is
+  if (!this.isModified('password')) return next();
 
+  // if no password, make public
+  if (!this.password || this.password === '') {
+    this.is_public = true;
+    next();
+  }
+  // if password, make private
+  this.is_public = false;
   bcrypt.genSalt(5, function(err, salt) {
     if (err) return next(err);
 
@@ -42,6 +54,17 @@ groupSchema.pre('save', function(next) {
   });
 });
 
+
+/**
+ * Check if candidate entered the correct password to join the group
+ */
+
+groupSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
 
 
 /**
@@ -78,16 +101,6 @@ groupSchema.statics = {
 
 };
 
-/**
- * Pre-save hook
- */
- groupSchema
-  .pre('save', function(next) {
-    if (!this.slug) {
-      this.slug = utils.convertToSlug(this.name);
-    }
-    next();
-  });
 
 
 

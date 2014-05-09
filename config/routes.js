@@ -67,6 +67,7 @@ module.exports = exports = function (app) {
   app.get('/groups.json', groupController.indexJson);
   app.get('/groups/:group', passportConf.isAuthenticated, groupController.show);
   app.get('/groups/:group/join', passportConf.isAuthenticated, groupController.join);
+  app.get('/groups/:group/leave', passportConf.isAuthenticated, groupController.leave);
   app.post('/groups/:group/join', passportConf.isAuthenticated, groupController.joinConfirm);
   app.put('/groups/:group', passportConf.isAuthenticated, groupController.update);
   app.get('/groups/:group/edit', passportConf.isAuthenticated, groupController.edit);

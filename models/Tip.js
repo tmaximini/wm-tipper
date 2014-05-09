@@ -3,10 +3,10 @@ var Schema = mongoose.Schema;
 
 var tipSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
-  match: { type: Schema.Types.ObjectId, ref: 'Match', required: true },
+  match: { type: Schema.Types.ObjectId, ref: 'Match', required: true, index: true },
   scoreTeam1: { type: String, required: true },
   scoreTeam2: { type: String, required: true },
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   private: { type: Boolean, default: false }
 });
 
