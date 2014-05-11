@@ -42,6 +42,11 @@ module.exports = exports = function (app) {
   app.get('/signup', userController.getSignup);
   app.post('/signup', userController.postSignup);
 
+
+  ///// STATIC /////
+  app.get('/privacy', homeController.privacy);
+  app.get('/impressum', homeController.impressum);
+
   //// ADMIN ////
   app.get('/admin', passportConf.isAdmin, adminController.index);
 

@@ -88,7 +88,9 @@ gulp.task('clean-js', function() {
 
 
 gulp.task('notify-styles', function() {
-  notifyLivereload(['/css/styles.css', '/css/styles-sass-min.css']);
+  setTimeout(function() {
+    notifyLivereload('/');
+  }, 200);
 });
 
 gulp.task('notify-scripts', function() {
