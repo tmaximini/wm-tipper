@@ -215,7 +215,7 @@ exports.getOauthUnlink = function(req, res, next) {
 
     user.save(function(err) {
       if (err) return next(err);
-      req.flash('info', { msg: provider + ' account has been unlinked.' });
+      req.flash('info', { msg: provider + ' account wurde entfernt.' });
       res.redirect('/account');
     });
   });
@@ -251,8 +251,8 @@ exports.getReset = function(req, res) {
  */
 
 exports.postReset = function(req, res, next) {
-  req.assert('password', 'Password must be at least 4 characters long.').len(4);
-  req.assert('confirm', 'Passwords must match.').equals(req.body.password);
+  req.assert('password', 'Das Passwort muss mindestens 6 Zeichen lang sein.').len(6);
+  req.assert('confirm', 'Die Passwörter stimmen nicht überein.').equals(req.body.password);
 
   var errors = req.validationErrors();
 
@@ -268,7 +268,7 @@ exports.postReset = function(req, res, next) {
         .where('resetPasswordExpires').gt(Date.now())
         .exec(function(err, user) {
           if (!user) {
-            req.flash('error', { msg: 'Password reset token is invalid or has expired.' });
+            req.flash('error', { msg: 'Der Token ist ungültig oder abgelaufen.' });
             return res.redirect('back');
           }
 
@@ -295,7 +295,7 @@ exports.postReset = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'info@wm-tipper.de',
-        subject: 'Your Hackathon Starter password has been changed',
+        subject: 'Dein wm-tipper.de Passwort wurde geändert.',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
       };
@@ -373,14 +373,14 @@ exports.postForgot = function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: 'info@wm-tipper.de',
-        subject: 'Reset your password on Hackathon Starter',
-        text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
-          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        subject: 'Setze dein Passwort auf www.wm-tipper.de zurück',
+        text: 'Du erhälst diese E-Mail da jemand (hoffentlich Du) versucht, dein Passwort bei wm-tipper.de zurückzusetzen.\n\n' +
+          'Bitte klicke auf folgenden Link um Dein Passwort zurückzusetzen:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          'Wenn die Anfrage nicht von Dir stammt, kannst du diese Mail ignorieren und Dein Passwort wird nicht geändert.\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
-        req.flash('info', { msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+        req.flash('info', { msg: 'Eine E-Mail mit weiteren Instruktionen wurde an ' + user.email + ' versandt.' });
         done(err, 'done');
       });
     }
