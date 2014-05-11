@@ -10,6 +10,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressValidator = require('express-validator');
 
+var connectLr  = require('connect-livereload');
+var env = process.env.NODE_ENV || 'development';
+
 var http = require('http');
 http.globalAgent.maxSockets = 1000; // concurrent requests
 
@@ -73,13 +76,20 @@ app.use(express.csrf());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(function (req, res, next) {
-  if (req.url.match(/^\/(css|js|img|font)\/.+/)) {
-    //res.setHeader('Cache-Control', 'public, max-age=' + week);
-    res.setHeader('Cache-Control', 'no-cache'); // don't cache in dev, nginx will do in prod
-  }
-  next();
-});
+
+
+if (env === 'development') {
+  app.use(function (req, res, next) {
+    if (req.url.match(/^\/(css|js|img|font)\/.+/)) {
+      //res.setHeader('Cache-Control', 'public, max-age=' + week);
+      res.setHeader('Cache-Control', 'no-cache'); // don't cache in dev, nginx will do in prod
+    }
+    next();
+  });
+  // use live-reload in dev
+  app.use(connectLr());
+}
+
 
 /**
  * pass in local variables for all views via middleware
