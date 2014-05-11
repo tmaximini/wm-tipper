@@ -4,3 +4,10 @@ exports.convertToSlug = function (text) {
     .replace(/ /g,'-')
     .replace(/[^\w-]+/g,'');
 };
+
+
+exports.userInGroup = function (user, group) {
+ return user.groups.some(function (userGroup) {
+    return userGroup.equals(group._id);
+  });
+};

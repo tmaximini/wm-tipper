@@ -30,7 +30,8 @@ block content
       p= group.freetext
 
   .tips
-    a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tips
+    if isMember || isAdmin
+      a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tips
 
   br
 

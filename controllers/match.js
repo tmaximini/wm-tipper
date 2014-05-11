@@ -3,6 +3,8 @@ var Match = require('../models/Match');
 var Tip = require('../models/Tip');
 var Team = require('../models/Team');
 
+var utils = require('../helpers/utils');
+
 var passportConf = require('../config/passport');
 
 'use strict';
@@ -45,42 +47,46 @@ exports.groupIndex = function (req, res, next) {
     }
   };
 
-  Match.list(options, function (err, _matches) {
-    if (err) return next(err);
+  if (req.user && (utils.userInGroup(req.user, req.group) || req.user.admin)) {
+    Match.list(options, function (err, _matches) {
+      if (err) return next(err);
 
-    // map user's tips to matches
-    if (req.user && req.group) {
-      Tip.getUserTipsForGroup(req.user, req.group, function(err, tips) {
-        if (err) {
-          next(err);
-        } else {
-          console.log('current user has ' + tips.length + ' tips');
-          _matches.forEach(function(match) {
-            for (var i = 0; i < tips.length; i++) {
-              if (match._id.equals(tips[i].match._id)) {
-                console.log('found user tip');
-                console.dir(tips[i]);
-                match.userTip = tips[i];
-                break;
-              } else {
-                match.userTip = null;
+      // map user's tips to matches
+      if (req.user && req.group) {
+        Tip.getUserTipsForGroup(req.user, req.group, function(err, tips) {
+          if (err) {
+            next(err);
+          } else {
+            console.log('current user has ' + tips.length + ' tips');
+            _matches.forEach(function(match) {
+              for (var i = 0; i < tips.length; i++) {
+                if (match._id.equals(tips[i].match._id)) {
+                  console.log('found user tip');
+                  console.dir(tips[i]);
+                  match.userTip = tips[i];
+                  break;
+                } else {
+                  match.userTip = null;
+                }
               }
-            }
-          });
-          console.dir(_matches);
-          res.render('match/groupIndex.jade', {
-            title: req.group.name + ' - Spielübersicht',
-            matches: _matches,
-            group: req.group
-          });
-        }
-      });
-    }
-    // just render without user tips
-    else {
-      return res.redirect('/plan');
-    }
-  });
+            });
+            console.dir(_matches);
+            res.render('match/groupIndex.jade', {
+              title: req.group.name + ' - Spielübersicht',
+              matches: _matches,
+              group: req.group
+            });
+          }
+        });
+      }
+      // just render without user tips
+      else {
+        return res.redirect('/plan');
+      }
+    });
+  } else {
+    return res.redirect('/plan');
+  }
 }
 
 

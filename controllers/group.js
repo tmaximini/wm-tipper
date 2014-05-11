@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Group = require('../models/Group');
 
+var utils = require('../helpers/utils');
+
 var passportConf = require('../config/passport');
 
 'use strict';
@@ -107,18 +109,13 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
-    var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
-      return userGroup.equals(group._id);
-    });
-    if (userAlreadyInGroup) {
-      console.log('YOU MEMBER');
-    }
+
     res.render('group/show.jade', {
       title: 'WM-Tipper Gruppe - ' + group.name,
       group: group,
       isOwner: group.founder._id.equals(req.user._id),
       isAdmin: req.user.admin,
-      isMember: userAlreadyInGroup
+      isMember: utils.userInGroup(req.user, group)
     });
   }
 
@@ -130,11 +127,8 @@ exports.show = function (req, res, next) {
 exports.join = function (req, res, next) {
   var group = req.group;
 
-  var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
-    return userGroup.equals(group._id);
-  });
 
-  if (userAlreadyInGroup) {
+  if (utils.userInGroup(req.user, group)) {
     req.flash('error', { msg: 'Du bist bereits in dieser Gruppe.' });
     res.redirect('/groups');
   }
@@ -187,11 +181,8 @@ exports.joinConfirm = function (req, res, next) {
     return res.redirect('/groups');
   }
 
-  var userAlreadyInGroup = req.user.groups.some(function (userGroup) {
-    return userGroup.equals(group._id);
-  });
 
-  if (userAlreadyInGroup) {
+  if (utils.userInGroup(user, group)) {
     req.flash('error', { msg: 'Du bist bereits in dieser Gruppe.' });
     return res.redirect('/groups/' + group.slug);
   }
