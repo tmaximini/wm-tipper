@@ -150,8 +150,6 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var match = req.match;
 
-  // TODO: render correctly
-
   if(!match) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
     res.redirect('/matches');
@@ -161,8 +159,34 @@ exports.show = function (req, res, next) {
       match: req.match
     });
   }
-
 };
+
+
+/**
+ *  Get match by id
+ */
+exports.showGroupTip = function (req, res, next) {
+  var match = req.match;
+  var userTip = null;
+
+  if(!match) {
+    req.flash('error', { msg: 'Dieses Match existiert nicht.' });
+    res.redirect('/matches');
+  } else {
+    Tip.findOne({ user: req.user._id, group: req.group._id, match: match._id }, function(err, tip) {
+      if (err) next(err);
+      console.log('tip found?', tip);
+      userTip = tip;
+      res.render('match/show.jade', {
+        title: 'Match Details',
+        match: req.match,
+        userTip: userTip,
+        points: utils.getPoints(req.match, userTip)
+      });
+    });
+  }
+};
+
 
 /**
  *  Delete Match

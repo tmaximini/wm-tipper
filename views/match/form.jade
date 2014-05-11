@@ -3,6 +3,7 @@ extends ../layout
 block content
   - var action = match.isNew ? '/matches' : '/matches/' + match._id
   - var legend = match.isNew ? 'Neue Partie erstellen' : 'Partie bearbeiten'
+  - var ergebnis = [0, 1, 2, 3, 4, 5, 6, 7, 7, 9]
   form(method='POST', action=action, autocomplete='off')
     legend= legend
     input(type='hidden', name='_csrf', value=token)
@@ -27,21 +28,22 @@ block content
           option(value='')
           each team in teams
             option(value=team._id, selected=match.team2 && team.slug == match.team2.slug)= team.name
-      .form-group
-        label.control-label(for='result') Ergebnis
-        input.form-control(type='text', name='result', id='result', placeholder='Ergebnis')
+      - if (!match.isNew)
+        .form-group
+          label.control-label(for='scoreTeam1')
+            | #{match.team1.name}
+          select.form-control(name='scoreTeam1', id='scoreTeam1')
+            for nr in ergebnis
+              option(selected = nr === parseInt(match.scoreTeam1)) #{nr}
+        .form-group
+          label.control-label(for='scoreTeam2')
+            | #{match.team2.name}
+          select.form-control(name='scoreTeam2', id='scoreTeam2')
+            for nr in ergebnis
+              option(selected = nr === parseInt(match.scoreTeam2)) #{nr}
       .form-group
         - var buttonText = match.isNew ? 'Partie erstellen' : 'Partie ändern'
         button.btn.btn-primary(type='submit')
           i.fa.fa-unlock-alt
           | #{buttonText}
       hr
-      script.
-        $(document).ready(function() {
-          $('input#startDate').datepicker({
-              todayBtn: "linked",
-              autoclose: true,
-              todayHighlight: true
-          });
-          moment.lang('de');
-        });

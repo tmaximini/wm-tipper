@@ -1,15 +1,58 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var moment = require('moment');
+moment.lang('de');
+
 var matchSchema = new Schema({
   when: Date,
   startDate: { type: String, required: true },
   startTime: { type: String, required: true },
   team1: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
   team2: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
-  scoreTeam1: { type: Number },
-  scoreTeam2: { type: Number },
-  result: { type: String } // really String? default?
+  scoreTeam1: { type: Number, required: true, default: 0 },
+  scoreTeam2: { type: Number, required: true, default: 0 }
+});
+
+
+/**
+ * Virtuals
+ */
+matchSchema.virtual('result').get(function () {
+  return this.scoreTeam1 + ' : ' + this.scoreTeam2;
+});
+matchSchema.virtual('started').get(function () {
+  return this.when <= Date.now();
+});
+matchSchema.virtual('status').get(function () {
+  var minute = 1000 * 60;
+  var matchEnds = this.when.getTime() + (minute * 119);
+  if (this.when > Date.now()) {
+    return 'Noch nicht begonnen';
+  } else {
+    console.log(matchEnds, Date.now());
+    if (matchEnds < Date.now()) {
+      return 'Match beendet';
+    } else {
+
+      var diff = Date.now() - this.when.getTime();
+      var min = Math.floor((diff/1000)/60);
+
+      if (min < 46) {
+        return 'Match läuft - 1. Halbzeit - ' + min + '. min';
+      }
+      if (min > 61) {
+        return 'Match läuft - 2. Halbzeit - ' + (min - 15) + '. min';
+      }
+      return 'Match läuft - Halbzeitpause';
+    }
+  }
+});
+matchSchema.virtual('i18nDateString').get(function () {
+  return moment(this.when).calendar();
+});
+matchSchema.virtual('i18nDateFromNow').get(function () {
+  return moment(this.when).fromNow();
 });
 
 /**

@@ -92,6 +92,7 @@ module.exports = exports = function (app) {
   app.get('/matches/new', passportConf.isAdmin, matchController.new);
   app.post('/matches', passportConf.isAdmin, matchController.create);
   app.get('/matches/:match', matchController.show);
+  app.get('/groups/:group/matches/:match', passportConf.isAuthenticated, matchController.showGroupTip);
   app.put('/matches/:match', passportConf.isAdmin, matchController.update);
   app.get('/matches/:match/edit', passportConf.isAdmin, matchController.edit);
   // group matches
@@ -104,6 +105,7 @@ module.exports = exports = function (app) {
   app.get('/groups/:group/matches/:match/tips/new', passportConf.isAuthenticated, tipController.newMatchTip);
   app.get('/groups/:group/matches/:match/tips/:tip/edit', passportConf.isAuthenticated, tipController.edit);
   app.put('/groups/:group/matches/:match/tips/:tip', passportConf.isAuthenticated, tipController.update);
+  app.get('/groups/:group/matches/:match/tips/:tip', passportConf.isAuthenticated, tipController.showGroupTip);
   app.post('/groups/:group/matches/:match/tips', passportConf.isAuthenticated, tipController.create);
 
 

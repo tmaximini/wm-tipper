@@ -31,6 +31,11 @@ var notifyLivereload = function(files) {
 gulp.task('less', function () {
   gulp.src('./public/css/styles.less')
     .pipe(less())
+    .on('error', function(err) {
+      gutil.beep();
+      var err = new gutil.PluginError('gulp-less', err, { showStack: true });
+    })
+    .pipe(prefix('last 2 version'))
     .pipe(minifyCss({keepSpecialComments:0}))
     .pipe(gulp.dest('./public/css'));
 });

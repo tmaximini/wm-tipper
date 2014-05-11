@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Match = require('../models/Match');
 var Tip = require('../models/Tip');
 
+var utils = require('../helpers/utils');
+
 var passportConf = require('../config/passport');
 
 'use strict';
@@ -96,17 +98,33 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var tip = req.tip;
 
-
   if(!tip) {
     req.flash('error', { msg: 'Dieser Tip existiert nicht.' });
-    res.redirect('/tips');
+    res.redirect('/');
   } else {
     res.render('tip/show.jade', {
       title: 'Tip Details',
       tip: req.tip
     });
   }
+};
 
+
+/**
+ *  Get tip by id
+ */
+exports.showGroupTip = function (req, res, next) {
+  var tip = req.tip.populate('match');
+
+  if(!tip) {
+    req.flash('error', { msg: 'Dieser Tip existiert nicht.' });
+    res.redirect('/');
+  } else {
+    res.render('tip/show.jade', {
+      title: 'Tip Details',
+      tip: req.tip
+    });
+  }
 };
 
 /**

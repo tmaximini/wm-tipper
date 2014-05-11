@@ -5,10 +5,9 @@ block content
   .groups
     each match in matches
       .group
-        .match= moment(match.when).calendar() + ' - ' + match.startTime + ' '
-          //- i= moment(match.when).fromNow()
+        .match= match.i18nDateString
           br
-          a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+          a(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
         .userTip
           if match.userTip
             .title

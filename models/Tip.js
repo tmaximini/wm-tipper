@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Match = require('../models/Match');
 
 var tipSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
@@ -11,6 +12,10 @@ var tipSchema = new Schema({
   group: { type: Schema.Types.ObjectId, ref: 'Group', required: true, index: true }
 });
 
+
+tipSchema.virtual('result').get(function () {
+  return this.scoreTeam1 + ' : ' + this.scoreTeam2;
+});
 
 
 /**

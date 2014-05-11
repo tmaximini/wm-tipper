@@ -5,16 +5,16 @@ block content
   .groups
     each match in matches
       .group
-        .match= moment(match.when).calendar() + ' - ' + match.startTime + ' '
+        .match= match.i18nDateString
           //- i= moment(match.when).fromNow()
           br
-          a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+          a(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
         .userTip
           if match.userTip
             .title
              | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
             .editTip
-              a.btn.btn-primary(href='/matches/#{match._id}/tips/#{match.userTip._id}/edit')
+              a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
                | Tip editieren
           else
             .title

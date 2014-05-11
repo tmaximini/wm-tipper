@@ -1,11 +1,19 @@
 extends ../layout
 
 block content
-  h1= match.name
-  .groups-details
+  .match-details
     h1= match.team1.name + ' - ' + match.team2.name
-    .date= moment(match.when).calendar() + ' - ' + match.startTime + ' '
-    .fromNow= moment(match.when).fromNow()
+    .status= match.status
+    .date= match.i18nDateString
+    if !match.started
+      .fromNow= match.i18nDateFromNow
+    else
+      .ergebnis= match.result
+
+    if userTip
+      .tip= 'Dein Tip: ' + userTip.result
+      .points= 'Das gibt ' + points + ' Punkte.'
+
   .actions
     if user && user.admin
       a.btn.btn-primary(href='/matches/#{match._id}/edit')
