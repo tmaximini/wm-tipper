@@ -12,7 +12,11 @@ block content
 
     if userTip
       .tip= 'Dein Tip: ' + userTip.result
-      .points= 'Das gibt ' + points + ' Punkte.'
+
+    if match.started
+      .points= 'Das gibt ' + points + (points === 1 ? ' Punkt' : ' Punkte')
+    else
+      .points Noch keine Punkte
 
   .actions
     if user && user.admin
@@ -22,6 +26,6 @@ block content
         input(type='hidden', name='_csrf', value=token)
         input(type='hidden', name='_method' value='DELETE')
         input.btn.btn-danger(type='submit', value='Match löschen')
-    p
-    a.btn.btn-success(href='/groups')
-      | Tippen
+    if !match.started
+      a.btn.btn-success(href='/groups')
+        | Tippen

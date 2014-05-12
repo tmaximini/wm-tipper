@@ -61,6 +61,11 @@ exports.edit = function (req, res, next) {
 
   console.dir(req.tip);
 
+  if (req.tip.match.started) {
+    req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
+    res.redirect('/groups/' + req.tip.group.slug + '/spielplan');
+  }
+
   res.render('tip/edit.jade', {
     title: "Tip editieren",
     tip: req.tip,

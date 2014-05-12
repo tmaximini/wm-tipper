@@ -22,7 +22,6 @@ var teamSchema = new Schema({
       query.$or.push({_id: id});
     }
     this.findOne(query)
-      //.populate('author', 'username email')
       .exec(cb)
   },
 

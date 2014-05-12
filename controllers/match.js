@@ -225,15 +225,19 @@ exports.update = function (req, res, next) {
 };
 
 /**
- *  Delete Tip
+ *  Delete Match
  */
 exports.delete = function (req, res, next) {
   var match = req.match;
 
   match.remove(function (err) {
     if (err) return next(err);
-    req.flash('success', { msg: 'Das Spiel wurde gelöscht' });
-    res.redirect('/matches');
+    // remove also all tips for this match
+    Tip.find({ match: match }).remove(function(err) {
+      if (err) return next(err);
+      req.flash('success', { msg: 'Das Spiel wurde gelöscht' });
+      res.redirect('/matches');
+    });
   });
 };
 

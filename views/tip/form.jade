@@ -25,7 +25,8 @@ block content
       .form-group
         input(type="hidden", name="match", value=match._id)
         - var buttonText = tip.isNew ? 'Tippen' : 'Tip ändern'
-        button.btn.btn-primary(type='submit')
+        button.btn.btn-success(type='submit')
           i.fa.fa-unlock-alt
           | #{buttonText}
+        a.btn(href='/groups/#{group.slug}/matches/#{match._id}') Cancel
       hr

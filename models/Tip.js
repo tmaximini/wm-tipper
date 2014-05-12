@@ -45,8 +45,8 @@ tipSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('user')
-      .populate('match')
+      .populate('user match group')
+
       .exec(cb);
   },
 

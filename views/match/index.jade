@@ -10,7 +10,7 @@ block content
   .groups
     each match in matches
       .group
-        .match= moment(match.when).calendar() + ' - ' + match.startTime + ' '
+        .match= match.i18nDateString
           //- i= moment(match.when).fromNow()
           br
           a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name

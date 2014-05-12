@@ -12,15 +12,20 @@ block content
           if match.userTip
             .title
              | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
-            .editTip
-              a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
-               | Tip editieren
+             if !match.started
+              .editTip
+                a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
+                  | Tip editieren
           else
-            .title
-             | noch nicht getippt
-            .editTip
-              a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
-               | Jetzt tippen
+            if !match.started
+              .title
+               | noch nicht getippt
+              .editTip
+                a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
+                 | Jetzt tippen
+            else
+              .info
+                | Tipps für dieses Spiel sind geschlossen
   .actions
     if user && user.admin
       a.btn.btn-primary(href='/matches/new')

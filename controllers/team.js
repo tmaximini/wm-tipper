@@ -8,7 +8,6 @@ var passportConf = require('../config/passport');
 exports.load = function(req, res, next, id) {
   Team.load(id, function (err, team) {
     if (err) return next(err);
-    if (!team) return next(new Error('not found'));
     req.team = team;
     next();
   });
