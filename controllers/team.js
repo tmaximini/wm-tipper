@@ -80,13 +80,15 @@ exports.create = function (req, res, next) {
  */
 exports.show = function (req, res, next) {
   var team = req.team;
-
   if(!team) {
-    res.send(404, 'TEAM_NOT_FOUND');
+    req.flash('error', { msg: 'Dieses Team existiert nicht.' });
+    res.redirect('/teams');
   } else {
-    res.send(team);
+    res.render('team/show.jade', {
+      title: 'Match Details',
+      team: team
+    });
   }
-
 };
 
 /**
@@ -123,4 +125,18 @@ exports.update = function (req, res, next) {
     }
   });
 
+};
+
+
+/**
+ *  Delete Team
+ */
+exports.delete = function (req, res, next) {
+  var team = req.team;
+
+  team.remove(function (err) {
+    if (err) return next(err);
+    req.flash('success', { msg: 'Das Team wurde gelöscht' });
+    res.redirect('/teams');
+  });
 };

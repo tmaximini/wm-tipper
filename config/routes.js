@@ -84,6 +84,7 @@ module.exports = exports = function (app) {
   app.post('/teams', passportConf.isAdmin, teamController.create);
   app.get('/teams/:team', teamController.show);
   app.put('/teams/:team', passportConf.isAdmin, teamController.update);
+  app.del('/teams/:team', passportConf.isAdmin, teamController.delete);
   app.get('/teams/:team/edit', passportConf.isAdmin, teamController.edit);
 
   //// MATCHES ////
@@ -95,8 +96,10 @@ module.exports = exports = function (app) {
   app.get('/groups/:group/matches/:match', passportConf.isAuthenticated, matchController.showGroupTip);
   app.put('/matches/:match', passportConf.isAdmin, matchController.update);
   app.get('/matches/:match/edit', passportConf.isAdmin, matchController.edit);
+  app.del('/matches/:match', passportConf.isAdmin, matchController.delete);
+
   // group matches
-  //app.get('/groups/:group/matches', matchController.groupIndex);
+  // app.get('/groups/:group/matches', matchController.groupIndex);
   app.get('/groups/:group/spielplan', matchController.groupIndex);
 
   ///// TIPS ////

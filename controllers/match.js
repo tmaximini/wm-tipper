@@ -175,13 +175,12 @@ exports.showGroupTip = function (req, res, next) {
   } else {
     Tip.findOne({ user: req.user._id, group: req.group._id, match: match._id }, function(err, tip) {
       if (err) next(err);
-      console.log('tip found?', tip);
       userTip = tip;
       res.render('match/show.jade', {
         title: 'Match Details',
         match: req.match,
         userTip: userTip,
-        points: utils.getPoints(req.match, userTip)
+        points: !userTip ? null : utils.getPoints(req.match, userTip)
       });
     });
   }
@@ -223,5 +222,18 @@ exports.update = function (req, res, next) {
     }
   });
 
+};
+
+/**
+ *  Delete Tip
+ */
+exports.delete = function (req, res, next) {
+  var match = req.match;
+
+  match.remove(function (err) {
+    if (err) return next(err);
+    req.flash('success', { msg: 'Das Spiel wurde gelöscht' });
+    res.redirect('/matches');
+  });
 };
 

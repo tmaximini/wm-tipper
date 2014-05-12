@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+  .team-details
+    h1= team.name
+
+  .actions
+    if user && user.admin
+      a.btn.btn-primary(href='/teams/#{team._id}/edit')
+        | Team editieren
+      form(method='post', action='/teams/#{team._id}')
+        input(type='hidden', name='_csrf', value=token)
+        input(type='hidden', name='_method' value='DELETE')
+        input.btn.btn-danger(type='submit', value='Team löschen')
