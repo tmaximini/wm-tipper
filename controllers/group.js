@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Group = require('../models/Group');
+var _ = require('lodash');
 
 var utils = require('../helpers/utils');
 
@@ -24,14 +25,17 @@ exports.index = function (req, res, next) {
   var perPage = 10;
   var page = req.query.page || 1;
 
-  Group.list({}, function (err, _groups) {
+  Group.list({ criteria: { 'members': req.user._id } }, function (err, userGroups) {
     if (err) return next(err);
 
-    res.render('group/index.jade', {
-      title: 'Alle Gruppen',
-      groups: _groups
+    Group.list({}, function (err, allGroups) {
+      if (err) return next(err);
+      res.render('group/index.jade', {
+        title: 'Alle Gruppen',
+        groups: allGroups,
+        userGroups: userGroups
+      });
     });
-
   });
 }
 

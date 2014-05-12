@@ -7,10 +7,11 @@ block content
       | Zum Tippen besuche bitte eine
       a(href='/groups') &nbsp;Gruppe
 
-  .groups
+  .matches
     each match in matches
-      .group
-        .match= match.i18nDateString
+
+      .match
+        .match= match.i18nDateString + ' - ' + match.startTime
           //- i= moment(match.when).fromNow()
           br
           a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name

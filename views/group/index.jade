@@ -1,11 +1,17 @@
 extends ../layout
 
 block content
-  h1 Gruppen Übersicht
+  h1 Deine Gruppen
+  .groups
+    each group in userGroups
+      .group
+        a(href='/groups/#{group.slug}')= group.name
+    .actions
+      a.btn.btn-primary(href='/groups/new')
+        | Neue Gruppe erstellen
+  h1 Alle Gruppen
   .groups
     each group in groups
       .group
         a(href='/groups/#{group.slug}')= group.name
-  .actions
-    a.btn.btn-primary(href='/groups/new')
-      | Neue Gruppe erstellen
+

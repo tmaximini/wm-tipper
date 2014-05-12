@@ -14,6 +14,7 @@ $(document).ready(function() {
 
     $('#join-group input').on('change', function(e) {
       console.log('change ' + JSON.stringify( { val:e.val, added:e.added, removed:e.removed } ) );
+      window.location.href = '/groups/' + e.val;
     });
 
 
