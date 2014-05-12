@@ -25,17 +25,26 @@ exports.index = function (req, res, next) {
   var perPage = 10;
   var page = req.query.page || 1;
 
-  Group.list({ criteria: { 'members': req.user._id } }, function (err, userGroups) {
+  Group.list({}, function (err, allGroups) {
     if (err) return next(err);
 
-    Group.list({}, function (err, allGroups) {
-      if (err) return next(err);
+    if (req.user) {
+      Group.list({ criteria: { 'members': req.user._id } }, function (err, userGroups) {
+        if (err) return next(err);
+        res.render('group/index.jade', {
+          title: 'Alle Gruppen',
+          groups: allGroups,
+          userGroups: userGroups
+        });
+      });
+    } else {
       res.render('group/index.jade', {
         title: 'Alle Gruppen',
         groups: allGroups,
-        userGroups: userGroups
+        userGroups: []
       });
-    });
+    }
+
   });
 }
 
