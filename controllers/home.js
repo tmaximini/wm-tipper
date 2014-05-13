@@ -5,13 +5,13 @@
 
 exports.index = function(req, res) {
   res.render('home', {
-    title: 'Home'
+    title: 'Das WM Tippspiel zur Fussball WM 2014 für Büro, Freunde und Familie'
   });
 };
 
 exports.privacy = function(req, res) {
   res.render('static/privacy', {
-    title: 'Nutzungsbedingungen'
+    title: 'Datenschutz'
   });
 };
 
