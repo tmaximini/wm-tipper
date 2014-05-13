@@ -5,7 +5,7 @@
 
 exports.index = function(req, res) {
   res.render('home', {
-    title: 'Das WM Tippspiel zur Fussball WM 2014 für Büro, Freunde und Familie'
+    title: 'Das Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien'
   });
 };
 
