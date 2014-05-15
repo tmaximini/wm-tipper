@@ -37,6 +37,41 @@ var userSchema = new mongoose.Schema({
   resetPasswordExpires: Date
 });
 
+
+
+userSchema.virtual('totalPoints').get(function () {
+  var total = 0;
+  this.tips.forEach(function(tip) {
+    total += tip.points;
+  });
+  return total;
+});
+
+
+
+/**
+ * Static Methods
+ */
+ userSchema.statics = {
+
+  list: function (o, cb) {
+    var options = o || {};
+    var criteria = options.criteria || {}
+    options.perPage = options.perPage || 50;
+    options.page = options.page || 0;
+
+    this.find(criteria)
+      //.select('_id slug title body created points image meta attempts locations')
+      //.populate('locations', 'name adress fourSquareId')
+      .sort({ 'name': 1 }) // sort by name
+      .limit(options.perPage)
+      .skip(options.perPage * options.page)
+      .exec(cb);
+  }
+
+};
+
+
 /**
  * Hash the password for security.
  * "Pre" is a Mongoose middleware that executes before each user.save() call.

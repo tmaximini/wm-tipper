@@ -2,4 +2,21 @@ extends ../layout
 
 block content
   h1 Bestenliste
+  .top10
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th # tips
+          th Points / tip
+          th Total Points
+      tbody
+        for user in users
+          tr
+            td= user.profile.name
+            td= user.tips.length
+            td= user.tips.length ? (user.totalPoints / user.tips.length) : 0
+            td= user.totalPoints
+
+
 

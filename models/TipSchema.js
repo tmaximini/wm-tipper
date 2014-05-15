@@ -18,6 +18,26 @@ tipSchema.virtual('result').get(function () {
 });
 
 
+tipSchema.virtual('points').get(function() {
+  var points = 0;
+  var st1 = this.match.scoreTeam1;
+  var st2 = this.match.scoreTeam2;
+
+  if ((st1 === this.scoreTeam1) && (st2 === this.scoreTeam2)) {
+    points = 3;
+  } else {
+
+      if ((this.bet === 'X' && (st1 === st2)) ||
+          (this.bet === '1' && (st1 > st2)) ||
+          (this.bet === '2' && (st1 < st2))) {
+        points = 1;
+      }
+  }
+  return points;
+});
+
+
+
 /**
  * compute 'bet' before save
  * '1': team 1 wins
