@@ -119,7 +119,8 @@ exports.show = function (req, res, next) {
  *  Get tip by id
  */
 exports.showGroupTip = function (req, res, next) {
-  var tip = req.tip.populate('match');
+  var tip = req.tip;
+
 
   if(!tip) {
     req.flash('error', { msg: 'Dieser Tip existiert nicht.' });
@@ -127,7 +128,8 @@ exports.showGroupTip = function (req, res, next) {
   } else {
     res.render('tip/show.jade', {
       title: 'Tip Details',
-      tip: req.tip
+      tip: req.tip,
+      group: req.group
     });
   }
 };

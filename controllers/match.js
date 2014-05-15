@@ -168,6 +168,7 @@ exports.show = function (req, res, next) {
 exports.showGroupTip = function (req, res, next) {
   var match = req.match;
   var userTip = null;
+  var group = req.group;
 
   if(!match) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
@@ -180,6 +181,7 @@ exports.showGroupTip = function (req, res, next) {
         title: 'Match Details',
         match: req.match,
         userTip: userTip,
+        group: group,
         points: !userTip ? null : utils.getPoints(req.match, userTip)
       });
     });

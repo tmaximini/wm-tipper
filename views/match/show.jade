@@ -4,28 +4,40 @@ block content
   .match-details
     h1= match.team1.name + ' - ' + match.team2.name
     .status= match.status
-    .date= match.i18nDateString
+
     if !match.started
+      h3.date= match.i18nDateString
       .fromNow= match.i18nDateFromNow
     else
-      .ergebnis= match.result
+      h1.ergebnis= match.result
 
     if userTip
-      .tip= 'Dein Tip: ' + userTip.result
+      h3.tip= 'Dein Tip: ' + userTip.result
+      a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match.id}/tips/#{userTip._id}/edit')
+        | Tip ändern
+    else
+      .tip Nicht getippt
 
-    if match.started
+    if match.started && userTip
       .points= 'Das gibt ' + points + (points === 1 ? ' Punkt' : ' Punkte')
     else
-      .points Noch keine Punkte
+      .points (noch) keine Punkte
 
   .actions
     if user && user.admin
       a.btn.btn-primary(href='/matches/#{match._id}/edit')
         | Match editieren
-      form(method='post', action='/matches/#{match._id}')
+      form.confirmDelete(method='post', action='/matches/#{match._id}')
         input(type='hidden', name='_csrf', value=token)
         input(type='hidden', name='_method' value='DELETE')
         input.btn.btn-danger(type='submit', value='Match löschen')
-    if !match.started
-      a.btn.btn-success(href='/groups')
-        | Tippen
+    if !match.started && !userTip
+      if group
+        a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
+          | Tippen
+      else
+        a.btn.btn-success(href='/groups')
+          | Tippen
+
+    .back
+      a.backLink(href='/groups/#{group.slug}/spielplan') Zurück zur Gruppe

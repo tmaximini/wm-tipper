@@ -14,7 +14,7 @@ var tipSchema = new Schema({
 
 
 tipSchema.virtual('result').get(function () {
-  return this.scoreTeam1 + ' : ' + this.scoreTeam2;
+  return this.scoreTeam1 + ' - ' + this.scoreTeam2;
 });
 
 
