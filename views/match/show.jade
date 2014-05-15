@@ -39,5 +39,6 @@ block content
         a.btn.btn-success(href='/groups')
           | Tippen
 
-    .back
-      a.backLink(href='/groups/#{group.slug}/spielplan') Zurück zur Gruppe
+    if group
+      .back
+        a.backLink(href='/groups/#{group.slug}/spielplan') Zurück zur Gruppe

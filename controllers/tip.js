@@ -9,7 +9,7 @@ var passportConf = require('../config/passport');
 'use strict';
 
 exports.load = function(req, res, next, id) {
-  Tip.load(id, function (err, tip) {
+  req.user.loadTip(id, function (err, tip) {
     if (err) return next(err);
     if (!tip) return next(new Error('not found'));
     req.tip = tip;
@@ -17,23 +17,10 @@ exports.load = function(req, res, next, id) {
   });
 }
 
+/*
 exports.index = function (req, res, next) {
 
-  // pagination
-  var totalCount = Tip.count();
-  var perPage = 20;
-  var page = req.query.page || 1;
-
-  var options = {
-    criteria: {
-
-    },
-    order: {
-      'createdAt': '1'
-    }
-  };
-
-  Tip.list(options, function (err, _tips) {
+  Tip.list({}, function (err, _tips) {
     if (err) return next(err);
 
     res.render('tip/index.jade', {
@@ -43,7 +30,7 @@ exports.index = function (req, res, next) {
 
   });
 }
-
+*/
 
 exports.newMatchTip = function (req, res, next) {
 
@@ -60,6 +47,7 @@ exports.newMatchTip = function (req, res, next) {
 exports.edit = function (req, res, next) {
 
   console.dir(req.tip);
+
 
   if (req.tip.match.started) {
     req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
@@ -84,10 +72,11 @@ exports.create = function (req, res, next) {
 
   var newTip = new Tip(req.body);
 
-  newTip.user = req.user;
   newTip.group = req.group;
 
-  newTip.save(function(err, tip) {
+  req.user.tips.push(newTip);
+
+  req.user.save(function(err, tip) {
     if (err) {
       return next(err);
     }
@@ -156,11 +145,22 @@ exports.update = function (req, res, next) {
   var tip = req.tip;
   var group = req.group;
 
-  console.dir(req.body);
 
-  tip.set(req.body);
+  tip.scoreTeam1 = req.body.scoreTeam1;
+  tip.scoreTeam2 = req.body.scoreTeam2;
 
-  tip.save(function(err, tip) {
+  if (tip.scoreTeam1 > tip.scoreTeam2) {
+    tip.bet = '1';
+  }
+  if (tip.scoreTeam1 < tip.scoreTeam2) {
+    tip.bet = '2';
+  }
+  if (tip.scoreTeam1 === tip.scoreTeam2) {
+    tip.bet = 'X';
+  }
+
+
+  req.user.save(function(err, user) {
     if (!err) {
       req.flash('success', { msg: 'Dein Tip wurde aktualisiert.' });
       return res.redirect('/groups/'+group.slug+'/spielplan')

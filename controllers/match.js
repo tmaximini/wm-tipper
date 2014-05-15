@@ -50,34 +50,28 @@ exports.groupIndex = function (req, res, next) {
   if (req.user && (utils.userInGroup(req.user, req.group) || req.user.admin)) {
     Match.list(options, function (err, _matches) {
       if (err) return next(err);
-
       // map user's tips to matches
       if (req.user && req.group) {
-        Tip.getUserTipsForGroup(req.user, req.group, function(err, tips) {
-          if (err) {
-            next(err);
-          } else {
-            console.log('current user has ' + tips.length + ' tips');
-            _matches.forEach(function(match) {
-              for (var i = 0; i < tips.length; i++) {
-                if (match._id.equals(tips[i].match._id)) {
-                  console.log('found user tip');
-                  console.dir(tips[i]);
-                  match.userTip = tips[i];
-                  break;
-                } else {
-                  match.userTip = null;
-                }
-              }
-            });
-            console.dir(_matches);
-            res.render('match/groupIndex.jade', {
-              title: req.group.name + ' - Spielübersicht',
-              matches: _matches,
-              group: req.group
-            });
+        console.log('current user has ' + req.user.tips.length + ' tips');
+        _matches.forEach(function(match) {
+          for (var i = 0; i < req.user.tips.length; i++) {
+            var tip = req.user.tips[i];
+            if ((match._id.equals(tip.match)) && (req.group._id.equals(tip.group))) {
+              console.dir(tip);
+              match.userTip = tip;
+              break;
+            } else {
+              match.userTip = null;
+            }
           }
         });
+        res.render('match/groupIndex.jade', {
+          title: req.group.name + ' - Spielübersicht',
+          matches: _matches,
+          group: req.group
+        });
+
+
       }
       // just render without user tips
       else {
@@ -174,17 +168,20 @@ exports.showGroupTip = function (req, res, next) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
     res.redirect('/matches');
   } else {
-    Tip.findOne({ user: req.user._id, group: req.group._id, match: match._id }, function(err, tip) {
-      if (err) next(err);
-      userTip = tip;
-      res.render('match/show.jade', {
-        title: 'Match Details',
-        match: req.match,
-        userTip: userTip,
-        group: group,
-        points: !userTip ? null : utils.getPoints(req.match, userTip)
-      });
+    for (var i = 0; i < req.user.tips.length; i++) {
+      if (match._id.equals(req.user.tips[i].match)) {
+        userTip = req.user.tips[i];
+        break;
+      }
+    }
+    res.render('match/show.jade', {
+      title: 'Match Details',
+      match: req.match,
+      userTip: userTip,
+      group: group,
+      points: !userTip ? null : utils.getPoints(req.match, userTip)
     });
+
   }
 };
 

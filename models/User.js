@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var TipSchema = require('../models/TipSchema');
+
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
 
@@ -20,6 +22,8 @@ var userSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Group'
   }],
+
+  tips: [TipSchema],
 
   profile: {
     name: { type: String, default: '', required: true },
@@ -79,6 +83,21 @@ userSchema.methods.addGroup = function(group, cb) {
     cb(null, user);
   });
 };
+
+
+
+/**
+ * Load tip by id
+ */
+userSchema.methods.loadTip = function (id, cb) {
+  var tip = this.tips.id(id).populate('match group');
+  if (tip) {
+    cb(null, tip);
+  } else {
+    cb(new Error('tip not found'), null);
+  }
+};
+
 
 /**
  * Get URL to a user's gravatar.
