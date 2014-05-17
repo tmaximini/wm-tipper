@@ -4,9 +4,15 @@
  */
 
 exports.index = function(req, res) {
-  res.render('home', {
-    title: 'Das Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien'
-  });
+  if (req.user) {
+    res.render('dashboard/dashboard', {
+      title: 'Dashboard'
+    });
+  } else {
+    res.render('home', {
+      title: 'Das Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien'
+    });
+  }
 };
 
 exports.privacy = function(req, res) {
