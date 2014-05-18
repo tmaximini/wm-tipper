@@ -48,3 +48,14 @@ block content
       a.btn.btn-danger(href='/groups/#{group.slug}/')
         | Gruppe löschen
 
+
+  if isOwner || isMember
+    .invite
+      h2 Lade deine Freunde ein
+      form(action='/groups/#{group.slug}/invite', method='POST')
+        input(type='hidden', name='_csrf', value=token)
+        input(type='email', name='email', placeholder='E-Mail')
+        br
+        br
+        input.btn.btn-success(type='submit', value='Einladung senden')
+

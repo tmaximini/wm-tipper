@@ -297,5 +297,19 @@ exports.joinOrCreate = function(req, res, next) {
     });
 
   });
+};
 
+
+/*
+ * Send an invite email
+ */
+exports.sendInvite = function(req, res, next) {
+  var email = req.body.email;
+  console.log(email);
+
+  var group = req.group;
+  var user = req.user;
+
+  req.flash('success', { msg: 'Deine Einladung an ' + email + ' wurde versendet.'})
+  res.redirect('/groups/' + group.slug);
 };

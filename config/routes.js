@@ -76,6 +76,7 @@ module.exports = exports = function (app) {
   app.post('/groups/:group/join', passportConf.isAuthenticated, groupController.joinConfirm);
   app.put('/groups/:group', passportConf.isAuthenticated, groupController.update);
   app.get('/groups/:group/edit', passportConf.isAuthenticated, groupController.edit);
+  app.post('/groups/:group/invite', passportConf.isAuthenticated, groupController.sendInvite);
 
   //// TEAMS ////
   app.param('team', teamController.load);
