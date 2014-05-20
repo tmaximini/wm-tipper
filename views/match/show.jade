@@ -4,15 +4,17 @@ block content
   .match-details
 
     h1
-      span.flag
-        img(src='/img/flags/#{match.team1.slug}.png')
+      if !match.team1.isDummy
+        span.flag
+          img(src='/img/flags/#{match.team1.slug}.png')
       span.name
         a(href='/teams/#{match.team1.slug}')= match.team1.name
       span= ' - '
       span.name
         a(href='/teams/#{match.team2.slug}')= match.team2.name
-      span.flag
-        img(src='/img/flags/#{match.team2.slug}.png')
+      if !match.team2.isDummy
+        span.flag
+          img(src='/img/flags/#{match.team2.slug}.png')
 
     .status= match.status
 
@@ -38,7 +40,9 @@ block content
       if !userTip
         a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
           | Jetzt Tippen
-
+    if !match.started && !userTip && !group
+      a.btn.btn-success(href='/groups')
+        | Tippen
 
   .actions
     if user && user.admin
@@ -48,10 +52,7 @@ block content
         input(type='hidden', name='_csrf', value=token)
         input(type='hidden', name='_method' value='DELETE')
         input.btn.btn-danger(type='submit', value='Match löschen')
-    if !match.started && !userTip
-      if !group
-        a.btn.btn-success(href='/groups')
-          | Tippen
+
 
     if group
       .back

@@ -46,4 +46,5 @@ tr.you td {
 .flag img {
   height: 30px;
   margin: 5px 10px;
+  border: 1px solid #DFDFDF;
 }
