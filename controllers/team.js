@@ -20,7 +20,16 @@ exports.index = function (req, res, next) {
   var perPage = 10;
   var page = req.query.page || 1;
 
-  Team.list({}, function (err, _teams) {
+  var condition = {
+    isDummy: false
+  };
+
+  // show dummy teams to admins
+  if (req.user && req.user.admin) {
+    condition = {};
+  }
+
+  Team.list({ criteria: condition }, function (err, _teams) {
     if (err) return next(err);
 
     res.render('team/index.jade', {

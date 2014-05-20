@@ -11,7 +11,8 @@ var matchSchema = new Schema({
   team1: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
   team2: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
   scoreTeam1: { type: Number, required: true, default: 0 },
-  scoreTeam2: { type: Number, required: true, default: 0 }
+  scoreTeam2: { type: Number, required: true, default: 0 },
+  isDummy: { type: Boolean, default: false }
 });
 
 

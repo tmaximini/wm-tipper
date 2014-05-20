@@ -7,7 +7,8 @@ var teamSchema = new Schema({
   name: { type: String, unique: true },
   slug: { type: String, unique: true },
   gruppe: String,
-  image: String
+  image: String,
+  isDummy: { type: Boolean, default: false }
 });
 
 
@@ -30,6 +31,8 @@ var teamSchema = new Schema({
     var criteria = options.criteria || {}
     options.perPage = options.perPage || 200;
     options.page = options.page || 0;
+
+    console.log('finding all teams by criteria: ', criteria);
 
     this.find(criteria)
       //.select('_id slug title body created points image meta attempts locations')

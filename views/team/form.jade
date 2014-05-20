@@ -12,6 +12,9 @@ block content
         label.control-label(for='name') Name
         input.form-control(type='text', name='name', id='name', value=team.name, placeholder='Name', autofocus=true)
       .form-group
+        label.control-label(for='isDummy') Dummy Team? (Placeholder für K.O. Runde)
+        input(type='checkbox', name='isDummy', id='isDummy', checked=team.isDummy)
+      .form-group
         label.control-label(for='gruppe') Gruppe Vorrunde
         select.form-control(type='text', name='gruppe', id='gruppe')
           for gruppe in [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']

@@ -25,8 +25,17 @@ exports.index = function(req, res, next) {
   var options = {
     order: {
       'when': '1'
+    },
+    criteria: {
+      'isDummy': false
     }
   };
+
+
+  // show dummy matches to admins
+  if (req.user && req.user.admin) {
+    options.criteria = {};
+  }
 
   Match.list(options, function (err, _matches) {
     if (err) return next(err);
@@ -44,8 +53,15 @@ exports.groupIndex = function (req, res, next) {
   var options = {
     order: {
       'when': '1'
+    },
+    criteria: {
+      'isDummy': false
     }
   };
+  // show dummy matches to admins
+  if (req.user && req.user.admin) {
+    options.criteria = {};
+  }
 
   if (req.user && (utils.userInGroup(req.user, req.group) || req.user.admin)) {
     Match.list(options, function (err, _matches) {

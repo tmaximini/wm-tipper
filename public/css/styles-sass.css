@@ -9,3 +9,14 @@
 .groups, .matches, .teams, .top10, .dashboard {
   position: relative;
 }
+.groups .actions, .matches .actions, .teams .actions, .top10 .actions, .dashboard .actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-align: right;
+}
+
+input[type=checkbox], input[type=radio] {
+  margin: 5px;
+  display: block;
+}
