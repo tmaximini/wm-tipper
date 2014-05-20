@@ -1,23 +1,24 @@
 extends layout
 
 block content
-  .page-header
-    h3 Kontakt
+  h3 Kontakt
+
+  .alert.alert-info Hier kannst du uns eine Nachricht zukommen lassen, wenn du Fragen, Wünsche, Kritik oder einfach nur Feedback hast.
 
   form.form-horizontal(role='form', method='POST')
     input(type='hidden', name='_csrf', value=token)
     .form-group
       label(class='col-sm-2 control-label', for='name') Name
       .col-sm-8
-        input.form-control(type='text', name='name', id='name', autofocus=true)
+        input.form-control(type='text', name='name', placeholder='Dein Name', id='name', autofocus=true)
     .form-group
       label(class='col-sm-2 control-label', for='email') Email
       .col-sm-8
-        input.form-control(type='text', name='email', id='email')
+        input.form-control(type='email', placeholder='Deine E-Mail' name='email', id='email')
     .form-group
       label(class='col-sm-2 control-label', for='message') Nachricht
       .col-sm-8
-        textarea.form-control(type='text', name='message', id='message', rows='7')
+        textarea.form-control(type='text', placeholder='Deine Nachricht', name='message', id='message', rows='7')
     .form-group
       .col-sm-offset-2.col-sm-8
         button.btn.btn-default(type='submit')

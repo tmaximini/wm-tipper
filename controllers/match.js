@@ -164,6 +164,9 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
     res.redirect('/matches');
   } else {
+
+    console.dir(match.team1);
+
     res.render('match/show.jade', {
       title: 'Match Details',
       match: req.match

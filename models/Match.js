@@ -64,8 +64,8 @@ matchSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('team1', 'name slug')
-      .populate('team2', 'name slug')
+      .populate('team1', 'name slug isDummy')
+      .populate('team2', 'name slug isDummy')
       .exec(cb)
   },
 

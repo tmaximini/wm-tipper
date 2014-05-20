@@ -4,17 +4,22 @@ block content
   .match-details
 
     h1
-      if !match.team1.isDummy
-        span.flag
-          img(src='/img/flags/#{match.team1.slug}.png')
+
+      span.flag
+        img(src=match.team1.isDummy ? '/img/flags/unknown.gif' : '/img/flags/#{match.team1.slug}.png')
       span.name
-        a(href='/teams/#{match.team1.slug}')= match.team1.name
+        if match.team1.isDummy
+          | #{match.team1.name}
+        else
+          a(href='/teams/#{match.team1.slug}')= match.team1.name
       span= ' - '
       span.name
-        a(href='/teams/#{match.team2.slug}')= match.team2.name
-      if !match.team2.isDummy
-        span.flag
-          img(src='/img/flags/#{match.team2.slug}.png')
+        if match.team2.isDummy
+          | #{match.team2.name}
+        else
+          a(href='/teams/#{match.team2.slug}')= match.team2.name
+      span.flag
+        img(src=match.team2.isDummy ? '/img/flags/unknown.gif' : '/img/flags/#{match.team2.slug}.png')
 
     .status= match.status
 
