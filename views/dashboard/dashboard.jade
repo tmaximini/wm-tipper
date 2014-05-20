@@ -2,17 +2,31 @@ extends ../layout
 
 block content
   h1 Dashboard
+  .dashboard
 
-  h3 Deine Punkte
-  p.bodytext ....
-
-
-  h3 Deine Gruppe(n)
-  p.bodytext ....
+    .subheader Deine Punkte
+    .subcontent= user.totalPoints
 
 
-  h3 Letzte Aktivität
-  p.bodytext ....
+
+
+
+
+    .subheader Deine Gruppe(n)
+    if userGroups.length
+      .groups
+        each group in userGroups
+          .group
+            a.btn.btn-success(href='/groups/#{group.slug}')= group.name
+    else
+      .groups Noch keine Mitgliedschaften.
+      .actions
+        a.btn.btn-success(href='/groups') Gruppe finden
+
+
+    .subheader
+      | Die nächsten Spiele
+    p.bodytext ....
 
 
 

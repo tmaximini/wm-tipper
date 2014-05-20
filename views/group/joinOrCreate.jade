@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   h1 Erfolg
-  h3 Du bist jetzt angemeldet. Tritt jetzt einer existierenden Gruppe bei oder starte eine neue Tippgemeinschaft.
+  .subheader Du bist jetzt angemeldet. Tritt jetzt einer existierenden Gruppe bei oder starte eine neue Tippgemeinschaft.
   .groups
     .join-group
       h4 Bestehender Gruppe beitreten
@@ -15,5 +15,5 @@ block content
       h4 Neue Gruppe gründen
       .info-text
         | Hier kann noch bla bla hin
-      a(class='btn btn-primary', href='/groups/new') Gruppe gründen
+      a.btn.btn-success(href='/groups/new') Gruppe gründen
 
