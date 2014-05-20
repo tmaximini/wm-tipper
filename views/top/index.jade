@@ -12,7 +12,7 @@ block content
           th Gesamtpunkte
       tbody
         for usr in users
-          tr(class = usr.email === user.email ? 'you' : undefined)
+          tr(class = (user && (usr.email === user.email)) ? 'you' : undefined)
             - var totalPoints = usr.totalPointsAllGroups()
             td= usr.profile.name
             td= usr.tips.length
