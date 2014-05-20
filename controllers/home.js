@@ -33,7 +33,6 @@ exports.index = function(req, res) {
         });
       })
     });
-
   } else {
     res.render('home', {
       title: 'Das Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien'
