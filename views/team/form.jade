@@ -17,7 +17,7 @@ block content
       .form-group
         label.control-label(for='gruppe') Gruppe Vorrunde
         select.form-control(type='text', name='gruppe', id='gruppe')
-          for gruppe in [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+          for gruppe in [ null, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
             option(selected = gruppe === team.gruppe) #{gruppe}
       .form-group
         - var buttonText = team.isNew ? 'Mannschaft erstellen' : 'Mannschaft ändern'

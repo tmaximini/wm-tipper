@@ -4,6 +4,7 @@ block content
   - var action = match.isNew ? '/matches' : '/matches/' + match._id
   - var legend = match.isNew ? 'Neue Partie erstellen' : 'Partie bearbeiten'
   - var ergebnis = [0, 1, 2, 3, 4, 5, 6, 7, 7, 9]
+  - var types = ['Vorrunde', 'Achtefinale', 'Viertelfinale', 'Halbfinale', 'Spiel um Platz 3', 'Finale']
   form(method='POST', action=action, autocomplete='off')
     legend= legend
     input(type='hidden', name='_csrf', value=token)
@@ -31,6 +32,12 @@ block content
           option(value='')
           each team in teams
             option(value=team._id, selected=match.team2 && team.slug == match.team2.slug)= team.name
+      .form-group
+        label.control-label(for='matchType')
+          | Match Typ
+        select.form-control(name='matchType', id='matchType')
+          for type in types
+            option(selected = type === match.matchType) #{type}
       - if (!match.isNew)
         .form-group
           label.control-label(for='scoreTeam1')

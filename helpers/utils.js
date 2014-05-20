@@ -1,3 +1,6 @@
+var _ = require('lodash');
+
+
 exports.convertToSlug = function (text) {
   return text
     .toLowerCase()
@@ -29,4 +32,17 @@ exports.getPoints = function(match, tip) {
       }
   }
   return points;
-};
+};4
+
+
+
+exports.sortUsersByPoints = function(users, group) {
+  return _.sortBy(users, function(user) {
+    if (group) {
+      return -user.totalPointsPerGroup(group);
+    } else {
+      return -user.totalPointsAllGroups();
+    }
+
+  });
+}

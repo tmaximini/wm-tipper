@@ -16,6 +16,8 @@ var userSchema = new mongoose.Schema({
   linkedin: String,
   tokens: Array,
 
+  createdAt: { type: Date },
+
   admin: { type: Boolean, default: false },
   // holds all the group IDs the user is in
   groups: [{
@@ -39,13 +41,7 @@ var userSchema = new mongoose.Schema({
 
 
 
-userSchema.virtual('totalPoints').get(function () {
-  var total = 0;
-  this.tips.forEach(function(tip) {
-    total += tip.points;
-  });
-  return total;
-});
+
 
 
 
@@ -59,11 +55,12 @@ userSchema.virtual('totalPoints').get(function () {
     var criteria = options.criteria || {}
     options.perPage = options.perPage || 50;
     options.page = options.page || 0;
+    options.oderBy = options.orderBy || { 'name': 1 };
 
     this.find(criteria)
       //.select('_id slug title body created points image meta attempts locations')
       //.populate('locations', 'name adress fourSquareId')
-      .sort({ 'name': 1 }) // sort by name
+      .sort(options.orderBy) // sort by name
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
@@ -79,6 +76,8 @@ userSchema.virtual('totalPoints').get(function () {
 
 userSchema.pre('save', function(next) {
   var user = this;
+
+  user.createdAt = Date.now();
 
   if (!user.isModified('password')) return next();
 
@@ -120,6 +119,32 @@ userSchema.methods.addGroup = function(group, cb) {
 };
 
 
+userSchema.methods.totalPointsPerGroup = function (groupId) {
+  var total = 0;
+  this.tips.forEach(function(tip) {
+    if (tip.group.equals(groupId)) {
+      total += tip.points;
+    }
+  });
+  return total;
+};
+
+
+userSchema.methods.totalPointsAllGroups = function () {
+  var total = 0;
+  this.tips.forEach(function(tip) {
+    total += tip.points;
+  });
+  return total;
+};
+
+
+userSchema.methods.numberOfTipsInGroup = function (groupId) {
+  var groupTips = this.tips.filter(function(tip) {
+    return tip.group.equals(groupId);
+  });
+  return groupTips.length;
+};
 
 /**
  * Load tip by id

@@ -1,5 +1,5 @@
 var User = require('../models/User');
-
+var utils = require('../helpers/utils');
 
 /**
  * GET /top
@@ -10,12 +10,14 @@ exports.index = function(req, res) {
 
   User.list({}, function(err, users) {
     if (err) return next(err);
-    console.dir(users);
+
+    var sortedUsers = utils.sortUsersByPoints(users);
 
     res.render('top/index', {
       title: 'Bestenliste',
-      users: users
+      users: sortedUsers
     });
+
   });
 
 };

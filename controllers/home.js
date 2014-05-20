@@ -1,4 +1,5 @@
 var Group = require('../models/Group');
+var Match = require('../models/Match');
 
 
 /**
@@ -11,10 +12,26 @@ exports.index = function(req, res) {
   if (req.user) {
     Group.list({ criteria: { 'members': req.user._id } }, function (err, userGroups) {
       if (err) return next(err);
-      res.render('dashboard/dashboard', {
-        title: 'Dashboard',
-        userGroups: userGroups
-      });
+
+      var matchOptions = {
+        orderBy: {
+          when: 1
+        },
+        limit: 4
+      };
+
+      Match.count({}, function( err, totalMatchCount){
+        Match.list(matchOptions, function(err, nextMatches) {
+          if (err) return next(err);
+          res.render('dashboard/dashboard', {
+            title: 'Dashboard',
+            userGroups: userGroups,
+            nextMatches: nextMatches,
+            totalMatchCount: totalMatchCount,
+            tipCount: re.user.tips.length
+          });
+        });
+      })
     });
 
   } else {

@@ -4,29 +4,35 @@ block content
   h1 Dashboard
   .dashboard
 
-    .subheader Deine Punkte
-    .subcontent= user.totalPoints
-
-
-
-
-
-
     .subheader Deine Gruppe(n)
     if userGroups.length
       .groups
         each group in userGroups
           .group
-            a.btn.btn-success(href='/groups/#{group.slug}')= group.name
+            a(href='/groups/#{group.slug}')= group.name
     else
       .groups Noch keine Mitgliedschaften.
       .actions
         a.btn.btn-success(href='/groups') Gruppe finden
 
 
+    br
+    br
+
     .subheader
       | Die nächsten Spiele
-    p.bodytext ....
+    .subcontent
+      if nextMatches.length
+        .matches
+          each match in nextMatches
+            .match
+              .match= match.i18nDateString + ' - ' + match.startTime
+                //- i= moment(match.when).fromNow()
+                br
+                a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+
+      else
+        .info Keine Spiele mehr :(
 
 
 

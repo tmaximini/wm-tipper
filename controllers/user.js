@@ -133,6 +133,31 @@ exports.getAccount = function(req, res) {
 };
 
 /**
+ * GET /users
+ * Overview over users for admin.
+ */
+
+exports.getUserList = function(req, res) {
+
+  var options = {
+    orderBy: {
+      'profile.email': 1
+    }
+  };
+
+  User.list(options, function(err, userList) {
+    if (err) next(err);
+    res.render('user/index', {
+      title: 'Alle Benutzer',
+      userList: userList
+    });
+  });
+};
+
+
+
+
+/**
  * POST /account/profile
  * Update profile information.
  */

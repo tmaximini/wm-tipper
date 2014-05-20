@@ -62,6 +62,8 @@ module.exports = exports = function (app) {
   app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
   app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
 
+  app.get('/users', passportConf.isAdmin, userController.getUserList);
+
 
   //// GROUPS ////
   app.param('group', groupController.load);

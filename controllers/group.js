@@ -32,14 +32,14 @@ exports.index = function (req, res, next) {
       Group.list({ criteria: { 'members': req.user._id } }, function (err, userGroups) {
         if (err) return next(err);
         res.render('group/index.jade', {
-          title: 'Alle Gruppen',
+          title: 'Alle Tippgruppen',
           groups: allGroups,
           userGroups: userGroups
         });
       });
     } else {
       res.render('group/index.jade', {
-        title: 'Alle Gruppen',
+        title: 'Alle Tippgruppen',
         groups: allGroups,
         userGroups: []
       });
@@ -116,7 +116,7 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var group = req.group;
 
-  // TODO: render correctly
+  var sortedUsers = utils.sortUsersByPoints(group.members, group._id);
 
   if(!group) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
@@ -128,7 +128,8 @@ exports.show = function (req, res, next) {
       group: group,
       isOwner: group.founder._id.equals(req.user._id),
       isAdmin: req.user.admin,
-      isMember: utils.userInGroup(req.user, group)
+      isMember: utils.userInGroup(req.user, group),
+      sortedUsers: sortedUsers
     });
   }
 

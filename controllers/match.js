@@ -23,7 +23,7 @@ exports.load = function(req, res, next, id) {
 exports.index = function(req, res, next) {
 
   var options = {
-    order: {
+    orderBy: {
       'when': '1'
     },
     criteria: {
@@ -51,7 +51,7 @@ exports.index = function(req, res, next) {
 exports.groupIndex = function (req, res, next) {
 
   var options = {
-    order: {
+    orderBy: {
       'when': '1'
     },
     criteria: {

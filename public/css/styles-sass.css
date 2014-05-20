@@ -20,3 +20,7 @@ input[type=checkbox], input[type=radio] {
   margin: 5px;
   display: block;
 }
+
+tr.you td {
+  background-color: rgba(255, 255, 116, 0.33) !important;
+}

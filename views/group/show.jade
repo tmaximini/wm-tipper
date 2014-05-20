@@ -11,8 +11,23 @@ block content
 
   .group-members
     h3 Mitglieder
-    for member in group.members
-      .member= member.profile.name
+    .top10
+      table.table.table-striped
+        thead
+          tr
+            th Name
+            th # tips
+            th Points / tip
+            th Total Points
+        tbody
+          for usr in sortedUsers
+            tr(class = usr.email === user.email ? 'you' : undefined)
+              - var usrPoints = usr.totalPointsPerGroup(group._id)
+              - var nrOfTips = usr.numberOfTipsInGroup(group._id)
+              td= usr.profile.name
+              td= nrOfTips
+              td= nrOfTips ? (usrPoints / nrOfTips) : 0
+              td= usrPoints
 
   if group.price
     .group-price

@@ -12,7 +12,8 @@ var matchSchema = new Schema({
   team2: { type: Schema.Types.ObjectId, ref: 'Team', required: true },
   scoreTeam1: { type: Number, required: true, default: 0 },
   scoreTeam2: { type: Number, required: true, default: 0 },
-  isDummy: { type: Boolean, default: false }
+  isDummy: { type: Boolean, default: false },
+  matchType: String
 });
 
 
@@ -71,9 +72,9 @@ matchSchema.statics = {
   list: function (o, cb) {
     var options = o || {};
     var criteria = options.criteria || {}
-    options.perPage = options.perPage || 200;
+    options.perPage = options.perPage || options.limit || 50;
     options.page = options.page || 0;
-    options.order = options.order || { 'name': 1 };
+    options.order = options.orderBy || { 'when': 1 };
 
     this.find(criteria)
       //.select('_id slug title body created points image meta attempts locations')
