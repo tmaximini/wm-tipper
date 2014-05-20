@@ -7,15 +7,18 @@ block content
       | Zum Tippen besuche bitte eine
       a(href='/groups') &nbsp;Gruppe
 
+  if user && user.admin
+    a.btn.btn-success(href='/matches/new')
+      | Neue Partie erstellen
+
   .matches
     each match in matches
       .match
-        .match= match.i18nDateString + ' - ' + match.startTime
+        .match
+          span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+          span.matchType= match.matchType
           //- i= moment(match.when).fromNow()
           br
           a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
 
-    .actions
-      if user && user.admin
-        a.btn.btn-success(href='/matches/new')
-          | Neue Partie erstellen
+

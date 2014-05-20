@@ -16,9 +16,9 @@ block content
         thead
           tr
             th Name
-            th # tips
-            th Points / tip
-            th Total Points
+            th Anz. Tipps
+            th Ø Punkte / Tipp
+            th Gesamtpunkte
         tbody
           for usr in sortedUsers
             tr(class = usr.email === user.email ? 'you' : undefined)
@@ -46,15 +46,15 @@ block content
 
 
   .tips
-    h3 Tips
+    h3 Tipps
     if isMember || isAdmin
       .info #{user.numberOfTipsInGroup(group._id)} von #{matchCount} Spielen getippt
-      a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tips
+      a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tipps
 
   br
 
   .actions
-    h3 Actions
+    h3 Aktionen
     if !isOwner && !isMember
       a.btn.btn-success(href='/groups/#{group.slug}/join')
         | Gruppe beitreten
