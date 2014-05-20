@@ -16,7 +16,7 @@ block content
             - var totalPoints = usr.totalPointsAllGroups()
             td= usr.profile.name
             td= usr.tips.length
-            td= usr.tips.length ? (totalPoints / usr.tips.length) : 0
+            td= usr.tips.length ? (totalPoints / usr.tips.length).toFixed(2) : 0
             td= totalPoints
 
 

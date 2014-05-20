@@ -26,7 +26,7 @@ block content
               - var nrOfTips = usr.numberOfTipsInGroup(group._id)
               td= usr.profile.name
               td= nrOfTips
-              td= nrOfTips ? (usrPoints / nrOfTips) : 0
+              td= nrOfTips ? (usrPoints / nrOfTips).toFixed(2) : 0
               td= usrPoints
 
   if group.price
@@ -44,19 +44,23 @@ block content
       h3 Sonstiges
       p= group.freetext
 
+
   .tips
+    h3 Tips
     if isMember || isAdmin
+      .info #{user.numberOfTipsInGroup(group._id)} von #{matchCount} Spielen getippt
       a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tips
 
   br
 
   .actions
+    h3 Actions
     if !isOwner && !isMember
       a.btn.btn-success(href='/groups/#{group.slug}/join')
-        | beitreten
+        | Gruppe beitreten
     if !isOwner && isMember
       a.btn.btn-warning(href='/groups/#{group.slug}/leave')
-        | verlassen
+        | Gruppe verlassen
     if isOwner || isAdmin
       a.btn.btn-primary(href='/groups/#{group.slug}/edit')
         | Gruppe editieren

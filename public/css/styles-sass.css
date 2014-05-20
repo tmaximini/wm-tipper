@@ -1,5 +1,8 @@
 .matches .match {
-  padding: 5px 0;
+  padding: 5px;
+  background-color: #F7F7F7;
+  margin: 5px 0;
+  width: auto;
 }
 
 .subheader {
@@ -23,4 +26,16 @@ input[type=checkbox], input[type=radio] {
 
 tr.you td {
   background-color: rgba(255, 255, 116, 0.33) !important;
+}
+
+.match-details {
+  text-align: center;
+}
+.match-details h1 a {
+  color: #3F3F3F;
+}
+
+.flag img {
+  height: 30px;
+  margin: 5px 10px;
 }

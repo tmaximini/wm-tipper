@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Group = require('../models/Group');
+var Match = require('../models/Match');
 var _ = require('lodash');
 
 var utils = require('../helpers/utils');
@@ -122,14 +123,18 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
+    Match.count({}, function(err, matchCount) {
+      if (err) next(err);
+      res.render('group/show.jade', {
+        title: 'WM-Tipper Gruppe - ' + group.name,
+        group: group,
+        isOwner: group.founder._id.equals(req.user._id),
+        isAdmin: req.user.admin,
+        isMember: utils.userInGroup(req.user, group),
+        sortedUsers: sortedUsers,
+        matchCount: matchCount
+      });
 
-    res.render('group/show.jade', {
-      title: 'WM-Tipper Gruppe - ' + group.name,
-      group: group,
-      isOwner: group.founder._id.equals(req.user._id),
-      isAdmin: req.user.admin,
-      isMember: utils.userInGroup(req.user, group),
-      sortedUsers: sortedUsers
     });
   }
 
@@ -306,10 +311,16 @@ exports.joinOrCreate = function(req, res, next) {
  */
 exports.sendInvite = function(req, res, next) {
   var email = req.body.email;
-  console.log(email);
-
   var group = req.group;
   var user = req.user;
+
+  req.assert('email', 'Email ungültig').isEmail();
+  var errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('error', errors);
+    return res.redirect('/groups/' + group.slug);
+  }
 
   req.flash('success', { msg: 'Deine Einladung an ' + email + ' wurde versendet.'})
   res.redirect('/groups/' + group.slug);

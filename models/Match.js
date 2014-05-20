@@ -72,7 +72,7 @@ matchSchema.statics = {
   list: function (o, cb) {
     var options = o || {};
     var criteria = options.criteria || {}
-    options.perPage = options.perPage || options.limit || 50;
+    options.perPage = options.perPage || options.limit || 100;
     options.page = options.page || 0;
     options.order = options.orderBy || { 'when': 1 };
 

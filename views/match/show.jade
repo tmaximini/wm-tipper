@@ -2,7 +2,18 @@ extends ../layout
 
 block content
   .match-details
-    h1= match.team1.name + ' - ' + match.team2.name
+
+    h1
+      span.flag
+        img(src='/img/flags/#{match.team1.slug}.png')
+      span.name
+        a(href='/teams/#{match.team1.slug}')= match.team1.name
+      span= ' - '
+      span.name
+        a(href='/teams/#{match.team2.slug}')= match.team2.name
+      span.flag
+        img(src='/img/flags/#{match.team2.slug}.png')
+
     .status= match.status
 
     if !match.started
@@ -23,6 +34,12 @@ block content
     else
       .points (noch) keine Punkte
 
+    if !match.started && group
+      if !userTip
+        a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
+          | Jetzt Tippen
+
+
   .actions
     if user && user.admin
       a.btn.btn-primary(href='/matches/#{match._id}/edit')
@@ -32,10 +49,7 @@ block content
         input(type='hidden', name='_method' value='DELETE')
         input.btn.btn-danger(type='submit', value='Match löschen')
     if !match.started && !userTip
-      if group
-        a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
-          | Tippen
-      else
+      if !group
         a.btn.btn-success(href='/groups')
           | Tippen
 

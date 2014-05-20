@@ -28,7 +28,7 @@ exports.index = function(req, res) {
             userGroups: userGroups,
             nextMatches: nextMatches,
             totalMatchCount: totalMatchCount,
-            tipCount: re.user.tips.length
+            tipCount: req.user.tips.length
           });
         });
       })
