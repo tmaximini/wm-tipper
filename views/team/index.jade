@@ -2,11 +2,12 @@ extends ../layout
 
 block content
   h1 Alle Mannschaften
+  .actions
+    if user && user.admin
+      a.btn.btn-success(href='/teams/new')
+        | Neues Team anlegen
   .teams
     each team in teams
       .team
         a(href='/teams/#{team.slug}')= team.name
-    .actions
-      if user && user.admin
-        a.btn.btn-primary(href='/teams/new')
-          | Neues Team anlegen
+

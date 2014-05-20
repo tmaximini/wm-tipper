@@ -2,13 +2,14 @@ extends ../layout
 
 block content
   h1 Deine Gruppen
+  .actions
+    a.btn.btn-success(href='/groups/new')
+      | Neue Gruppe erstellen
   .groups
     each group in userGroups
       .group
         a(href='/groups/#{group.slug}')= group.name
-    .actions
-      a.btn.btn-success(href='/groups/new')
-        | Neue Gruppe erstellen
+
   h1 Alle Gruppen
   .groups
     each group in groups
