@@ -38,7 +38,6 @@ block content
     .form-group
       .col-sm-offset-2.col-sm-4
         button.btn.btn.btn-primary(type='submit')
-          i.fa.fa-magnet
           | Profil aktualisieren
 
 
@@ -59,7 +58,6 @@ block content
       .form-group
         .col-sm-offset-3.col-sm-4
           button.btn.btn.btn-primary(type='submit')
-            i.fa.fa-keyboard-o
             | Passwort ändern
 
   .page-header
@@ -77,19 +75,19 @@ block content
 
   if secrets.googleAuth
     if user.google
-      p: a.text-danger(href='/account/unlink/google') Unlink your Google account
+      p: a.text-danger(href='/account/unlink/google') Google Konto entfernen
     else
-      p: a(href='/auth/google') Link your Google account
+      p: a(href='/auth/google') Google Konto verlinken
 
   if secrets.facebookAuth
     if user.facebook
-      p: a.text-danger(href='/account/unlink/facebook') Unlink your Facebook account
+      p: a.text-danger(href='/account/unlink/facebook') Facebook Konto entfernen
     else
-      p: a(href='/auth/facebook') Link your Facebook account
+      p: a(href='/auth/facebook') Facebook Konto verlinken
 
   if secrets.twitterAuth
     if user.twitter
-      p: a.text-danger(href='/account/unlink/twitter') Unlink your Twitter account
+      p: a.text-danger(href='/account/unlink/twitter') Twitter Konto entfernen
     else
-      p: a(href='/auth/twitter') Link your Twitter account
+      p: a(href='/auth/twitter') Twitter Konto verlinken
 
