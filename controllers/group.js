@@ -3,6 +3,10 @@ var Group = require('../models/Group');
 var Match = require('../models/Match');
 var _ = require('lodash');
 
+var async = require('async');
+var nodemailer = require('nodemailer');
+var secrets = require('../config/secrets');
+
 var utils = require('../helpers/utils');
 
 var passportConf = require('../config/passport');
@@ -95,7 +99,14 @@ exports.create = function (req, res, next) {
   newGroup.founder = req.user;
   if (!req.body.password || req.body.password === '') {
     newGroup.is_public = true;
+  } else {
+    // save password for group as plain text for simplicity when sending invite emails
+    // but notify user's of this beforehand
+    newGroup.password_freetext = req.body.password;
   }
+
+
+
   newGroup.members.push(req.user);
 
   newGroup.save(function(err, group) {
@@ -282,6 +293,8 @@ exports.update = function (req, res, next) {
 
   group.set(req.body);
 
+  group.password_freetext = req.body.password;
+
   group.save(function(err, group) {
     if (!err) {
       console.log('update successful');
@@ -325,8 +338,36 @@ exports.sendInvite = function(req, res, next) {
   if (errors) {
     req.flash('error', errors);
     return res.redirect('/groups/' + group.slug);
+  } else {
+
+    var smtpTransport = nodemailer.createTransport('SMTP', {
+      service: 'SendGrid',
+      auth: {
+        user: secrets.sendgrid.user,
+        pass: secrets.sendgrid.password
+      }
+    });
+
+    var mailOptions = {
+      to: email,
+      from: 'info@wm-tipper.de',
+      subject: user.profile.name + ' hat dich in die WM Tippgruppe ' + group.name + ' eingeladen',
+      text: 'Moin,\n\n' +
+        'Du wurdest von ' + user.profile.name + ' in eine Tippgruppe auf http://wm-tipper.de eingeladen!\n\n' +
+        'Um jetzt der Tippgruppe beizutreten, klicke folgenden Link an:\n' +
+        'http://' + req.headers.host + '/groups/' + group.slug + '/join \n\n'
+    };
+
+    if (!group.is_public) {
+      mailOptions.text += 'Das Passwort zum beitreten der Gruppe lautet: ' + group.password_freetext + ' \n';
+    }
+
+    smtpTransport.sendMail(mailOptions, function(err) {
+      if (err) return next(err);
+      req.flash('success', { msg: 'Deine Einladung an ' + email + ' wurde versendet.'})
+      return res.redirect('/groups/' + group.slug);
+    });
+
   }
 
-  req.flash('success', { msg: 'Deine Einladung an ' + email + ' wurde versendet.'})
-  res.redirect('/groups/' + group.slug);
 };

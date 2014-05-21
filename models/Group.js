@@ -18,7 +18,8 @@ var groupSchema = new Schema({
   rules: String,
   freetext: String,
   is_public: { type: Boolean, default: false },
-  password: String
+  password: String,
+  password_freetext: String
 });
 
 

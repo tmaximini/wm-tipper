@@ -1,6 +1,14 @@
 extends ../layout
 
 block content
+
+  .alert.alert-info
+    | Hier kannst du eine Tippgemeinschaft für dich und deine Freunde / Kollegen erstellen. Einsätze, Preise und Regeln könnt ihr optional selbst bestimmen.
+
+  .alert.alert-warning
+    | Das Passwort für die Gruppe wird bei uns im Klartext gespeichert. Das vereinfacht das Einladen deiner Freunde per E-Mail.
+    | Nimm also bitte kein Passwort, welches du auch für persönliche Konten verwendest! Wenn du kein Passwort wählst, kann jeder deiner Tippgruppe beitreten.
+
   - var action = group.isNew ? '/groups' : '/groups/' + group._id
   - var legend = group.isNew ? 'Neue Gruppe gründen' : 'Gruppe bearbeiten'
   form(method='POST', action=action)
