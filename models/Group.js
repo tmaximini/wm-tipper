@@ -41,6 +41,8 @@ groupSchema.pre('save', function(next) {
   if (!this.password || this.password === '') {
     this.is_public = true;
     next();
+  } else {
+    this.password_freetext = this.password;
   }
   // if password, make private
   this.is_public = false;

@@ -350,7 +350,7 @@ exports.sendInvite = function(req, res, next) {
 
     var mailOptions = {
       to: email,
-      from: 'info@wm-tipper.de',
+      from: 'no-reply@wm-tipper.de',
       subject: user.profile.name + ' hat dich in die WM Tippgruppe ' + group.name + ' eingeladen',
       text: 'Moin,\n\n' +
         'Du wurdest von ' + user.profile.name + ' in eine Tippgruppe auf http://wm-tipper.de eingeladen!\n\n' +
@@ -358,7 +358,7 @@ exports.sendInvite = function(req, res, next) {
         'http://' + req.headers.host + '/groups/' + group.slug + '/join \n\n'
     };
 
-    if (!group.is_public) {
+    if (!group.is_public && group.password_freetext) {
       mailOptions.text += 'Das Passwort zum beitreten der Gruppe lautet: ' + group.password_freetext + ' \n';
     }
 
