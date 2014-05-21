@@ -8,4 +8,7 @@ $(document).ready(function() {
   $('.confirmDelete').submit(function() {
     return confirm('Bist du ganz sicher? Alle Tips für das Spiel werden mit gelöscht...');
   });
+  $('.confirmLeave').click(function() {
+    return confirm('Bist du sicher, dass du die Gruppe verlassen möchtest?');
+  });
 });

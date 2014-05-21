@@ -28,10 +28,11 @@ block content
         .matches
           each match in nextMatches
             .match
-              .match= match.i18nDateString + ' - ' + match.startTime
+              span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+              span.matchType= match.matchType
                 //- i= moment(match.when).fromNow()
-                br
-                a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+              br
+              a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
 
       else
         .info Keine Spiele mehr :(
