@@ -1,20 +1,29 @@
 .matches .match {
-  padding: 5px;
+  padding: 10px;
   background-color: #F7F7F7;
   margin: 5px 0;
   width: auto;
   position: relative;
 }
+.matches .match a.matchName {
+  font-size: 16px;
+}
 .matches .match .matchType {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   color: #ccc;
   font-style: italic;
 }
 
 .subheader {
   font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.info, .backLink {
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .groups, .matches, .teams, .top10, .dashboard {
@@ -51,4 +60,8 @@ tr.you td {
 
 .groups .group a {
   font-size: 16px;
+}
+
+.marge10 {
+  margin-top: 10px;
 }

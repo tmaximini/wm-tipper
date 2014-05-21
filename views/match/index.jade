@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  h1 Alle Partien
+  h1 Spielplan
   .info
     p
       | Zum Tippen besuche bitte eine
@@ -14,11 +14,10 @@ block content
   .matches
     each match in matches
       .match
-        .match
-          span.matchInfo= match.i18nDateString + ' - ' + match.startTime
-          span.matchType= match.matchType
-          //- i= moment(match.when).fromNow()
-          br
-          a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+        span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+        span.matchType= match.matchType
+        //- i= moment(match.when).fromNow()
+        br
+        a.matchName(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
 
 

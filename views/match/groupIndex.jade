@@ -2,30 +2,36 @@ extends ../layout
 
 block content
   h1= group.name +  ' - Spielübersicht'
-  .groups
+
+  a.backLink(href='/groups/#{group.slug}') Zurück zur Gruppenübersicht
+
+
+  .matches.marge10
     each match in matches
       .group
-        .match= match.i18nDateString
+        .match
+          span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+          span.matchType= match.matchType
           br
-          a(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
-        .userTip
-          if match.userTip
-            .title
-             | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
-             if !match.started
-              .editTip
-                a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
-                  | Tip editieren
-          else
-            if !match.started
+          a.matchName(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+          .userTip
+            if match.userTip
               .title
-               | noch nicht getippt
-              .editTip
-                a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
-                 | Jetzt tippen
+               | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
+               if !match.started
+                .editTip
+                  a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
+                    | Tip editieren
             else
-              .info
-                | Tipps für dieses Spiel sind geschlossen
+              if !match.started
+                .title
+                 | noch nicht getippt
+                .editTip
+                  a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
+                   | Jetzt tippen
+              else
+                .info
+                  | Tipps für dieses Spiel sind geschlossen
   .actions
     if user && user.admin
       a.btn.btn-primary(href='/matches/new')

@@ -100,7 +100,12 @@ exports.create = function (req, res, next) {
 
   newGroup.save(function(err, group) {
     if (err) {
-      return next(err);
+      if (err.code === 11000) {
+        req.flash('error', { msg: 'Es existiert schon eine Gruppe mit diesem Namen.' });
+      } else {
+        req.flash('error', { msg: 'Ein Fehler ist aufgetreten. Bitte versuche es noch einmal, vielleicht mit anderem Namen.' });
+      }
+      return res.redirect('/groups');
     }
     // need to add group also to user
     req.user.addGroup(group, function() {

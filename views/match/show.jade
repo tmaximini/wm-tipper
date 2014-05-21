@@ -29,25 +29,28 @@ block content
     else
       h1.ergebnis= match.result
 
-    if userTip
-      h3.tip= 'Dein Tip: ' + userTip.result
-      a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match.id}/tips/#{userTip._id}/edit')
-        | Tip ändern
-    else
-      .tip Nicht getippt
 
-    if match.started && userTip
-      .points= 'Das gibt ' + points + (points === 1 ? ' Punkt' : ' Punkte')
-    else
-      .points (noch) keine Punkte
+    if group
+      if userTip
+        h3.tip= 'Dein Tip: ' + userTip.result
+        a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match.id}/tips/#{userTip._id}/edit')
+          | Tip ändern
+      else
+        .tip Nicht getippt
 
-    if !match.started && group
-      if !userTip
-        a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
-          | Jetzt Tippen
+      if match.started && userTip
+        .points= 'Das gibt ' + points + (points === 1 ? ' Punkt' : ' Punkte')
+      else
+        .points (noch) keine Punkte
+
+      if !match.started
+        if !userTip
+          a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
+            | Jetzt Tippen
+
     if !match.started && !userTip && !group
       a.btn.btn-success(href='/groups')
-        | Tippen
+        | Zu den Tippgruppen
 
   .actions
     if user && user.admin
