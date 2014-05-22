@@ -10,6 +10,6 @@ Technisch wurde das Spiel mit Node.js (Express), Jade, MongoDB (Mongoose) und Bo
 
 Pull Requests willkommen.
 
-Das Tippspiel ist unter [wm-tipper.de](http://www.wm-tipper.de) zu finden.
+[Das WM Tippspiel findet ihr hier.](http://www.wm-tipper.de)
 
 Crexit gehen an [sahat](https://github.com/sahat) für seinen exzellenten [Hackathon Starter](https://github.com/sahat/hackathon-starter)
