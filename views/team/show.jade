@@ -7,6 +7,18 @@ block content
         img(src='/img/flags/#{team.slug}.png')
       span.name= team.name
 
+
+  h3 Die nächsten Spiele
+
+  .matches
+    each match in teamMatches
+      .match
+        span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+        span.matchType= match.matchType
+        //- i= moment(match.when).fromNow()
+        br
+        a.matchName(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+
   .actions
     if user && user.admin
       a.btn.btn-small.btn-primary(href='/teams/#{team._id}/edit')

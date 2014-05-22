@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Team = require('../models/Team');
+var Match = require('../models/Match');
 
 var passportConf = require('../config/passport');
 
@@ -92,10 +93,16 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Dieses Team existiert nicht.' });
     res.redirect('/teams');
   } else {
-    res.render('team/show.jade', {
-      title: 'Match Details',
-      team: team
+
+    Match.list({ criteria: { $or: [{ team1: team }, { team2: team}]} }, function(err, teamMatches) {
+      if (err) next(err);
+      res.render('team/show.jade', {
+        title: 'Match Details',
+        team: team,
+        teamMatches: teamMatches
+      });
     });
+
   }
 };
 
