@@ -217,6 +217,23 @@ exports.isAdmin = function(req, res, next) {
   }
 };
 
+
+/**
+ * is Group Owner middleware.
+ */
+
+exports.isGroupOwner = function(req, res, next) {
+  console.dir(req.group);
+  if (req.isAuthenticated() && (req.user.admin || req.group.founder._id.equals(req.user._id))) {
+    return next();
+  } else {
+    req.flash('error', { msg: 'Keine Berechtigung.' });
+    res.redirect('/');
+  }
+};
+
+
+
 /**
  * Authorization Required middleware.
  */

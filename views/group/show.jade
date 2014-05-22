@@ -64,8 +64,10 @@ block content
     if isOwner || isAdmin
       a.btn.btn-small.btn-primary(href='/groups/#{group.slug}/edit')
         | Gruppe editieren
-      a.btn.btn-small.btn-danger(href='/groups/#{group.slug}/')
-        | Gruppe löschen
+      form.confirmGroupDelete(method='post', action='/groups/#{group.slug}/')
+        input(type='hidden', name='_csrf', value=token)
+        input(type='hidden', name='_method' value='DELETE')
+        input.btn.btn-small.btn-danger(type='submit', value='Gruppe löschen')
 
 
   if isOwner || isMember
