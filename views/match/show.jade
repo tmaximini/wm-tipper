@@ -54,12 +54,12 @@ block content
 
   .actions
     if user && user.admin
-      a.btn.btn-primary(href='/matches/#{match._id}/edit')
+      a.btn.btn-small.btn-primary(href='/matches/#{match._id}/edit')
         | Match editieren
       form.confirmDelete(method='post', action='/matches/#{match._id}')
         input(type='hidden', name='_csrf', value=token)
         input(type='hidden', name='_method' value='DELETE')
-        input.btn.btn-danger(type='submit', value='Match löschen')
+        input.btn.btn-small.btn-danger(type='submit', value='Match löschen')
 
 
     if group

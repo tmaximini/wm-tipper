@@ -9,9 +9,9 @@ block content
 
   .actions
     if user && user.admin
-      a.btn.btn-primary(href='/teams/#{team._id}/edit')
+      a.btn.btn-small.btn-primary(href='/teams/#{team._id}/edit')
         | Team editieren
       form(method='post', action='/teams/#{team._id}')
         input(type='hidden', name='_csrf', value=token)
         input(type='hidden', name='_method' value='DELETE')
-        input.btn.btn-danger(type='submit', value='Team löschen')
+        input.btn.btn-small.btn-danger(type='submit', value='Team löschen')

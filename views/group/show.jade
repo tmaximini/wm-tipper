@@ -56,25 +56,25 @@ block content
   .actions
     h3 Aktionen
     if !isOwner && !isMember
-      a.btn.btn-success(href='/groups/#{group.slug}/join')
+      a.btn.btn-small.btn-success(href='/groups/#{group.slug}/join')
         | Gruppe beitreten
     if !isOwner && isMember
-      a.confirmLeave.btn.btn-warning(href='/groups/#{group.slug}/leave')
+      a.confirmLeave.btn.btn-small.btn-warning(href='/groups/#{group.slug}/leave')
         | Gruppe verlassen
     if isOwner || isAdmin
-      a.btn.btn-primary(href='/groups/#{group.slug}/edit')
+      a.btn.btn-small.btn-primary(href='/groups/#{group.slug}/edit')
         | Gruppe editieren
-      a.btn.btn-danger(href='/groups/#{group.slug}/')
+      a.btn.btn-small.btn-danger(href='/groups/#{group.slug}/')
         | Gruppe löschen
 
 
   if isOwner || isMember
     .invite
-      h2 Lade deine Freunde ein
+      h3 Lade deine Freunde ein
       form(action='/groups/#{group.slug}/invite', method='POST')
         input(type='hidden', name='_csrf', value=token)
         input(type='email', name='email', placeholder='E-Mail')
         br
         br
-        input.btn.btn-success(type='submit', value='Einladung senden')
+        input.btn.btn-small.btn-success(type='submit', value='Einladung senden')
 
