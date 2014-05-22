@@ -22,7 +22,7 @@ block content
         input.form-control(type='text', name='name', id='name', value=group.name, placeholder='Name', autofocus=true)
       .form-group
         label.control-label(for='password') Passwort (frei lassen für öffentliche Gruppe)
-        input.form-control(type='password', name='password', id='group_password', placeholder='Passwort')
+        input.form-control(type='text', name='password', value=group.password_freetext, id='group_password', placeholder='Passwort')
       .form-group
         label.control-label(for='price') Preis (optional)
         textarea.form-control(type='text', name='price', id='price', placeholder='Preis')
