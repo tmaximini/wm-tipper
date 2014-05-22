@@ -139,7 +139,7 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
-    Match.count({}, function(err, matchCount) {
+    Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
       res.render('group/show.jade', {
         title: 'WM-Tipper Gruppe - ' + group.name,

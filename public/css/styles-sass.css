@@ -4,9 +4,10 @@
   margin: 5px 0;
   width: auto;
   position: relative;
+  min-height: 70px;
 }
 .matches .match a.matchName {
-  font-size: 16px;
+  font-size: 18px;
 }
 .matches .match .matchType {
   position: absolute;
@@ -14,6 +15,14 @@
   right: 10px;
   color: #ccc;
   font-style: italic;
+}
+.matches .match .matchResult {
+  position: absolute;
+  right: 10px;
+  font-size: 11px;
+  color: #ccc;
+  bottom: 10px;
+  text-align: right;
 }
 
 .subheader {

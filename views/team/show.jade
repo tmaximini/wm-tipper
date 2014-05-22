@@ -8,7 +8,7 @@ block content
       span.name= team.name
 
 
-  h3 Die nächsten Spiele
+  h3 Spieltage
 
   .matches
     each match in teamMatches
@@ -18,6 +18,10 @@ block content
         //- i= moment(match.when).fromNow()
         br
         a.matchName(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+        span.matchResult
+          | #{match.started ? match.status : undefined}
+          br
+          | #{match.started ? match.result : '- : -'}
 
   .actions
     if user && user.admin

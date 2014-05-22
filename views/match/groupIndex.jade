@@ -14,6 +14,10 @@ block content
           span.matchType= match.matchType
           br
           a.matchName(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+          span.matchResult
+            | #{match.started ? match.status : undefined}
+            br
+            | #{match.started ? match.result : '- : -'}
           .userTip
             if match.userTip
               .title
