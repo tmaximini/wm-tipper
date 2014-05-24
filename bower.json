@@ -18,6 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "select2": "~3.4.8"
+    "select2": "~3.4.8",
+    "swiper": "~2.6.1"
   }
 }
