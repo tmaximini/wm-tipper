@@ -23,7 +23,10 @@ tipSchema.virtual('points').get(function() {
   // stupid quick fix for now until I sorted out the populate problem
   // (should only count tips of matches that already started)
 
-  return 0;
+  //return 0;
+
+
+  console.dir(this.populate('match'));
 
   var points = 0;
   var st1 = this.match.scoreTeam1;

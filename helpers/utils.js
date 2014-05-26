@@ -1,4 +1,6 @@
 var _ = require('lodash');
+var Match = require('../models/Match');
+var Promise = require('bluebird');
 
 
 exports.convertToSlug = function (text) {
@@ -6,6 +8,23 @@ exports.convertToSlug = function (text) {
     .toLowerCase()
     .replace(/ /g,'-')
     .replace(/[^\w-]+/g,'');
+};
+
+
+exports.getTipPointsPromise = function(tip) {
+  var qIn = Promise.defer();
+  var self = this;
+  Match.load(tip.match, function(err, match) {
+    if (err) throw(err); // throw for now
+    if (match && match.started) {
+      console.log('tipped match found and started');
+      var points = self.getPoints(match, tip);
+      qIn.resolve(points);
+    } else {
+      qIn.resolve(0);
+    }
+  });
+  return qIn.promise;
 };
 
 
@@ -32,7 +51,7 @@ exports.getPoints = function(match, tip) {
       }
   }
   return points;
-};4
+};
 
 
 

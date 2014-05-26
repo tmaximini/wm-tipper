@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var Promise = require('bluebird');
+
 var moment = require('moment');
 moment.lang('de');
 
@@ -68,6 +70,7 @@ matchSchema.statics = {
       .populate('team2', 'name slug isDummy')
       .exec(cb)
   },
+
 
   list: function (o, cb) {
     var options = o || {};

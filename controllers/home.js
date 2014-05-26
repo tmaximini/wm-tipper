@@ -17,6 +17,11 @@ exports.index = function(req, res) {
         orderBy: {
           when: 1
         },
+        criteria: {
+          when: {
+            $gt: Date.now()
+          }
+        },
         limit: 4
       };
 
