@@ -135,15 +135,21 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var group = req.group;
 
-
+  var userIsOwner = group.founder._id.equals(req.user._id);
+  var userIsAdmin = req.user.admin;
+  var userIsMember = utils.userInGroup(req.user, group);
 
   if(!group) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
+    // dont show private groups to non members
+    if (!group.is_public && !(userIsOwner || userIsAdmin || userIsMember)) {
+      req.flash('error', { msg: 'Diese Gruppe ist privat.' });
+      return res.redirect('/groups');
+    };
     Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
-
       var promises = [];
 
       group.members.forEach(function(usr) {
@@ -153,29 +159,21 @@ exports.show = function (req, res, next) {
         }));
       });
 
-
-
       Promise.all(promises).then(function() {
-
         var sortedUsers = _.sortBy(group.members, function(user) {
           return -user.currentPoints;
         });
-
         console.log('all promsises in group contorller resolved');
-
         res.render('group/show.jade', {
           title: 'WM-Tipper Gruppe - ' + group.name,
           group: group,
-          isOwner: group.founder._id.equals(req.user._id),
-          isAdmin: req.user.admin,
-          isMember: utils.userInGroup(req.user, group),
+          isOwner: userIsOwner,
+          isAdmin: userIsAdmin,
+          isMember: userIsMember,
           sortedUsers: sortedUsers,
           matchCount: matchCount
         });
       });
-
-
-
 
     });
   }
