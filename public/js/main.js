@@ -14,4 +14,10 @@ $(document).ready(function() {
   $('.confirmGroupDelete').click(function() {
     return confirm('Bist du ganz super sicher, dass du diese Gruppe löschen möchtest?');
   });
+  var mySwiper = $('.swiper-container').swiper({
+    //Your options here:
+    mode:'horizontal',
+    loop: true
+    //etc..
+  });
 });

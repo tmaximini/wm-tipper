@@ -74,3 +74,31 @@ tr.you td {
 .marge10 {
   margin-top: 10px;
 }
+
+.swiper-container, .swiper-slide {
+  width: inherit;
+  height: 600px;
+}
+
+.pagination {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  bottom: 5px;
+  width: 100%;
+}
+
+.swiper-pagination-switch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: #999;
+  box-shadow: 0px 1px 2px #555 inset;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+.swiper-active-switch {
+  background: #fff;
+}
