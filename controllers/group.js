@@ -4,6 +4,8 @@ var Match = require('../models/Match');
 var _ = require('lodash');
 
 var async = require('async');
+var Promise = require('bluebird');
+
 var nodemailer = require('nodemailer');
 var secrets = require('../config/secrets');
 
@@ -133,7 +135,9 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var group = req.group;
 
-  var sortedUsers = utils.sortUsersByPoints(group.members, group._id);
+  var userIsOwner = group.founder._id.equals(req.user._id);
+  var userIsAdmin = req.user.admin;
+  var userIsMember = utils.userInGroup(req.user, group);
 
   if(!group) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
@@ -146,14 +150,29 @@ exports.show = function (req, res, next) {
     };
     Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
-      res.render('group/show.jade', {
-        title: 'WM-Tipper Gruppe - ' + group.name,
-        group: group,
-        isOwner: group.founder._id.equals(req.user._id),
-        isAdmin: req.user.admin,
-        isMember: utils.userInGroup(req.user, group),
-        sortedUsers: sortedUsers,
-        matchCount: matchCount
+      var promises = [];
+
+      group.members.forEach(function(usr) {
+        promises.push(usr.getTotalPoints(group._id).then(function(points) {
+          console.log('resolved points for ' + usr.profile.name +': ' + points);
+          usr.currentPoints = points;
+        }));
+      });
+
+      Promise.all(promises).then(function() {
+        var sortedUsers = _.sortBy(group.members, function(user) {
+          return -user.currentPoints;
+        });
+        console.log('all promsises in group contorller resolved');
+        res.render('group/show.jade', {
+          title: 'WM-Tipper Gruppe - ' + group.name,
+          group: group,
+          isOwner: userIsOwner,
+          isAdmin: userIsAdmin,
+          isMember: userIsMember,
+          sortedUsers: sortedUsers,
+          matchCount: matchCount
+        });
       });
 
     });

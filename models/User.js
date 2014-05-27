@@ -1,7 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var Promise = require('bluebird');
+
 var TipSchema = require('../models/TipSchema');
+var Match = require('../models/Match');
+
+var utils = require('../helpers/utils');
 
 var bcrypt = require('bcrypt-nodejs');
 var crypto = require('crypto');
@@ -119,23 +124,28 @@ userSchema.methods.addGroup = function(group, cb) {
 };
 
 
-userSchema.methods.totalPointsPerGroup = function (groupId) {
-  var total = 0;
+userSchema.methods.getTotalPoints = function (groupId) {
+  var promises = [];
+  var q = Promise.defer();
+
   this.tips.forEach(function(tip) {
-    if (tip.group.equals(groupId)) {
-      total += tip.points;
+    if (groupId) {
+      if (tip.group.equals(groupId)) {
+        promises.push(utils.getTipPointsPromise(tip));
+      }
+    } else {
+      promises.push(utils.getTipPointsPromise(tip));
     }
   });
-  return total;
-};
-
-
-userSchema.methods.totalPointsAllGroups = function () {
-  var total = 0;
-  this.tips.forEach(function(tip) {
-    total += tip.points;
+  Promise.all(promises).then(function(allPoints) {
+    var total = 0;
+    for (var i = allPoints.length; i--;) {
+      total += allPoints[i]
+    }
+    q.resolve(total);
   });
-  return total;
+
+  return q.promise;
 };
 
 

@@ -1,5 +1,7 @@
 var User = require('../models/User');
 var utils = require('../helpers/utils');
+var Promise = require('bluebird');
+var _ = require('lodash');
 
 /**
  * GET /top
@@ -11,11 +13,27 @@ exports.index = function(req, res) {
   User.list({}, function(err, users) {
     if (err) return next(err);
 
-    var sortedUsers = utils.sortUsersByPoints(users);
+    var promises = [];
 
-    res.render('top/index', {
-      title: 'Bestenliste',
-      users: sortedUsers
+    users.forEach(function(usr) {
+      promises.push(usr.getTotalPoints().then(function(points) {
+        console.log('resolved points for ' + usr.profile.name +': ' + points);
+        usr.currentPoints = points;
+      }));
+    });
+
+    Promise.all(promises).then(function() {
+
+      var sortedUsers = _.sortBy(users, function(user) {
+        return -user.currentPoints;
+      });
+
+      console.log('all promsises in top contoroller resolved');
+
+      res.render('top/index', {
+        title: 'Bestenliste',
+        users: sortedUsers
+      });
     });
 
   });

@@ -22,7 +22,7 @@ block content
         tbody
           for usr in sortedUsers
             tr(class = usr.email === user.email ? 'you' : undefined)
-              - var usrPoints = usr.totalPointsPerGroup(group._id)
+              - var usrPoints = usr.currentPoints
               - var nrOfTips = usr.numberOfTipsInGroup(group._id)
               td= usr.profile.name
               td= nrOfTips
