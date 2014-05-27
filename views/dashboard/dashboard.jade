@@ -28,15 +28,33 @@ block content
         .matches
           each match in nextMatches
             .match
-              span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+              span.matchInfo.lead= match.i18nDateString + ' - ' + match.startTime
+              br
               span.matchType= match.matchType
                 //- i= moment(match.when).fromNow()
               br
-              a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+              a.matchName(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+
+              if match.userTips.length
+                .deine-tipps
+                  span Deine Tipps
+                  ul
+                    for tip in match.userTips
+                      li
+                        a(href='/groups/#{tip.groupSlug}')= tip.groupName
+                        | &nbsp; #{tip.scoreTeam1} - #{tip.scoreTeam1}
+              else
+                .deine-tipps
+                  span Noch nicht getippt
+                  ul
+                    li
+                      a(href='/groups') Zu den Tippgruppen
+
               span.matchResult
-                | #{match.started ? match.status : undefined}
+                | #{match.started ? match.status : moment(match.when).fromNow()}
                 br
                 | #{match.started ? match.result : '- : -'}
+
 
       else
         .info Keine Spiele mehr :(

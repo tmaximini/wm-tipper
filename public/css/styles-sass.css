@@ -21,7 +21,7 @@
   right: 10px;
   font-size: 11px;
   color: #ccc;
-  bottom: 10px;
+  top: 30px;
   text-align: right;
 }
 
@@ -73,4 +73,13 @@ tr.you td {
 
 .marge10 {
   margin-top: 10px;
+}
+
+.deine-tipps {
+  margin-top: 10px;
+  font-size: 12px;
+}
+.deine-tipps ul {
+  padding: 0;
+  list-style: none;
 }

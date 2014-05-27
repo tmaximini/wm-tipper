@@ -1,6 +1,6 @@
 var Group = require('../models/Group');
 var Match = require('../models/Match');
-
+var Promise = require('bluebird');
 
 /**
  * GET /
@@ -25,16 +25,32 @@ exports.index = function(req, res) {
         limit: 4
       };
 
-      Match.count({}, function( err, totalMatchCount){
+      Match.count({}, function(err, totalMatchCount){
         Match.list(matchOptions, function(err, nextMatches) {
           if (err) return next(err);
-          res.render('dashboard/dashboard', {
-            title: 'Dashboard',
-            userGroups: userGroups,
-            nextMatches: nextMatches,
-            totalMatchCount: totalMatchCount,
-            tipCount: req.user.tips.length
+
+          var promises = [];
+
+          nextMatches.forEach(function(match) {
+            promises.push(req.user.getTipsForMatch(match._id).then(function(resolvedTips) {
+              console.log('resolved tips', resolvedTips);
+              match.userTips = resolvedTips;
+            }));
           });
+
+          Promise.all(promises).then(function() {
+
+            //console.log('all resolved bruder', nextMatches);
+
+            res.render('dashboard/dashboard', {
+              title: 'Dashboard',
+              userGroups: userGroups,
+              nextMatches: nextMatches,
+              totalMatchCount: totalMatchCount,
+              tipCount: req.user.tips.length
+            });
+          });
+
         });
       })
     });
