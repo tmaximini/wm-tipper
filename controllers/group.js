@@ -139,6 +139,11 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Diese Gruppe existiert nicht.' });
     res.redirect('/groups');
   } else {
+    // dont show private groups to non members
+    if (!group.is_public && !(userIsOwner || userIsAdmin || userIsMember)) {
+      req.flash('warning', { msg: 'Diese Gruppe ist privat.' });
+      return res.redirect('/groups');
+    };
     Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
       res.render('group/show.jade', {
