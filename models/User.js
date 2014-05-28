@@ -24,7 +24,7 @@ var userSchema = new mongoose.Schema({
   linkedin: String,
   tokens: Array,
 
-  createdAt: { type: Date },
+  createdAt: { type: Date, index: true },
 
   admin: { type: Boolean, default: false },
   // holds all the group IDs the user is in
@@ -36,7 +36,7 @@ var userSchema = new mongoose.Schema({
   tips: [TipSchema],
 
   profile: {
-    name: { type: String, default: '', required: true },
+    name: { type: String, default: '', required: true, index: true },
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
@@ -44,7 +44,7 @@ var userSchema = new mongoose.Schema({
   },
 
   groupPoints: [ ],
-  totalPoints: { type: Number, default: 0 },
+  totalPoints: { type: Number, default: 0, index: true },
 
   resetPasswordToken: String,
   resetPasswordExpires: Date
@@ -114,7 +114,7 @@ var userSchema = new mongoose.Schema({
               if (err) {
                 console.error(err);
               } else {
-                console.log('user has been updated', user);
+                console.log('user has been updated', user.groupPoints);
               }
             });
 

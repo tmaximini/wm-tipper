@@ -10,9 +10,10 @@ block content
       legend Du möchtest folgender Gruppe beitreten
       input(type='hidden', name='_csrf', value=token)
       .group-info
+        - var founderName = group.founder ? group.founder.profile.name : 'unbekannt'
         .name #{group.name}
         .members #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
-        .founder #{group.founder.name}
+        .founder= founderName
         if !group.is_public
           .form-group
             label.control-label(for='password') Passwort

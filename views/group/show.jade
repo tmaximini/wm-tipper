@@ -5,7 +5,8 @@ block content
   h1= group.name + addition
   .groups-details
     .founder
-      | Gründer: #{isOwner ? 'Du' : group.founder.profile.name}
+      - var founderName = group.founder ? group.founder.profile.name : 'unbekannt'
+      | Gründer: #{isOwner ? 'Du' : founderName}
     .member-count #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
 
 
