@@ -79,7 +79,7 @@ var userSchema = new mongoose.Schema({
 
 
   updateCurrentPoints: function() {
-    this.find({ tips: { $not: { $size: 0 } }})
+    this.find({})  // { tips: { $not: { $size: 0 } }}
       .exec(function(err, users) {
         if (err) console.error(err);
 
@@ -189,9 +189,9 @@ userSchema.methods.getTotalPoints = function (groupId) {
         promises.push(utils.getTipPointsPromise(tip));
       }
     }
-    //else {
-    //  promises.push(utils.getTipPointsPromise(tip));
-    //}
+    // else {
+    //   promises.push(utils.getTipPointsPromise(tip));
+    // }
   });
   Promise.all(promises).then(function(allPoints) {
     var total = 0;

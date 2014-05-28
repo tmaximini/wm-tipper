@@ -145,7 +145,7 @@ if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001
   var schedule = require('node-schedule');
 
   var rule = new schedule.RecurrenceRule();
-  rule.minute = 45;
+  rule.minute = 59;
 
   var j = schedule.scheduleJob(rule, function(){
     User.updateCurrentPoints();
