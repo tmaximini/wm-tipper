@@ -43,7 +43,7 @@ var userSchema = new mongoose.Schema({
     picture: { type: String, default: '' }
   },
 
-  groupPoints: [ Number ],
+  groupPoints: [ ],
   totalPoints: { type: Number, default: 0 },
 
   resetPasswordToken: String,
@@ -83,35 +83,44 @@ var userSchema = new mongoose.Schema({
       .exec(function(err, users) {
         if (err) console.error(err);
 
+        var promises = [];
+
         users.forEach(function(usr) {
 
-          for (var i = usr.groups.length; i--;) {
+          var _groupPoints = new Array(usr.groups.length);
+
+          for (var i = 0; i < usr.groups.length; i++) {
 
             (function(usr, index) {
-              usr.getTotalPoints(usr.groups[index]).then(function(points) {
+              promises.push(usr.getTotalPoints(usr.groups[index]).then(function(points) {
 
-                if (usr.groupPoints[index] === undefined || points !== usr.groupPoints[index]) {
-                  usr.groupPoints[index] = points || 0;
+                _groupPoints[index] = points;
 
-                  var sum = 0;
-                  for (var j = usr.groupPoints.length; j--;) {
-                    sum += usr.groupPoints[j];
-                  }
-                  usr.totalPoints = sum;
-
-                  usr.save(function(err, user) {
-                    console.log('user has been saved', usr.groupPoints);
-                  });
-                }
-
-
-
-              });
+              }));
             })(usr, i);
 
           }
-        });
 
+          Promise.all(promises).then(function() {
+            console.log('all promises resolved');
+            var sum = 0;
+            for (var j = _groupPoints.length; j--;) {
+              sum += _groupPoints[j];
+            }
+            usr.groupPoints = _groupPoints;
+            usr.totalPoints = sum;
+
+            usr.save(function(err, user) {
+              if (err) {
+                console.error(err);
+              } else {
+                console.log('user has been updated', user);
+              }
+            });
+
+          });
+
+        });
 
       });
   }
@@ -211,6 +220,7 @@ userSchema.methods.getTipsForMatch = function(matchId) {
   var deferred = Promise.defer();
   var promises = [];
 
+  // just need the plain js objects not the mongoose objects, so we'll use .toObject()
   var objArr = [];
 
   matchTips.forEach(function(tip) {

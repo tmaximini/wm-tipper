@@ -145,8 +145,8 @@ exports.show = function (req, res, next) {
   } else {
     // dont show private groups to non members
     if (!group.is_public && !(userIsOwner || userIsAdmin || userIsMember)) {
-      req.flash('error', { msg: 'Diese Gruppe ist privat.' });
-      return res.redirect('/groups');
+      req.flash('info', { msg: 'Passwort erforderlich.' });
+      return res.redirect('/groups/' + group.slug + '/join');
     };
     Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
@@ -154,9 +154,9 @@ exports.show = function (req, res, next) {
 
       group.members.forEach(function(usr) {
         var groupIndex = usr.groups.indexOf(group._id);
-        console.log('found groupINdex ' + groupIndex + ' with points: ' + usr.groupPoints[groupIndex]);
+        console.log('found groupINdex ' + groupIndex, usr.groupPoints);
         if (groupIndex) {
-          usr.currentPoints = usr.groupPoints[groupIndex] || 0;
+          usr.currentPoints = usr.groupPoints[groupIndex];
         } else {
           usr.currentPoints = 0; // too harsh ?
         }
@@ -169,7 +169,6 @@ exports.show = function (req, res, next) {
       });
 
 
-      console.log('all promsises in group contorller resolved');
       res.render('group/show.jade', {
         title: 'WM-Tipper Gruppe - ' + group.name,
         group: group,
