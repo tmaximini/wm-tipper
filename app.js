@@ -145,10 +145,11 @@ if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001
   var schedule = require('node-schedule');
 
   var rule = new schedule.RecurrenceRule();
-  rule.second = 45;
+  rule.second = 30;
 
-  var j = schedule.scheduleJob(rule, function() {
-    console.log('scheduled job started', Date.now());
+  console.log(rule);
+
+  var j = schedule.scheduleJob(rule, function(){
     User.updateCurrentPoints();
   });
 }

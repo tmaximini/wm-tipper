@@ -24,7 +24,6 @@ module.exports = {
     passReqToCallback: true
   },
 
-
   twitterAuth: true,
   twitter: {
     consumerKey: process.env.TWITTER_KEY || 'Your Consumer Key',

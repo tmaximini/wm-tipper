@@ -98,7 +98,6 @@ var userSchema = new mongoose.Schema({
 
               }));
             })(usr, i);
-
           }
 
           Promise.all(promises).then(function() {
@@ -189,9 +188,10 @@ userSchema.methods.getTotalPoints = function (groupId) {
       if (tip.group.equals(groupId)) {
         promises.push(utils.getTipPointsPromise(tip));
       }
-    } else {
-      promises.push(utils.getTipPointsPromise(tip));
     }
+    //else {
+    //  promises.push(utils.getTipPointsPromise(tip));
+    //}
   });
   Promise.all(promises).then(function(allPoints) {
     var total = 0;
