@@ -140,8 +140,8 @@ app.listen(app.get('port'), function() {
  * Start scheduled job for points calculation
  */
 
-if (app.settings.env === 'development' || app.get('port') === 3001) {
-  // do sth.
+if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001)) {
+  console.log('scheduling job');
   var schedule = require('node-schedule');
 
   var rule = new schedule.RecurrenceRule();
