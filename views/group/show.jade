@@ -15,15 +15,18 @@ block content
       table.table.table-striped
         thead
           tr
+            th #
             th Name
             th Anz. Tipps
             th Ø Punkte / Tipp
             th Gesamtpunkte
         tbody
+          - var i = 0
           for usr in sortedUsers
             tr(class = usr.email === user.email ? 'you' : undefined)
               - var usrPoints = usr.currentPoints
               - var nrOfTips = usr.numberOfTipsInGroup(group._id)
+              td= ++i
               td= usr.profile.name
               td= nrOfTips
               td= nrOfTips ? (usrPoints / nrOfTips).toFixed(2) : 0
