@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   h1 Bestenliste
-  .top10
+  .top10.table-responsive
     table.table.table-striped
       thead
         tr
@@ -11,7 +11,7 @@ block content
           th Anz. Gruppen
           th Anz. Tipps
           th Ø Punkte / Tipp
-          th Gesamtpunkte
+          th Punkte gesamt
           th Ø Punkte / Gruppe
       tbody
         - var i = parseInt(page-1) * parseInt(perPage)

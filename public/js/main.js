@@ -14,4 +14,20 @@ $(document).ready(function() {
   $('.confirmGroupDelete').click(function() {
     return confirm('Bist du ganz super sicher, dass du diese Gruppe löschen möchtest?');
   });
+  var mySwiper = $('.swiper-container').swiper({
+    //Your options here:
+    mode:'horizontal',
+    pagination: '.pagination',
+    autoplayDisableOnInteraction: true,
+    loop: true,
+    autoplay: 5000,
+    grabCursor: true,
+    paginationClickable: true
+    //etc..
+  });
+
+  $('.swiper-pagination-switch').click(function() {
+    mySwiper.stopAutoplay();
+  });
+
 });

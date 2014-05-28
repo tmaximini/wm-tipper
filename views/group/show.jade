@@ -77,10 +77,14 @@ block content
   if isOwner || isMember
     .invite
       h3 Lade deine Freunde ein
-      form(action='/groups/#{group.slug}/invite', method='POST')
+      form.form-horizontal(action='/groups/#{group.slug}/invite', method='POST')
         input(type='hidden', name='_csrf', value=token)
-        input(type='email', name='email', placeholder='E-Mail')
-        br
-        br
-        input.btn.btn-small.btn-success(type='submit', value='Einladung senden')
+        .form-group
+          input.col-sm-6.form-control(type='email', name='email', placeholder='E-Mail')
+        .form-group
+          textarea.col-sm-6.form-control(name='message', placeholder='Deine Nachricht')
+        .form-group
+          input.btn.btn-small.btn-success(type='submit', value='Einladung senden')
+
+
 

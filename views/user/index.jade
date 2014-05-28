@@ -3,20 +3,21 @@ extends ../layout
 block content
   h1 Alle User
   .users
-    table.table.table-striped
-      thead
-        tr
-          th Name
-          th E-Mail
-          th Registriert
-          th Admin
-      tbody
-        for usr in userList
+    .table-responsive
+      table.table.table-striped
+        thead
           tr
-            td= usr.profile.name
-            td= usr.email
-            td= usr.createdAt ? moment(usr.createdAt) : 'keine info'
-            td= usr.admin ? 'Ja' : 'Nein'
+            th Name
+            th E-Mail
+            th Registriert
+            th Admin
+        tbody
+          for usr in userList
+            tr
+              td= usr.profile.name
+              td= usr.email
+              td= usr.createdAt ? moment(usr.createdAt) : 'keine info'
+              td= usr.admin ? 'Ja' : 'Nein'
 
 
     .actions
