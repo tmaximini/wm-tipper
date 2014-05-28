@@ -87,40 +87,43 @@ var userSchema = new mongoose.Schema({
 
         users.forEach(function(usr) {
 
-          var _groupPoints = new Array(usr.groups.length);
+          if (usr.groups.length > 0) {
 
-          for (var i = 0; i < usr.groups.length; i++) {
+            var _groupPoints = new Array(usr.groups.length);
 
-            (function(usr, index) {
-              promises.push(usr.getTotalPoints(usr.groups[index]).then(function(points) {
+            for (var i = 0; i < usr.groups.length; i++) {
 
-                _groupPoints[index] = points;
+              (function(usr, index) {
+                promises.push(usr.getTotalPoints(usr.groups[index]).then(function(points) {
 
-              }));
-            })(usr, i);
-          }
+                  _groupPoints[index] = points;
 
-          Promise.all(promises).then(function() {
-            console.log('all promises resolved');
-            var sum = 0;
-            for (var j = _groupPoints.length; j--;) {
-              sum += _groupPoints[j];
+                }));
+              })(usr, i);
             }
-            usr.groupPoints = _groupPoints;
-            usr.totalPoints = sum;
 
-            usr.save(function(err, user) {
-              if (err) {
-                console.error(err);
-              } else {
-                console.log('user has been updated', user.groupPoints);
+            Promise.all(promises).then(function() {
+              console.log('all promises resolved');
+              var sum = 0;
+              for (var j = _groupPoints.length; j--;) {
+                sum += _groupPoints[j];
               }
+              usr.groupPoints = _groupPoints;
+              usr.totalPoints = sum;
+
+              usr.save(function(err, user) {
+                if (err) {
+                  console.error(err);
+                } else {
+                  console.log('user has been updated', user.groupPoints);
+                }
+              });
+
             });
 
-          });
-
-        });
+          }
       });
+    });
   }
 
 };
@@ -183,24 +186,28 @@ userSchema.methods.getTotalPoints = function (groupId) {
   var promises = [];
   var q = Promise.defer();
 
-  this.tips.forEach(function(tip) {
-    if (groupId) {
-      if (tip.group.equals(groupId)) {
-        promises.push(utils.getTipPointsPromise(tip));
+  if (!this.tips || this.tips.length === 0) {
+    q.resolve(0);
+  }
+  else {
+    this.tips.forEach(function(tip) {
+      if (groupId) {
+        if (tip.group.equals(groupId)) {
+          promises.push(utils.getTipPointsPromise(tip));
+        }
       }
-    }
-    // else {
-    //   promises.push(utils.getTipPointsPromise(tip));
-    // }
-  });
-  Promise.all(promises).then(function(allPoints) {
-    var total = 0;
-    for (var i = allPoints.length; i--;) {
-      total += allPoints[i]
-    }
-    q.resolve(total);
-  });
-
+      // else {
+      //   promises.push(utils.getTipPointsPromise(tip));
+      // }
+    });
+    Promise.all(promises).then(function(allPoints) {
+      var total = 0;
+      for (var i = allPoints.length; i--;) {
+        total += allPoints[i]
+      }
+      q.resolve(total);
+    });
+  }
   return q.promise;
 };
 
