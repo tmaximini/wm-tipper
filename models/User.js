@@ -43,6 +43,9 @@ var userSchema = new mongoose.Schema({
     picture: { type: String, default: '' }
   },
 
+  groupPoints: [ Number ],
+  totalPoints: { type: Number, default: 0 },
+
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
@@ -72,6 +75,45 @@ var userSchema = new mongoose.Schema({
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
+  },
+
+
+  updateCurrentPoints: function() {
+    this.find({ tips: { $not: { $size: 0 } }})
+      .exec(function(err, users) {
+        if (err) console.error(err);
+
+        users.forEach(function(usr) {
+
+          for (var i = usr.groups.length; i--;) {
+
+            (function(usr, index) {
+              usr.getTotalPoints(usr.groups[index]).then(function(points) {
+
+                if (usr.groupPoints[index] === undefined || points !== usr.groupPoints[index]) {
+                  usr.groupPoints[index] = points || 0;
+
+                  var sum = 0;
+                  for (var j = usr.groupPoints.length; j--;) {
+                    sum += usr.groupPoints[j];
+                  }
+                  usr.totalPoints = sum;
+
+                  usr.save(function(err, user) {
+                    console.log('user has been saved', usr.groupPoints);
+                  });
+                }
+
+
+
+              });
+            })(usr, i);
+
+          }
+        });
+
+
+      });
   }
 
 };

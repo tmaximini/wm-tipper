@@ -18,6 +18,8 @@ http.globalAgent.maxSockets = 1000; // concurrent requests
 
 var routes = require('./config/routes');
 
+var User = require('./models/User');
+
 /**
  * API keys + Passport configuration.
  */
@@ -131,5 +133,24 @@ routes(app);
 app.listen(app.get('port'), function() {
   console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });
+
+
+
+/**
+ * Start scheduled job for points calculation
+ */
+
+if (app.settings.env === 'development' || app.get('port') === 3001) {
+  // do sth.
+  var schedule = require('node-schedule');
+
+  var rule = new schedule.RecurrenceRule();
+  rule.second = 30;
+
+  var j = schedule.scheduleJob(rule, function(){
+    User.updateCurrentPoints();
+  });
+}
+
 
 module.exports = app;

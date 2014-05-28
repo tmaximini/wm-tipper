@@ -13,32 +13,23 @@ exports.index = function(req, res) {
   var perPage = 10;
   var page = req.query.page || 1;
 
-  User.list({}, function(err, users) {
-    if (err) return next(err);
+  User.count({}, function(err, totalCount) {
 
-    var promises = [];
-
-    users.forEach(function(usr) {
-      promises.push(usr.getTotalPoints().then(function(points) {
-        console.log('resolved points for ' + usr.profile.name +': ' + points);
-        usr.currentPoints = points;
-      }));
-    });
-
-    Promise.all(promises).then(function() {
-
-      var sortedUsers = _.sortBy(users, function(user) {
-        return -user.currentPoints;
-      });
-
-      console.log('all promsises in top contoroller resolved');
+    User.find().sort('-totalPoints').skip((page -1) * perPage).limit(perPage).exec(function(err, sortedUsers) {
+      if (err) return next(err);
 
       res.render('top/index', {
         title: 'Bestenliste',
-        users: sortedUsers
+        users: sortedUsers,
+        page: page,
+        perPage: perPage,
+        totalCount: totalCount
       });
+
     });
 
   });
+
+
 
 };
