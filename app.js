@@ -148,6 +148,8 @@ if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001
   rule.second = 30;
 
   console.log(rule);
+  User.updateCurrentPoints();
+
 
   var j = schedule.scheduleJob(rule, function(){
     User.updateCurrentPoints();
