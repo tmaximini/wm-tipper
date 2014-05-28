@@ -121,7 +121,6 @@ var userSchema = new mongoose.Schema({
           });
 
         });
-
       });
   }
 
@@ -136,7 +135,10 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next) {
   var user = this;
 
-  user.createdAt = Date.now();
+  if (user.isNew) {
+    user.createdAt = Date.now();
+  }
+
 
   if (!user.isModified('password')) return next();
 
