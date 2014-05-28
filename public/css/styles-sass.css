@@ -83,3 +83,11 @@ tr.you td {
   padding: 0;
   list-style: none;
 }
+
+.invite .form-control {
+  width: 50%;
+}
+.invite .form-horizontal .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}

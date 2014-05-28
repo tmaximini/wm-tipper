@@ -356,6 +356,8 @@ exports.sendInvite = function(req, res, next) {
   var group = req.group;
   var user = req.user;
 
+  var customMessage = req.body.message;
+
   req.assert('email', 'Email ungültig').isEmail();
   var errors = req.validationErrors();
 
@@ -383,7 +385,11 @@ exports.sendInvite = function(req, res, next) {
     };
 
     if (!group.is_public && group.password_freetext) {
-      mailOptions.text += 'Das Passwort zum beitreten der Gruppe lautet: ' + group.password_freetext + ' \n';
+      mailOptions.text += 'Das Passwort zum beitreten der Gruppe lautet: ' + group.password_freetext + ' \n\n';
+    }
+
+    if (customMessage) {
+      mailOptions.text += user.profile.name + ' hat dir ausserdem folgende Nachricht hinterlassen:\n\n' + customMessage;
     }
 
     smtpTransport.sendMail(mailOptions, function(err) {
