@@ -2,26 +2,38 @@ extends ../layout
 
 block content
   h1 Bestenliste
-  .top10
+  .top10.table-responsive
     table.table.table-striped
       thead
         tr
+          th #
           th Name
           th Anz. Gruppen
           th Anz. Tipps
           th Ø Punkte / Tipp
-          th Gesamtpunkte
+          th Punkte gesamt
           th Ø Punkte / Gruppe
       tbody
+        - var i = 0
         for usr in users
+
           tr(class = (user && (usr.email === user.email)) ? 'you' : undefined)
             - var totalPoints = usr.currentPoints
+            td= ++i
             td= usr.profile.name
             td= usr.groups.length
             td= usr.tips.length
             td= usr.tips.length ? (totalPoints / usr.tips.length).toFixed(2) : 0
             td= totalPoints
             td= (usr.groups.length && usr.tips.length) ? (totalPoints / usr.groups.length).toFixed(2) : 0
+
+
+    //-if (page > 1)
+    //-    - var nextPage = parseInt(page) - 1
+    //-    a.btn.btn-primary.prevPage(href="/challenges?page=#{nextPage}") prev
+    //-if (page*perPage < totalCount)
+    //-  - var nextPage = parseInt(page) + 1
+    //-  a.btn.btn-primary.nextPage(href="/challenges?page=#{nextPage}") next
 
 
 

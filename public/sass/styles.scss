@@ -26,7 +26,7 @@
       right: 10px;
       font-size: 11px;
       color: #ccc;
-      bottom: 10px;
+      top: 30px;
       text-align: right;
     }
 
@@ -119,4 +119,26 @@ tr.you td{
 
 .swiper-active-switch {
   background: #fff;
+}
+
+.deine-tipps {
+  margin-top: 10px;
+  font-size: 12px;
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+}
+
+
+.invite {
+  .form-control {
+    width: 50%;
+  }
+
+  .form-horizontal .form-group {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
 }

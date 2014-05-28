@@ -12,7 +12,7 @@ block content
       .group-info
         .name #{group.name}
         .members #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
-        .founder #{group.founder.name}
+        .founder= group.founder ? group.founder.name : 'unknown'
         if !group.is_public
           .form-group
             label.control-label(for='password') Passwort

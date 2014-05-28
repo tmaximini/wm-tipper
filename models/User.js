@@ -5,6 +5,9 @@ var Promise = require('bluebird');
 
 var TipSchema = require('../models/TipSchema');
 var Match = require('../models/Match');
+var Group = require('../models/Group');
+
+var _ = require('lodash');
 
 var utils = require('../helpers/utils');
 
@@ -155,6 +158,45 @@ userSchema.methods.numberOfTipsInGroup = function (groupId) {
   });
   return groupTips.length;
 };
+
+
+userSchema.methods.getTipsForMatch = function(matchId) {
+  var self = this;
+  var matchTips = this.tips.filter(function(tip) {
+    return tip.match.equals(matchId);
+  });
+
+  var deferred = Promise.defer();
+  var promises = [];
+
+  var objArr = [];
+
+  matchTips.forEach(function(tip) {
+
+    var q = Promise.defer();
+
+    Group.findOne({ '_id': tip.group }, function(err, group) {
+      if (err) throw(err);
+      if (group) {
+        q.resolve(group);
+      } else {
+        q.reject();
+      }
+    });
+    promises.push(q.promise);
+  });
+
+  Promise.all(promises).then(function(groups) {
+    for (var i = 0; i < matchTips.length; i++) {
+      objArr.push((matchTips[i]).toObject());
+      objArr[i].groupSlug = groups[i].slug;
+      objArr[i].groupName = groups[i].name;
+    }
+    deferred.resolve(objArr);
+  });
+  return deferred.promise;
+};
+
 
 /**
  * Load tip by id

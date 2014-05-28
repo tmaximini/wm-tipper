@@ -135,7 +135,7 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var group = req.group;
 
-  var userIsOwner = group.founder._id.equals(req.user._id);
+  var userIsOwner = req.user && group.founder && group.founder._id.equals(req.user._id);
   var userIsAdmin = req.user.admin;
   var userIsMember = utils.userInGroup(req.user, group);
 
@@ -145,8 +145,8 @@ exports.show = function (req, res, next) {
   } else {
     // dont show private groups to non members
     if (!group.is_public && !(userIsOwner || userIsAdmin || userIsMember)) {
-      req.flash('warning', { msg: 'Diese Gruppe ist privat.' });
-      return res.redirect('/groups');
+      req.flash('info', { msg: 'Passwort erforderlich '});
+      return res.redirect('/groups/' + group.slug + '/join');
     };
     Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
@@ -356,6 +356,8 @@ exports.sendInvite = function(req, res, next) {
   var group = req.group;
   var user = req.user;
 
+  var customMessage = req.body.message;
+
   req.assert('email', 'Email ungültig').isEmail();
   var errors = req.validationErrors();
 
@@ -383,7 +385,11 @@ exports.sendInvite = function(req, res, next) {
     };
 
     if (!group.is_public && group.password_freetext) {
-      mailOptions.text += 'Das Passwort zum beitreten der Gruppe lautet: ' + group.password_freetext + ' \n';
+      mailOptions.text += 'Das Passwort zum beitreten der Gruppe lautet: ' + group.password_freetext + ' \n\n';
+    }
+
+    if (customMessage) {
+      mailOptions.text += user.profile.name + ' hat dir ausserdem folgende Nachricht hinterlassen:\n\n' + customMessage;
     }
 
     smtpTransport.sendMail(mailOptions, function(err) {

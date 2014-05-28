@@ -10,6 +10,9 @@ var _ = require('lodash');
 
 exports.index = function(req, res) {
 
+  var perPage = 10;
+  var page = req.query.page || 1;
+
   User.list({}, function(err, users) {
     if (err) return next(err);
 
