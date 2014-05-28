@@ -60,7 +60,7 @@ app.set('view engine', 'jade');
  */
 app.use(express.compress());
 app.use(express.favicon());
-app.use(express.logger('dev'));
+app.use(express.logger());
 app.use(express.cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
@@ -145,15 +145,14 @@ if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001
   var schedule = require('node-schedule');
 
   var rule = new schedule.RecurrenceRule();
-  rule.second = 30;
-
-  console.log(rule);
-  User.updateCurrentPoints();
-
+  rule.minute = 45;
 
   var j = schedule.scheduleJob(rule, function(){
     User.updateCurrentPoints();
   });
+
+  console.log('initializing user point on startup');
+  User.updateCurrentPoints();
 }
 
 

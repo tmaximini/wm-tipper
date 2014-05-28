@@ -4,3 +4,5 @@ mongohq_restore.txt
 node_modules
 public/bower
 builtAssets
+start.sh
+stop.sh
