@@ -135,7 +135,7 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var group = req.group;
 
-  var userIsOwner = group.founder._id.equals(req.user._id);
+  var userIsOwner = req.user && group.founder && group.founder._id.equals(req.user._id);
   var userIsAdmin = req.user.admin;
   var userIsMember = utils.userInGroup(req.user, group);
 
