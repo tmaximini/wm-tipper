@@ -17,7 +17,9 @@ $(document).ready(function() {
   var mySwiper = $('.swiper-container').swiper({
     //Your options here:
     mode:'horizontal',
-    loop: true
+    loop: true,
+    autoplay: 4000
     //etc..
   });
+  mySwiper.startAutoplay();
 });
