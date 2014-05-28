@@ -17,9 +17,17 @@ $(document).ready(function() {
   var mySwiper = $('.swiper-container').swiper({
     //Your options here:
     mode:'horizontal',
+    pagination: '.pagination',
+    autoplayDisableOnInteraction: true,
     loop: true,
-    autoplay: 4000
+    autoplay: 5000,
+    grabCursor: true,
+    paginationClickable: true
     //etc..
   });
-  mySwiper.startAutoplay();
+
+  $('.swiper-pagination-switch').click(function() {
+    mySwiper.stopAutoplay();
+  });
+
 });
