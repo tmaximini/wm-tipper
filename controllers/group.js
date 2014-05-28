@@ -145,8 +145,8 @@ exports.show = function (req, res, next) {
   } else {
     // dont show private groups to non members
     if (!group.is_public && !(userIsOwner || userIsAdmin || userIsMember)) {
-      req.flash('error', { msg: 'Diese Gruppe ist privat.' });
-      return res.redirect('/groups');
+      req.flash('info', { msg: 'Passwort erforderlich '});
+      return res.redirect('/groups/' + group.slug + '/join');
     };
     Match.count({ isDummy: false }, function(err, matchCount) {
       if (err) next(err);
