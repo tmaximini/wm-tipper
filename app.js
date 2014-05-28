@@ -145,14 +145,13 @@ if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001
   var schedule = require('node-schedule');
 
   var rule = new schedule.RecurrenceRule();
-  rule.minute = 59;
+  rule.second = 59;
 
   var j = schedule.scheduleJob(rule, function(){
+    console.log('starting cron job', new Date());
     User.updateCurrentPoints();
   });
 
-  console.log('initializing user point on startup');
-  User.updateCurrentPoints();
 }
 
 
