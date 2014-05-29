@@ -27,9 +27,8 @@ block content
             option(selected = nr === parseInt(tip.scoreTeam2)) #{nr}
       .form-group
         input(type="hidden", name="match", value=match._id)
-        - var buttonText = tip.isNew ? 'Tippen' : 'Tip ändern'
+        - var buttonText = tip.isNew ? 'Tipp speichern' : 'Tipp ändern'
         button.btn.btn-success(type='submit')
-          i.fa.fa-unlock-alt
           | #{buttonText}
         a.btn(href='/groups/#{group.slug}/matches/#{match._id}') Cancel
       hr
