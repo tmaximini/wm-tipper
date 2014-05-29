@@ -15,7 +15,7 @@ exports.getTipPointsPromise = function(tip) {
   var qIn = Promise.defer();
   var self = this;
   Match.load(tip.match, function(err, match) {
-    if (err) throw(err); // throw for now
+    if (err) console.error(err); // log only for now
     if (match && match.started) {
       console.log('tipped match found and started');
       var points = self.getPoints(match, tip);

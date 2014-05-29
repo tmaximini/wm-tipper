@@ -18,6 +18,8 @@ http.globalAgent.maxSockets = 1000; // concurrent requests
 
 var routes = require('./config/routes');
 
+var User = require('./models/User');
+
 /**
  * API keys + Passport configuration.
  */
@@ -58,7 +60,7 @@ app.set('view engine', 'jade');
  */
 app.use(express.compress());
 app.use(express.favicon());
-app.use(express.logger('dev'));
+app.use(express.logger());
 app.use(express.cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
@@ -131,5 +133,26 @@ routes(app);
 app.listen(app.get('port'), function() {
   console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.settings.env);
 });
+
+
+
+/**
+ * Start scheduled job for points calculation
+ */
+
+if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001)) {
+  console.log('scheduling job');
+  var schedule = require('node-schedule');
+
+  var rule = new schedule.RecurrenceRule();
+  rule.minute = 46;
+
+  var j = schedule.scheduleJob(rule, function(){
+    console.log('starting cron job', new Date());
+    User.updateCurrentPoints();
+  });
+
+}
+
 
 module.exports = app;

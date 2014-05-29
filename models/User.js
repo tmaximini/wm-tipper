@@ -24,7 +24,7 @@ var userSchema = new mongoose.Schema({
   linkedin: String,
   tokens: Array,
 
-  createdAt: { type: Date },
+  createdAt: { type: Date, index: true },
 
   admin: { type: Boolean, default: false },
   // holds all the group IDs the user is in
@@ -36,12 +36,15 @@ var userSchema = new mongoose.Schema({
   tips: [TipSchema],
 
   profile: {
-    name: { type: String, default: '', required: true },
+    name: { type: String, default: '', required: true, index: true },
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
     picture: { type: String, default: '' }
   },
+
+  groupPoints: [ ],
+  totalPoints: { type: Number, default: 0, index: true },
 
   resetPasswordToken: String,
   resetPasswordExpires: Date
@@ -72,6 +75,55 @@ var userSchema = new mongoose.Schema({
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
+  },
+
+
+  updateCurrentPoints: function() {
+    this.find({})  // { tips: { $not: { $size: 0 } }}
+      .exec(function(err, users) {
+        if (err) console.error(err);
+
+        var promises = [];
+
+        users.forEach(function(usr) {
+
+          if (usr.groups.length > 0) {
+
+            var _groupPoints = new Array(usr.groups.length);
+
+            for (var i = 0; i < usr.groups.length; i++) {
+
+              (function(usr, index) {
+                promises.push(usr.getTotalPoints(usr.groups[index]).then(function(points) {
+
+                  _groupPoints[index] = points;
+
+                }));
+              })(usr, i);
+            }
+
+            Promise.all(promises).then(function() {
+              console.log('all promises resolved');
+              var sum = 0;
+              for (var j = _groupPoints.length; j--;) {
+                sum += _groupPoints[j];
+              }
+              usr.groupPoints = _groupPoints;
+              usr.totalPoints = sum;
+
+              usr.save(function(err, user) {
+                if (err) {
+                  console.error(err);
+                } else {
+                  console.log('user has been updated', user.groupPoints);
+                }
+              });
+
+            });
+
+          }
+      });
+    });
   }
 
 };
@@ -85,7 +137,10 @@ var userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next) {
   var user = this;
 
-  user.createdAt = Date.now();
+  if (user.isNew) {
+    user.createdAt = Date.now();
+  }
+
 
   if (!user.isModified('password')) return next();
 
@@ -131,23 +186,28 @@ userSchema.methods.getTotalPoints = function (groupId) {
   var promises = [];
   var q = Promise.defer();
 
-  this.tips.forEach(function(tip) {
-    if (groupId) {
-      if (tip.group.equals(groupId)) {
-        promises.push(utils.getTipPointsPromise(tip));
+  if (!this.tips || this.tips.length === 0) {
+    q.resolve(0);
+  }
+  else {
+    this.tips.forEach(function(tip) {
+      if (groupId) {
+        if (tip.group.equals(groupId)) {
+          promises.push(utils.getTipPointsPromise(tip));
+        }
       }
-    } else {
-      promises.push(utils.getTipPointsPromise(tip));
-    }
-  });
-  Promise.all(promises).then(function(allPoints) {
-    var total = 0;
-    for (var i = allPoints.length; i--;) {
-      total += allPoints[i]
-    }
-    q.resolve(total);
-  });
-
+      // else {
+      //   promises.push(utils.getTipPointsPromise(tip));
+      // }
+    });
+    Promise.all(promises).then(function(allPoints) {
+      var total = 0;
+      for (var i = allPoints.length; i--;) {
+        total += allPoints[i]
+      }
+      q.resolve(total);
+    });
+  }
   return q.promise;
 };
 
@@ -169,6 +229,7 @@ userSchema.methods.getTipsForMatch = function(matchId) {
   var deferred = Promise.defer();
   var promises = [];
 
+  // just need the plain js objects not the mongoose objects, so we'll use .toObject()
   var objArr = [];
 
   matchTips.forEach(function(tip) {

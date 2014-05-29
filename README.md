@@ -12,4 +12,4 @@ Pull Requests willkommen.
 
 [Das WM Tippspiel findet ihr hier.](http://www.wm-tipper.de)
 
-Crexit gehen an [sahat](https://github.com/sahat) für seinen exzellenten [Hackathon Starter](https://github.com/sahat/hackathon-starter)
+Credits gehen an [sahat](https://github.com/sahat) für seinen exzellenten [Hackathon Starter](https://github.com/sahat/hackathon-starter)

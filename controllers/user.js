@@ -26,6 +26,9 @@ exports.getLogin = function(req, res) {
  */
 
 exports.postLogin = function(req, res, next) {
+
+  req.body.email = req.body.email.toLowerCase();
+
   req.assert('email', 'Email ungültig').isEmail();
   req.assert('password', 'Passwort darf nicht leer sein').notEmpty();
 

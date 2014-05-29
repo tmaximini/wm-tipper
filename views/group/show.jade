@@ -5,7 +5,8 @@ block content
   h1= group.name + addition
   .groups-details
     .founder
-      | Gründer: #{isOwner ? 'Du' : (group.founder ? group.founder.profile.name : 'gelöschter Benutzer' )}
+      - var founderName = group.founder ? group.founder.profile.name : 'unbekannt'
+      | Gründer: #{isOwner ? 'Du' : founderName}
     .member-count #{group.members.length} #{group.members.length === 1 ? 'Mitglied' : 'Mitglieder'}
 
 
@@ -52,7 +53,9 @@ block content
     h3 Tipps
     if isMember || isAdmin
       .info #{user.numberOfTipsInGroup(group._id)} von #{matchCount} Spielen getippt
-      a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tipps
+      a.btn.btn-success(href='/groups/#{group.slug}/spielplan')
+        i.fa.fa-share
+        | Zu den Tipps
 
   br
 
@@ -81,7 +84,7 @@ block content
         .form-group
           input.col-sm-6.form-control(type='email', name='email', placeholder='E-Mail')
         .form-group
-          textarea.col-sm-6.form-control(name='message', placeholder='Deine Nachricht')
+          textarea.col-sm-6.form-control(name='message', placeholder='Deine Nachricht (optional)')
         .form-group
           input.btn.btn-small.btn-success(type='submit', value='Einladung senden')
 

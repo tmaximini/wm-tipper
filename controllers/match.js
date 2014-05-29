@@ -68,7 +68,7 @@ exports.groupIndex = function (req, res, next) {
       if (err) return next(err);
       // map user's tips to matches
       if (req.user && req.group) {
-        console.log('current user has ' + req.user.tips.length + ' tips');
+        // console.log('current user has ' + req.user.tips.length + ' tips');
         _matches.forEach(function(match) {
           for (var i = 0; i < req.user.tips.length; i++) {
             var tip = req.user.tips[i];

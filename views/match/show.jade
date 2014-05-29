@@ -24,7 +24,7 @@ block content
     .status= match.status
 
     if !match.started
-      h3.date= match.i18nDateString
+      h3.date= match.i18nDateString + ' - ' + match.startTime
       .fromNow= match.i18nDateFromNow
     else
       h1.ergebnis= match.result
@@ -34,6 +34,7 @@ block content
       if userTip
         h3.tip= 'Dein Tip: ' + userTip.result
         a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match.id}/tips/#{userTip._id}/edit')
+          i.fa.fa-edit
           | Tip ändern
       else
         .tip Nicht getippt
@@ -50,6 +51,7 @@ block content
 
     if !match.started && !userTip && !group
       a.btn.btn-success(href='/groups')
+        i.fa.fa-trophy
         | Zu den Tippgruppen
 
   .actions
