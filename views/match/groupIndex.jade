@@ -3,7 +3,10 @@ extends ../layout
 block content
   h1= group.name +  ' - Spielübersicht'
 
-  a.backLink(href='/groups/#{group.slug}') Zurück zur Gruppenübersicht
+  a.btn.btn-default(href='/groups/#{group.slug}')
+    i.fa.fa-chevron-left
+    | Zurück zur Gruppe
+
 
 
   .matches.marge10
@@ -25,6 +28,7 @@ block content
                if !match.started
                 .editTip
                   a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
+                    i.fa.fa-edit
                     | Tip editieren
             else
               if !match.started
@@ -32,7 +36,8 @@ block content
                  | noch nicht getippt
                 .editTip
                   a.btn.btn-success(href='/groups/#{group.slug}/matches/#{match._id}/tips/new')
-                   | Jetzt tippen
+                    i.fa.fa-trophy
+                    | Jetzt tippen
               else
                 .info
                   | Tipps für dieses Spiel sind geschlossen

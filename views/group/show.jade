@@ -53,7 +53,9 @@ block content
     h3 Tipps
     if isMember || isAdmin
       .info #{user.numberOfTipsInGroup(group._id)} von #{matchCount} Spielen getippt
-      a.btn.btn-success(href='/groups/#{group.slug}/spielplan') Zu den Tipps
+      a.btn.btn-success(href='/groups/#{group.slug}/spielplan')
+        i.fa.fa-share
+        | Zu den Tipps
 
   br
 

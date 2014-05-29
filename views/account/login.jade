@@ -8,7 +8,7 @@ block content
       if secrets.localAuth
         .form-group
           label.control-label(for='email') Email
-          input.form-control(type='text', name='email', id='email', placeholder='Email', autofocus=true)
+          input.form-control(type='text', name='email', id='email', placeholder='Email', autofocus=true, autocapitalize='off')
         .form-group
           label.control-label(for='password') Passwort
           input.form-control(type='password', name='password', id='password', placeholder='Passwort')
@@ -17,6 +17,9 @@ block content
             i.fa.fa-unlock-alt
             | Anmelden
           a.btn.btn-link(href='/forgot') Passwort vergessen?
+
+
+
         hr
       if secrets.facebookAuth
         a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
