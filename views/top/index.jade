@@ -29,10 +29,10 @@ block content
 
     if (page > 1)
       - var nextPage = parseInt(page) - 1
-      a.btn.btn-primary.prevPage(href="/bestenliste?page=#{nextPage}") vorige
+      a.btn.btn-default.prevPage(href="/bestenliste?page=#{nextPage}") vorige
     if (page*perPage < totalCount)
       - var nextPage = parseInt(page) + 1
-      a.btn.btn-primary.nextPage(href="/bestenliste?page=#{nextPage}") nächste
+      a.btn.btn-default.nextPage(href="/bestenliste?page=#{nextPage}") nächste
 
 
 
