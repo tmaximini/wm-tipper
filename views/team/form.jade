@@ -12,6 +12,10 @@ block content
         label.control-label(for='name') Name
         input.form-control(type='text', name='name', id='name', value=team.name, placeholder='Name', autofocus=true)
       .form-group
+        label.control-label(for='info') Info
+        textarea.form-control(name='info', id='info', placeholder='Team Info')
+          | #{team.info}
+      .form-group
         label.control-label(for='isDummy') Dummy Team? (Placeholder für K.O. Runde)
         input(type='checkbox', name='isDummy', id='isDummy', checked=team.isDummy)
       .form-group

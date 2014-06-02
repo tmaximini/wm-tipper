@@ -8,7 +8,8 @@ var teamSchema = new Schema({
   slug: { type: String, unique: true },
   gruppe: String,
   image: String,
-  isDummy: { type: Boolean, default: false }
+  isDummy: { type: Boolean, default: false },
+  info: String
 });
 
 

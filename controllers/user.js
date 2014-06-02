@@ -144,7 +144,7 @@ exports.getUserList = function(req, res) {
 
   var options = {
     orderBy: {
-      'profile.email': 1
+      'createdAt': 1
     }
   };
 

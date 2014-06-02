@@ -7,13 +7,16 @@ block content
       table.table.table-striped
         thead
           tr
+            th #
             th Name
             th E-Mail
             th Registriert
             th Admin
         tbody
+          - var i = 0
           for usr in userList
             tr
+              td= ++i
               td= usr.profile.name
               td= usr.email
               td= usr.createdAt ? moment(usr.createdAt) : 'keine info'
