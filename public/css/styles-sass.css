@@ -127,3 +127,22 @@ tr.you td {
   margin-left: 0;
   margin-right: 0;
 }
+
+.newsEntry {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #F7F7F7;
+  margin: 5px 0;
+  width: auto;
+  position: relative;
+}
+.newsEntry.not-published {
+  background-color: #DBF1FF;
+}
+.newsEntry .newsDate {
+  font-size: 11px;
+  text-align: right;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}

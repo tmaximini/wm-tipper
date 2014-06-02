@@ -10,7 +10,9 @@
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li(class=currentPath=='/'?'active':undefined)
-          a(href='/')= user ? 'Dashboard' : 'About'
+          a(href='/')= user ? 'Home' : 'About'
+        li(class=currentPath=='/news'?'active':undefined)
+          a(href='/news') News
         li(class=currentPath=='/plan'?'active':undefined)
           a(href='/plan') Spielplan
         li(class=currentPath=='/groups'?'active':undefined)

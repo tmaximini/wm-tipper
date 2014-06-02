@@ -14,6 +14,9 @@ $(document).ready(function() {
   $('.confirmGroupDelete').click(function() {
     return confirm('Bist du ganz super sicher, dass du diese Gruppe löschen möchtest?');
   });
+  $('.confirmNewsDelete').click(function() {
+    return confirm('Newseintrag löschen?');
+  });
   var mySwiper = $('.swiper-container').swiper({
     //Your options here:
     mode:'horizontal',

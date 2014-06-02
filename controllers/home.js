@@ -1,5 +1,6 @@
 var Group = require('../models/Group');
 var Match = require('../models/Match');
+var News = require('../models/News');
 
 
 /**
@@ -28,12 +29,16 @@ exports.index = function(req, res) {
       Match.count({}, function( err, totalMatchCount){
         Match.list(matchOptions, function(err, nextMatches) {
           if (err) return next(err);
-          res.render('dashboard/dashboard', {
-            title: 'Dashboard',
-            userGroups: userGroups,
-            nextMatches: nextMatches,
-            totalMatchCount: totalMatchCount,
-            tipCount: req.user.tips.length
+          News.list({ criteria: { 'published': true }, orderBy: { 'createdAt': -1 }, limit: 4 }, function(err, latestNews) {
+            if (err) return next(err);
+            res.render('dashboard/dashboard', {
+              title: 'Dashboard',
+              userGroups: userGroups,
+              nextMatches: nextMatches,
+              totalMatchCount: totalMatchCount,
+              latestNews: latestNews,
+              tipCount: req.user.tips.length
+            });
           });
         });
       })
