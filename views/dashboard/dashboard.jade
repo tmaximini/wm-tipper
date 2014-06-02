@@ -41,6 +41,26 @@ block content
       else
         .info Keine Spiele mehr :(
 
+    .subheader
+      | Aktuelles
+    .subcontent
+      if nextMatches.length
+        .news
+          each entry in latestNews
+            .newsEntry(class=entry.published ? undefined : 'not-published')
+              .newsDate= moment(entry.createdAt).calendar()
+              a.lead(href='/news/#{entry.slug}')= entry.title
+              - var newsText
+              if entry.body.length > 200
+                - newsText = entry.body.substring(0, 200).replace(/\r?\n/g, '<br>') + '...';
+              else
+                - newsText = entry.body.replace(/\r?\n/g, '<br>');
+              p.body= newsText
+              a.moreLink(href='/news/' + entry.slug) weiterlesen
+
+      else
+        .entry Keine aktuellen Meldungen
+
 
 
 

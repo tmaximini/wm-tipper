@@ -47,7 +47,6 @@ exports.new = function (req, res, next) {
     title: "Create Team",
     team: new Team({})
   });
-  console.dir(res.locals);
 }
 
 exports.edit = function (req, res, next) {
@@ -55,24 +54,12 @@ exports.edit = function (req, res, next) {
     title: "Edit Team",
     team: req.team
   });
-  console.dir(res.locals);
 }
 
 
 exports.create = function (req, res, next) {
 
-  console.log('creating new team:');
-  console.dir(req.body);
-  console.log('current user:');
-  console.dir(req.user);
-
-  var team = new Team(req.body);
-  team.founder = req.user;
-
   var newTeam = new Team(req.body);
-
-  // generate slug from title
-  // newStory.slug = utils.convertToSlug(newStory.title);
 
   newTeam.save(function(err, team) {
     if (err) {
@@ -106,19 +93,6 @@ exports.show = function (req, res, next) {
   }
 };
 
-/**
- *  Delete team
- */
-exports.delete = function (req, res, next) {
-
-  var team = req.team;
-
-  team.remove(function (err) {
-    if (err) return next(err);
-    req.flash('success', { msg: 'Mannschaft wurde gelöscht.' });
-    return res.redirect('/teams');
-  });
-};
 
 /**
  * Update Team

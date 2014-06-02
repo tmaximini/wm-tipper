@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+
+  - var action = news.isNew ? '/news' : '/news/' + news._id
+  form(method='POST', action=action)
+    - var legend = news.isNew ? 'Neuer Newseintrag' : 'Newseintrag editieren'
+    legend= legend
+    input(type='hidden', name='_csrf', value=token)
+    .col-sm-8.col-sm-offset-2
+      - if (!news.isNew)
+        input(type="hidden", name="_method", value="PUT")
+      .form-group
+        label.control-label(for='title') Titel
+        input.form-control(type='text', name='title', id='title', value=news.title, placeholder='Titel', autofocus=true)
+      .form-group
+        label.control-label(for='body') Content
+        textarea.form-control(name='body', id='body', placeholder='News Content')
+          | #{news.body}
+      .form-group
+        label.control-label(for='published') Published?
+        input.form-control(type='checkbox', name='published', value=news.published, id='published', checked=news.published)
+      .form-group
+        - var buttonText = news.isNew ? 'News speichern' : 'News ändern'
+        button.btn.btn-success(type='submit')
+          | #{buttonText}
+        a.btn(href='/news') Cancel
+      hr

@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h1 Alle News
+  .actions
+    if user && user.admin
+      a.btn.btn-small.btn-success(href='/news/new')
+        | Neuer Newseintrag
+  .news
+    if news.length > 0
+      each entry in news
+        .newsEntry(class=entry.published ? undefined : 'not-published')
+          .newsDate= moment(entry.createdAt).calendar()
+          a.lead(href='/news/#{entry.slug}')= entry.title
+          - var newsText
+          if entry.body.length > 200
+            - newsText = entry.body.substring(0, 200).replace(/\r?\n/g, '<br>') + '...';
+          else
+            - newsText = entry.body.replace(/\r?\n/g, '<br>');
+          p.body= newsText
+          a.moreLink(href='/news/' + entry.slug) weiterlesen
+    else
+      | Noch keine Einträge

@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  h3= news.title
+  - var newsText = news.body.replace(/\r?\n/g, '<br>');
+  .news-details!= newsText
+
+  br
+  .actions
+    if user && user.admin
+      a.btn.btn-primary(href='/news/#{news._id}/edit')
+        | News editieren
+      form.confirmNewsDelete(method='post', action='/news/#{news._id}')
+        input(type='hidden', name='_csrf', value=token)
+        input(type='hidden', name='_method' value='DELETE')
+        input.btn.btn-small.btn-danger(type='submit', value='News löschen')
+    a.btn(href='/news') Zurück

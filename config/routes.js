@@ -8,6 +8,7 @@ var userController = require('../controllers/user');
 var contactController = require('../controllers/contact');
 var groupController = require('../controllers/group');
 var teamController = require('../controllers/team');
+var newsController = require('../controllers/news');
 var topController = require('../controllers/top');
 var matchController = require('../controllers/match');
 var tipController = require('../controllers/tip');
@@ -90,6 +91,17 @@ module.exports = exports = function (app) {
   app.put('/teams/:team', passportConf.isAdmin, teamController.update);
   app.del('/teams/:team', passportConf.isAdmin, teamController.delete);
   app.get('/teams/:team/edit', passportConf.isAdmin, teamController.edit);
+
+
+  //// NEWS ////
+  app.param('news', newsController.load);
+  app.get('/news', newsController.index);
+  app.get('/news/new', passportConf.isAdmin, newsController.new);
+  app.post('/news', passportConf.isAdmin, newsController.create);
+  app.get('/news/:news', newsController.show);
+  app.put('/news/:news', passportConf.isAdmin, newsController.update);
+  app.del('/news/:news', passportConf.isAdmin, newsController.delete);
+  app.get('/news/:news/edit', passportConf.isAdmin, newsController.edit);
 
   //// MATCHES ////
   app.param('match', matchController.load);
