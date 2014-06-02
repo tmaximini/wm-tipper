@@ -96,7 +96,7 @@ groupSchema.statics = {
     this.find(criteria)
       //.select('_id slug title body created points image meta attempts locations')
       //.populate('locations', 'name adress fourSquareId')
-      .sort({ 'name': 1 }) // sort by name
+      .sort({ 'slug': 1 }) // sort by name
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
