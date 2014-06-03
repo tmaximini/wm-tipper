@@ -82,6 +82,7 @@ module.exports = exports = function (app) {
   app.del('/groups/:group', passportConf.isGroupOwner, groupController.delete);
   app.get('/groups/:group/edit', passportConf.isAuthenticated, groupController.edit);
   app.post('/groups/:group/invite', passportConf.isAuthenticated, groupController.sendInvite);
+  app.post('/groups/:group/addComment', passportConf.isAuthenticated, groupController.addComment);
 
   //// TEAMS ////
   app.param('team', teamController.load);

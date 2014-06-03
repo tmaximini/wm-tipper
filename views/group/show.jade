@@ -57,6 +57,25 @@ block content
         i.fa.fa-share
         | Zu den Tipps
 
+
+  br
+
+
+
+  .comments
+    h3 Kommentare
+    for comment in comments
+      .comment
+        p.bodytext= comment.body
+        span.date= comment.user + ', ' + moment(comment.date).calendar()
+    br
+    form.form-horizontal(action='/groups/#{group.slug}/addComment', method='POST')
+      input(type='hidden', name='_csrf', value=token)
+      .form-group
+        textarea.col-sm-6.form-control(name='comment', placeholder='Kommentar hinterlassen', required)
+      .form-group
+        input.btn.btn-small.btn-success(type='submit', value='Kommentieren')
+
   br
 
   .actions

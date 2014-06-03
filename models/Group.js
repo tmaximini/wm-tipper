@@ -19,7 +19,12 @@ var groupSchema = new Schema({
   freetext: String,
   is_public: { type: Boolean, default: false },
   password: String,
-  password_freetext: String
+  password_freetext: String,
+  comments: [{
+    date: Date,
+    user: String,
+    body: String
+  }]
 });
 
 

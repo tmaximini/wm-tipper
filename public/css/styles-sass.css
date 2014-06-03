@@ -13,14 +13,14 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  color: #ccc;
+  color: #A0A0A0;
   font-style: italic;
 }
 .matches .match .matchResult {
   position: absolute;
   right: 10px;
   font-size: 11px;
-  color: #ccc;
+  color: #A0A0A0;
   top: 30px;
   text-align: right;
 }
@@ -120,17 +120,31 @@ tr.you td {
   list-style: none;
 }
 
-.invite .form-control {
+.invite .form-control, .comments .form-control {
   width: 50%;
 }
-.invite .form-horizontal .form-group {
+.invite .form-horizontal .form-group, .comments .form-horizontal .form-group {
   margin-left: 0;
   margin-right: 0;
 }
 
+.comments .comment {
+  background-color: #F7F7F7;
+  margin: 5px 0;
+  padding: 30px 10px 10px 10px;
+  position: relative;
+}
+.comments .comment .date {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 10px;
+  color: #A0A0A0;
+}
+
 .newsEntry {
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 30px 10px 10px 10px;
   background-color: #F7F7F7;
   margin: 5px 0;
   width: auto;
@@ -141,8 +155,8 @@ tr.you td {
 }
 .newsEntry .newsDate {
   font-size: 11px;
-  text-align: right;
+  color: #A0A0A0;
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 10px;
 }

@@ -17,7 +17,7 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      color: #ccc;
+      color: #A0A0A0;
       font-style: italic;
     }
 
@@ -25,7 +25,7 @@
       position: absolute;
       right: 10px;
       font-size: 11px;
-      color: #ccc;
+      color: #A0A0A0;
       top: 30px;
       text-align: right;
     }
@@ -141,7 +141,7 @@ tr.you td{
 }
 
 
-.invite {
+.invite, .comments {
   .form-control {
     width: 50%;
   }
@@ -153,9 +153,29 @@ tr.you td{
 
 }
 
+
+
+.comments {
+  .comment {
+    background-color: #F7F7F7;
+    margin: 5px 0;
+    padding: 30px 10px 10px 10px;
+    position: relative;
+
+    .date {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 10px;
+      color: #A0A0A0;
+    }
+  }
+}
+
+
 .newsEntry {
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 30px 10px 10px 10px;
   background-color: #F7F7F7;
   margin: 5px 0;
   width: auto;
@@ -167,9 +187,9 @@ tr.you td{
 
   .newsDate {
     font-size: 11px;
-    text-align:  right;
+    color: #A0A0A0;
     position: absolute;
-    right: 10px;
+    left: 10px;
     top: 10px;
   }
 }

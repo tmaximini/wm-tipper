@@ -176,7 +176,8 @@ exports.show = function (req, res, next) {
         isAdmin: userIsAdmin,
         isMember: userIsMember,
         sortedUsers: sortedUsers,
-        matchCount: matchCount
+        matchCount: matchCount,
+        comments: group.comments.reverse()
       });
 
     });
@@ -403,5 +404,25 @@ exports.sendInvite = function(req, res, next) {
     });
 
   }
+
+};
+
+
+exports.addComment = function(req, res, next) {
+  var name = req.user.profile.name;
+  var comment = {
+    user: name,
+    date: Date.now(),
+    body: req.body.comment
+  };
+
+  var group = req.group;
+
+  group.comments.push(comment);
+  group.save(function(err, group) {
+    if (err) next(err);
+    req.flash('success', { msg: 'Kommentar wurde gespeichert.' });
+    res.redirect('/groups/' + group.slug);
+  });
 
 };
