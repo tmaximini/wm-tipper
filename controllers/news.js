@@ -47,7 +47,6 @@ exports.new = function (req, res, next) {
     title: "Create News",
     news: new News({})
   });
-  console.dir(res.locals);
 }
 
 exports.edit = function (req, res, next) {

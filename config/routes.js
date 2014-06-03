@@ -47,6 +47,7 @@ module.exports = exports = function (app) {
   ///// STATIC /////
   app.get('/privacy', homeController.privacy);
   app.get('/impressum', homeController.impressum);
+  app.get('/regeln', homeController.rules);
 
   //// ADMIN ////
   app.get('/admin', passportConf.isAdmin, adminController.index);

@@ -64,7 +64,7 @@ var userSchema = new mongoose.Schema({
   list: function (o, cb) {
     var options = o || {};
     var criteria = options.criteria || {}
-    options.perPage = options.perPage || 50;
+    options.perPage = options.perPage || 1000;
     options.page = options.page || 0;
     options.oderBy = options.orderBy || { 'name': 1 };
 

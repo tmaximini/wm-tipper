@@ -56,6 +56,12 @@ exports.privacy = function(req, res) {
   });
 };
 
+exports.rules = function(req, res) {
+  res.render('static/rules', {
+    title: 'Regeln'
+  });
+};
+
 exports.impressum = function(req, res) {
   res.render('static/impressum', {
     title: 'Impressum'
