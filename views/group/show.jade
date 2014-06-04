@@ -67,7 +67,7 @@ block content
     for comment in comments
       .comment
         p.bodytext= comment.body
-        span.date= comment.user + ', ' + moment(comment.date).calendar()
+        span.date= comment.user + ', ' + moment(comment.date).zone(-2).calendar()
     br
     form.form-horizontal(action='/groups/#{group.slug}/addComment', method='POST')
       input(type='hidden', name='_csrf', value=token)

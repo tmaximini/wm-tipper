@@ -90,7 +90,7 @@ block content
       .news
         each entry in latestNews
           .newsEntry
-            .newsDate= moment(entry.createdAt).calendar()
+            .newsDate= moment(entry.createdAt).zone(-2).calendar()
             a.lead(href='/news/#{entry.slug}')= entry.title
 
       br

@@ -10,7 +10,7 @@ block content
     if news.length > 0
       each entry in news
         .newsEntry(class=entry.published ? undefined : 'not-published')
-          .newsDate= moment(entry.createdAt).calendar()
+          .newsDate= moment(entry.createdAt).zone(-2).calendar()
           a.lead(href='/news/#{entry.slug}')= entry.title
           - var newsText
           if entry.body.length > 200
