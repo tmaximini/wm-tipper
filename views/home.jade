@@ -15,54 +15,89 @@ block content
 
 
 
-  .pagination
-  .swiper-container
-    .swiper-wrapper
-      //.swiper-slide
-      //  iframe(width='600' height='450' src='//www.youtube.com/embed/16QDJ3dI3Y4' frameborder='0' allowfullscreen)
-      .swiper-slide
-        h3 Features
-        ul.features
-          li Kostenlos, einfach und schnell - Ihr könnt sofort loslegen
-          li WM-Tipper ist einfach und übersichtlich
-          li Erstelle eigene Tippgemeinschaften und lade Deine Freunde ein
-          li Ihr selbst bestimmt Regeln und Preise innerhalb der Gruppe
-          li Stets aktuelle Ergebnisauswertung
-          li Sei stets dabei: Logge Dich auch von unterwegs ein und halte deine Tipps stets aktuell
-          li Für Mobiltelefone optimierte Webseite
-          li Bleibt immer auf dem laufenden durch aktuelle News zur Fussball-WM
-          li: a(href='/signup') Hier Anmelden und gleich lostippen.
+  h3 Features
+  ul.features
+    li Kostenlos, einfach und schnell - Ihr könnt sofort loslegen
+    li WM-Tipper ist einfach und übersichtlich
+    li Erstelle eigene Tippgemeinschaften und lade Deine Freunde ein
+    li Ihr selbst bestimmt Regeln und Preise innerhalb der Gruppe
+    li Stets aktuelle Ergebnisauswertung
+    li Sei stets dabei: Logge Dich auch von unterwegs ein und halte deine Tipps stets aktuell
+    li Für Mobiltelefone optimierte Webseite
+    li Bleibt immer auf dem laufenden durch aktuelle News zur Fussball-WM
+    li: a(href='/signup') Hier Anmelden und gleich lostippen.
 
-      .swiper-slide
-        h3 Wie funktioniert's
+  h3 Wie funktioniert's
 
-        p.lead DIE TIPPABGABE
+  p.lead DIE TIPPABGABE
 
-        p.bodytext
-          | Die Tippabgabe ist immer bis zum Start des zu tippenden Spiels möglich. Auch Änderungen sind solange möglich. Ab dem Beginn des Spiels kann man keine Änderungen mehr durchführen.
-          br
-          | Es ist auch möglich, in mehreren Tippgruppen mitzuspielen.
+  p.bodytext
+    | Die Tippabgabe ist immer bis zum Start des zu tippenden Spiels möglich. Auch Änderungen sind solange möglich. Ab dem Beginn des Spiels kann man keine Änderungen mehr durchführen.
+    br
+    | Es ist auch möglich, in mehreren Tippgruppen mitzuspielen.
+
+  br
+  p.lead DAS PUNKTESYSTEM
+
+  p.bodytext
+    | Die abgegebenen Tipps werden je nach Richtigkeit mir Punkten belohnt. Es zählt immer das Endergebnis des Spiels.
+
+  ul
+    li Für richtige Tipps gibt es 3 Punkte. Hier muss das Ergebnis genau stimmen.
+    li Ist das Ergebnis nicht genau, aber die Tendenz (Sieg, Niederlage oder Unentschieden) stimmt, erhältst Du einen Punkt.
+    li Für komplett falsche Tipps (Ergebnis und Tendenz) gibt es keine Punkte
+
+  br
+  p.lead DAS GESAMTERGEBNIS
+
+  p.bodytext
+    | Die Gesamtplatzierung wird am Ende des Turniers ermittelt. Natürlich kannst Du jederzeit deine aktuelle Platzierung in der Gruppe ansehen. So wird die Platzierung berechnet:
+
+  ol
+    li Die endgültige Platzierung beruht auf den gewonnen Punkten. Je besser Du getippt hast, um so höher ist die Platzierung.
+    li Sind die Punkte bei mehreren Spielern gleich, werden die Plätze geteilt.
+
+  br
+
+  .subheader
+    | Die nächsten Spiele
+  .subcontent
+    if nextMatches.length
+      .matches
+        each match in nextMatches
+          .match
+            span.matchInfo= match.i18nDateString + ' - ' + match.startTime
+            span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gruppe ' + match.team1.gruppe + ')' : '')
+              //- i= moment(match.when).fromNow()
+            br
+            a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+            span.matchResult
+              | #{match.started ? match.status : undefined}
+              br
+              | #{match.started ? match.result : '- : -'}
 
         br
-        p.lead DAS PUNKTESYSTEM
+        a(href='/plan') Alle Spiele der WM findest du hier
 
-        p.bodytext
-          | Die abgegebenen Tipps werden je nach Richtigkeit mir Punkten belohnt. Es zählt immer das Endergebnis des Spiels.
+    else
+      .info Keine Spiele mehr :(
 
-        ul
-          li Für richtige Tipps gibt es 3 Punkte. Hier muss das Ergebnis genau stimmen.
-          li Ist das Ergebnis nicht genau, aber die Tendenz (Sieg, Niederlage oder Unentschieden) stimmt, erhältst Du einen Punkt.
-          li Für komplett falsche Tipps (Ergebnis und Tendenz) gibt es keine Punkte
+  br
+  .subheader
+    | Aktuelles
+  .subcontent
+    if nextMatches.length
+      .news
+        each entry in latestNews
+          .newsEntry
+            .newsDate= moment(entry.createdAt).calendar()
+            a.lead(href='/news/#{entry.slug}')= entry.title
 
-        br
-        p.lead DAS GESAMTERGEBNIS
+      br
+      a(href='/news') Alle News im Archiv
 
-        p.bodytext
-          | Die Gesamtplatzierung wird am Ende des Turniers ermittelt. Natürlich kannst Du jederzeit deine aktuelle Platzierung in der Gruppe ansehen. So wird die Platzierung berechnet:
-
-        ol
-          li Die endgültige Platzierung beruht auf den gewonnen Punkten. Je besser Du getippt hast, um so höher ist die Platzierung.
-          li Sind die Punkte bei mehreren Spielern gleich, werden die Plätze geteilt.
+    else
+      .entry Keine aktuellen Meldungen
 
 
 

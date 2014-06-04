@@ -41,11 +41,35 @@ exports.index = function(req, res) {
             });
           });
         });
-      })
+      });
     });
   } else {
-    res.render('home', {
-      title: 'Das WM-Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien'
+
+    var matchOptions = {
+      orderBy: {
+        when: 1
+      },
+      criteria: {
+        when: {
+          $gt: Date.now()
+        }
+      },
+      limit: 4
+    };
+
+    Match.count({}, function( err, totalMatchCount){
+      Match.list(matchOptions, function(err, nextMatches) {
+        if (err) return next(err);
+        News.list({ criteria: { 'published': true }, orderBy: { 'createdAt': -1 }, perPage: 4 }, function(err, latestNews) {
+          if (err) return next(err);
+          res.render('home', {
+            title: 'Das WM-Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien',
+            nextMatches: nextMatches,
+            totalMatchCount: totalMatchCount,
+            latestNews: latestNews
+          });
+        });
+      });
     });
   }
 };

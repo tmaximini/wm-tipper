@@ -17,21 +17,7 @@ $(document).ready(function() {
   $('.confirmNewsDelete').click(function() {
     return confirm('Newseintrag löschen?');
   });
-  var mySwiper = $('.swiper-container').swiper({
-    //Your options here:
-    mode:'horizontal',
-    pagination: '.pagination',
-    autoplayDisableOnInteraction: true,
-    loop: true,
-    autoplay: 7000,
-    grabCursor: true,
-    paginationClickable: true
-    //etc..
-  });
 
-  $('.swiper-pagination-switch, iframe').click(function() {
-    mySwiper.stopAutoplay();
-  });
 
   // Find all YouTube videos
   //var $allVideos = $('iframe[src^="//www.youtube.com"]');
