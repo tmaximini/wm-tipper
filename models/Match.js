@@ -66,8 +66,8 @@ matchSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('team1', 'name slug isDummy')
-      .populate('team2', 'name slug isDummy')
+      .populate('team1', 'name slug gruppe isDummy')
+      .populate('team2', 'name slug gruppe isDummy')
       .exec(cb)
   },
 
@@ -81,8 +81,8 @@ matchSchema.statics = {
 
     this.find(criteria)
       //.select('_id slug title body created points image meta attempts locations')
-      .populate('team1', 'name slug isDummy')
-      .populate('team2', 'name slug isDummy')
+      .populate('team1', 'name slug gruppe isDummy')
+      .populate('team2', 'name slug gruppe isDummy')
       .sort(options.order)
       .limit(options.perPage)
       .skip(options.perPage * options.page)

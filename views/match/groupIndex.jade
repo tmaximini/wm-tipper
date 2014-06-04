@@ -14,7 +14,7 @@ block content
       .group
         .match
           span.matchInfo= match.i18nDateString + ' - ' + match.startTime
-          span.matchType= match.matchType
+          span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gruppe ' + match.team1.gruppe + ')' : '')
           br
           a.matchName(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
           span.matchResult
