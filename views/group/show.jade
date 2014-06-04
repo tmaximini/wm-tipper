@@ -35,18 +35,21 @@ block content
 
   if group.price
     .group-price
+      - var _price = group.price.replace(/\r?\n/g, '<br>');
       h3 Preis
-      p= group.price
+      p!= _price
 
   if group.rules
     .group-rules
+      - var _rules = group.rules.replace(/\r?\n/g, '<br>');
       h3 Regeln
-      p= group.rules
+      p!= _rules
 
   if group.freetext
     .group-other
+      - var _freetext = group.freetext.replace(/\r?\n/g, '<br>');
       h3 Sonstiges
-      p= group.freetext
+      p!= _freetext
 
 
   .tips
