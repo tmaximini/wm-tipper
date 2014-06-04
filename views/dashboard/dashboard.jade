@@ -47,19 +47,16 @@ block content
       if nextMatches.length
         .news
           each entry in latestNews
-            .newsEntry(class=entry.published ? undefined : 'not-published')
+            .newsEntry
               .newsDate= moment(entry.createdAt).calendar()
               a.lead(href='/news/#{entry.slug}')= entry.title
-              - var newsText
-              if entry.body.length > 200
-                - newsText = entry.body.substring(0, 200).replace(/\r?\n/g, '<br>') + '...';
-              else
-                - newsText = entry.body.replace(/\r?\n/g, '<br>');
-              p.body= newsText
-              a.moreLink(href='/news/' + entry.slug) weiterlesen
+
+        br
+        a(href='/news') Alle News im Archiv
 
       else
         .entry Keine aktuellen Meldungen
+
 
 
 

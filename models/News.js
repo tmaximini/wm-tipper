@@ -28,16 +28,15 @@ var newsSchema = new Schema({
 
   list: function (o, cb) {
     var options = o || {};
-    var criteria = options.criteria || {}
+    var sortOrder = options.orderBy || { 'createdAt': -1 };
+    var criteria = options.criteria || {};
     options.perPage = options.perPage || 200;
     options.page = options.page || 0;
 
     this.find(criteria)
-      //.select('_id slug title body created points image meta attempts locations')
-      //.populate('locations', 'name adress fourSquareId')
-      .sort({ 'createdAt': -1 }) // sort by name
-      //.limit(options.perPage)
-      //.skip(options.perPage * options.page)
+      .sort(sortOrder)
+      .limit(options.perPage)
+      .skip(options.perPage * options.page)
       .exec(cb);
   }
 };

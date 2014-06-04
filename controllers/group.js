@@ -424,5 +424,5 @@ exports.addComment = function(req, res, next) {
     req.flash('success', { msg: 'Kommentar wurde gespeichert.' });
     res.redirect('/groups/' + group.slug);
   });
-
 };
+

@@ -29,7 +29,7 @@ exports.index = function(req, res) {
       Match.count({}, function( err, totalMatchCount){
         Match.list(matchOptions, function(err, nextMatches) {
           if (err) return next(err);
-          News.list({ criteria: { 'published': true }, orderBy: { 'createdAt': -1 }, limit: 4 }, function(err, latestNews) {
+          News.list({ criteria: { 'published': true }, orderBy: { 'createdAt': -1 }, perPage: 4 }, function(err, latestNews) {
             if (err) return next(err);
             res.render('dashboard/dashboard', {
               title: 'Dashboard',
