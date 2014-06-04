@@ -112,8 +112,9 @@ exports.postSignup = function(req, res, next) {
       console.dir(err);
       if (err.code === 11000) {
         req.flash('error', { msg: 'Es existiert bereits ein Benutzer mit dieser Email.' });
-      } else {
-        req.flash('error', { msg: err });
+      }
+      else {
+        req.flash('error', { msg: err + ' (Name muss zw. 2 und 32 Zeichen lang sein)' });
       }
       return res.redirect('/signup');
     }

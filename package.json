@@ -52,7 +52,8 @@
     "moment": "~2.6.0",
     "lodash": "~2.4.1",
     "bluebird": "~1.2.4",
-    "node-schedule": "~0.1.13"
+    "node-schedule": "~0.1.13",
+    "mongoose-validator": "~0.2.2"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

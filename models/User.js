@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var validate = require('mongoose-validator').validate;
 
 var Promise = require('bluebird');
+
 
 var TipSchema = require('../models/TipSchema');
 var Match = require('../models/Match');
@@ -36,7 +38,7 @@ var userSchema = new mongoose.Schema({
   tips: [TipSchema],
 
   profile: {
-    name: { type: String, default: '', required: true, index: true },
+    name: { type: String, default: '', required: true, index: true, validate: validate('len', 2, 32) },
     gender: { type: String, default: '' },
     location: { type: String, default: '' },
     website: { type: String, default: '' },
