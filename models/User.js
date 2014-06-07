@@ -29,13 +29,6 @@ var userSchema = new mongoose.Schema({
   createdAt: { type: Date, index: true },
 
   admin: { type: Boolean, default: false },
-  // holds all the group IDs the user is in
-  groups: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Group'
-  }],
-
-  tips: [TipSchema],
 
   profile: {
     name: { type: String, default: '', required: true, index: true, validate: validate('len', 2, 32) },
@@ -45,8 +38,25 @@ var userSchema = new mongoose.Schema({
     picture: { type: String, default: '' }
   },
 
+  // holds all the group IDs the user is in
+  groups: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Group'
+  }],
+
+  // holds all the user's tips
+  tips: [TipSchema],
+  // total points per group, like group[i] has groupPoints[i]
   groupPoints: [ ],
+  // sum of all group points
   totalPoints: { type: Number, default: 0, index: true },
+
+  // stats - how many exact right, right tendency and wrong tips does user have
+  stats: {
+    exact: { type: Number, default: 0 },
+    tendency: { type: Number, default: 0 },
+    wrong: { type: Number, default: 0 }
+  },
 
   resetPasswordToken: String,
   resetPasswordExpires: Date
@@ -71,8 +81,6 @@ var userSchema = new mongoose.Schema({
     options.oderBy = options.orderBy || { 'name': 1 };
 
     this.find(criteria)
-      //.select('_id slug title body created points image meta attempts locations')
-      //.populate('locations', 'name adress fourSquareId')
       .sort(options.orderBy) // sort by name
       .limit(options.perPage)
       .skip(options.perPage * options.page)
