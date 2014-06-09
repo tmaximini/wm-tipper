@@ -224,17 +224,20 @@ userSchema.methods.getTotalPoints = function (groupId) {
       var tendencyTips = 0;
       var wrongTips = 0;
       for (var i = allPoints.length; i--;) {
-        total += allPoints[i];
-        switch (allPoints[i]) {
-          case 3:
-            correctTips++;
-            break;
-          case 1:
-            tendencyTips++;
-            break;
-          default:
-            wrongTips++;
-            break;
+        // -1 is returned when match has not been started so we dont count that
+        if (allPoints[i] !== -1) {
+          total += allPoints[i];
+          switch (allPoints[i]) {
+            case 3:
+              correctTips++;
+              break;
+            case 1:
+              tendencyTips++;
+              break;
+            default:
+              wrongTips++;
+              break;
+          }
         }
       }
       q.resolve({ total: total, correct: correctTips, tendency: tendencyTips, wrong: wrongTips});

@@ -21,7 +21,7 @@ exports.getTipPointsPromise = function(tip) {
       var points = self.getPoints(match, tip);
       qIn.resolve(points);
     } else {
-      qIn.resolve(0);
+      qIn.resolve(-1);
     }
   });
   return qIn.promise;
