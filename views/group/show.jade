@@ -19,18 +19,19 @@ block content
             th #
             th Name
             th Anz. Tipps
-            th Ø Punkte / Tipp
+            th(title='Exakt, Tendenz, Falsch') E - T - F
             th Gesamtpunkte
         tbody
           - var i = 0
           for usr in sortedUsers
             tr(class = usr.email === user.email ? 'you' : undefined)
               - var usrPoints = usr.currentPoints
+              - var stats = usr.currentStats
               - var nrOfTips = usr.numberOfTipsInGroup(group._id)
               td= ++i
               td= usr.profile.name
               td= nrOfTips
-              td= nrOfTips ? (usrPoints / nrOfTips).toFixed(2) : 0
+              td= stats.correct + ' - ' + stats.tendency + ' - ' + stats.wrong
               td= usrPoints
 
   if group.price

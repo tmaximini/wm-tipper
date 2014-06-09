@@ -33,9 +33,10 @@ block content
     if group
       if userTip
         h3.tip= 'Dein Tip: ' + userTip.result
-        a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match.id}/tips/#{userTip._id}/edit')
-          i.fa.fa-edit
-          | Tip ändern
+        if !match.started
+          a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match.id}/tips/#{userTip._id}/edit')
+            i.fa.fa-edit
+            | Tip ändern
       else
         .tip Nicht getippt
 

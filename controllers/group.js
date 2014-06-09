@@ -157,16 +157,22 @@ exports.show = function (req, res, next) {
         console.log('found groupINdex ' + groupIndex, usr.groupPoints);
         if (groupIndex) {
           usr.currentPoints = usr.groupPoints[groupIndex];
+          usr.currentStats = usr.groupStats[groupIndex];
         } else {
           usr.currentPoints = 0; // too harsh ?
+          usr.currentStats = { total: 0, correct: 0, tendency: 0, wrong: 0 };
         }
 
       });
 
-      var sortedUsers = _.sortBy(group.members, function(usr) {
-        console.log(usr.currentPoints);
+      //
+      var sortedUsers = _(group.members).chain().sortBy(function(usr) {
         return -usr.currentPoints;
-      });
+      }).sortBy(function(usr) {
+        return -usr.currentStats.correct;
+      }).sortBy(function(usr) {
+        return -usr.currentStats.tendency;
+      }).value();
 
 
       res.render('group/show.jade', {

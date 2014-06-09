@@ -48,6 +48,7 @@ var userSchema = new mongoose.Schema({
   tips: [TipSchema],
   // total points per group, like group[i] has groupPoints[i]
   groupPoints: [ ],
+  groupStats: [ {} ],
   // sum of all group points
   totalPoints: { type: Number, default: 0, index: true },
 
@@ -100,13 +101,17 @@ var userSchema = new mongoose.Schema({
           if (usr.groups.length > 0) {
 
             var _groupPoints = new Array(usr.groups.length);
+            var _groupStats = new Array(usr.groups.length);
 
             for (var i = 0; i < usr.groups.length; i++) {
 
               (function(usr, index) {
-                promises.push(usr.getTotalPoints(usr.groups[index]).then(function(points) {
+                promises.push(usr.getTotalPoints(usr.groups[index]).then(function(statsObject) {
 
-                  _groupPoints[index] = points;
+
+
+                  _groupPoints[index] = statsObject.total || 0;
+                  _groupStats[index] = statsObject;
 
                 }));
               })(usr, i);
@@ -118,7 +123,10 @@ var userSchema = new mongoose.Schema({
               for (var j = _groupPoints.length; j--;) {
                 sum += _groupPoints[j];
               }
+
               usr.groupPoints = _groupPoints;
+              console.dir(_groupStats);
+              usr.groupStats  = _groupStats;
               usr.totalPoints = sum;
 
               usr.save(function(err, user) {
@@ -212,10 +220,24 @@ userSchema.methods.getTotalPoints = function (groupId) {
     });
     Promise.all(promises).then(function(allPoints) {
       var total = 0;
+      var correctTips = 0;
+      var tendencyTips = 0;
+      var wrongTips = 0;
       for (var i = allPoints.length; i--;) {
-        total += allPoints[i]
+        total += allPoints[i];
+        switch (allPoints[i]) {
+          case 3:
+            correctTips++;
+            break;
+          case 1:
+            tendencyTips++;
+            break;
+          default:
+            wrongTips++;
+            break;
+        }
       }
-      q.resolve(total);
+      q.resolve({ total: total, correct: correctTips, tendency: tendencyTips, wrong: wrongTips});
     });
   }
   return q.promise;
