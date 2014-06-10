@@ -56,10 +56,10 @@ matchSchema.virtual('status').get(function () {
   }
 });
 matchSchema.virtual('i18nDateString').get(function () {
-  return moment(this.when).zone(-2).calendar();
+  return moment(this.when).zone('+0200').calendar();
 });
 matchSchema.virtual('i18nDateFromNow').get(function () {
-  return moment(this.when).zone(-2).fromNow();
+  return moment(this.when).zone('+0200').fromNow();
 });
 
 /**
