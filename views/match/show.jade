@@ -24,7 +24,7 @@ block content
     .status= match.status
 
     if !match.started
-      h3.date= match.i18nDateString + ' - ' + match.startTime
+      h3.date= match.formattedDate
       .fromNow= match.i18nDateFromNow
     else
       h1.ergebnis= match.result
