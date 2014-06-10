@@ -157,7 +157,11 @@ exports.show = function (req, res, next) {
         console.log('found groupINdex ' + groupIndex, usr.groupPoints);
         if (groupIndex !== undefined) {
           usr.currentPoints = usr.groupPoints[groupIndex];
-          usr.currentStats = usr.groupStats[groupIndex];
+          if (usr.groupStats[groupIndex]) {
+            usr.currentStats = usr.groupStats[groupIndex];
+          } else {
+            usr.currentStats = { total: 0, correct: 0, tendency: 0, wrong: 0 };
+          }
         } else {
           usr.currentPoints = 0; // too harsh ?
           usr.currentStats = { total: 0, correct: 0, tendency: 0, wrong: 0 };
