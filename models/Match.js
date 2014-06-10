@@ -28,6 +28,9 @@ matchSchema.virtual('result').get(function () {
 matchSchema.virtual('started').get(function () {
   return this.when <= Date.now();
 });
+matchSchema.virtual('formattedDate').get(function () {
+  return moment(this.when).format('DD.MM.YYYY') + ' - ' + this.startTime;
+});
 matchSchema.virtual('status').get(function () {
   var minute = 1000 * 60;
   var matchEnds = this.when.getTime() + (minute * 119);

@@ -27,7 +27,7 @@ block content
         .matches
           each match in nextMatches
             .match
-              span.matchInfo= match.i18nDateString
+              span.matchInfo= match.formattedDate
               span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gruppe ' + match.team1.gruppe + ')' : '')
                 //- i= moment(match.when).fromNow()
               br
