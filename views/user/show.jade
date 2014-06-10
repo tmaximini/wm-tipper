@@ -2,12 +2,4 @@ extends ../layout
 
 block content
   h1= user.profile.name
-  .groups-details
-    h1= match.team1.name + ' - ' + match.team2.name
-    .date= moment(match.when).calendar() + ' - ' + match.startTime + ' '
-    .fromNow= moment(match.when).fromNow()
-  .actions
-    a.btn.btn-primary(href='/matches/#{match._id}/edit')
-      | Match editieren
-    a.btn.btn-primary(href='/matches/#{match._id}/tip')
-      | Tip abgeben
+
