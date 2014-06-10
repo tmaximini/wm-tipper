@@ -13,7 +13,7 @@ block content
           th(title='Exakt, Tendenz, Falsch') E - T - F
           th Punkte
       tbody
-        - var i = 0
+        - var i = parseInt(page-1) * parseInt(perPage)
         for usr in sortedUsers
           tr(class = usr.email === user.email ? 'you' : undefined)
             - var stats = usr.bestGroup
