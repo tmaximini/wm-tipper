@@ -29,7 +29,7 @@ matchSchema.virtual('started').get(function () {
   return this.when <= Date.now();
 });
 matchSchema.virtual('formattedDate').get(function () {
-  return moment(this.when).format('DD.MM.YYYY') + ' - ' + this.startTime;
+  return moment(this.startDate).format('DD.MM.YYYY') + ' - ' + this.startTime;
 });
 matchSchema.virtual('status').get(function () {
   var minute = 1000 * 60;
