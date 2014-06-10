@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var Promise = require('bluebird');
 
-var moment = require('moment');
+var moment = require('moment-timezone');
 moment.lang('de');
 
 var matchSchema = new Schema({
@@ -56,10 +56,10 @@ matchSchema.virtual('status').get(function () {
   }
 });
 matchSchema.virtual('i18nDateString').get(function () {
-  return moment(this.when).zone('+0200').calendar();
+  return moment(this.when).tz('Europe/Berlin').calendar();
 });
 matchSchema.virtual('i18nDateFromNow').get(function () {
-  return moment(this.when).zone('+0200').fromNow();
+  return moment(this.when).tz('Europe/Berlin').fromNow();
 });
 
 /**
