@@ -155,7 +155,7 @@ exports.show = function (req, res, next) {
       group.members.forEach(function(usr) {
         var groupIndex = usr.groups.indexOf(group._id);
         console.log('found groupINdex ' + groupIndex, usr.groupPoints);
-        if (groupIndex) {
+        if (groupIndex !== undefined) {
           usr.currentPoints = usr.groupPoints[groupIndex];
           usr.currentStats = usr.groupStats[groupIndex];
         } else {

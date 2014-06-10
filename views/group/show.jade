@@ -31,7 +31,7 @@ block content
               td= ++i
               td= usr.profile.name
               td= nrOfTips
-              td= stats.correct + ' - ' + stats.tendency + ' - ' + stats.wrong
+              td= (stats.correct || 0) + ' - ' + (stats.tendency || 0) + ' - ' + (stats.wrong || 0)
               td= usrPoints
 
   if group.price
@@ -61,10 +61,7 @@ block content
         i.fa.fa-share
         | Zu den Tipps
 
-
   br
-
-
 
   .comments
     h3 Kommentare

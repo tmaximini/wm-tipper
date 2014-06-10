@@ -49,15 +49,9 @@ var userSchema = new mongoose.Schema({
   // total points per group, like group[i] has groupPoints[i]
   groupPoints: [ ],
   groupStats: [ {} ],
+  maxPoints: { type: Number, default: 0, index: true },
   // sum of all group points
   totalPoints: { type: Number, default: 0, index: true },
-
-  // stats - how many exact right, right tendency and wrong tips does user have
-  stats: {
-    exact: { type: Number, default: 0 },
-    tendency: { type: Number, default: 0 },
-    wrong: { type: Number, default: 0 }
-  },
 
   resetPasswordToken: String,
   resetPasswordExpires: Date
@@ -108,8 +102,6 @@ var userSchema = new mongoose.Schema({
               (function(usr, index) {
                 promises.push(usr.getTotalPoints(usr.groups[index]).then(function(statsObject) {
 
-
-
                   _groupPoints[index] = statsObject.total || 0;
                   _groupStats[index] = statsObject;
 
@@ -128,6 +120,7 @@ var userSchema = new mongoose.Schema({
               console.dir(_groupStats);
               usr.groupStats  = _groupStats;
               usr.totalPoints = sum;
+              usr.maxPoints = _groupPoints.length > 0 ? Math.max.apply(Math, _groupPoints) : 0;
 
               usr.save(function(err, user) {
                 if (err) {
@@ -139,6 +132,16 @@ var userSchema = new mongoose.Schema({
 
             });
 
+          } else {
+            usr.totalPoints = 0;
+            usr.maxPoints = 0;
+            usr.save(function(err, user) {
+              if (err) {
+                console.error(err);
+              } else {
+                console.log('user has been saved');
+              }
+            });
           }
       });
     });

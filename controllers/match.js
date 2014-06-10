@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Match = require('../models/Match');
 var Tip = require('../models/Tip');
 var Team = require('../models/Team');
+var User = require('../models/User');
 
 var utils = require('../helpers/utils');
 
@@ -234,7 +235,8 @@ exports.update = function (req, res, next) {
     if (!err) {
       console.log('update successful');
       req.flash('success', { msg: 'Partie wurde aktualisiert.' });
-      return res.redirect('/matches');
+      res.redirect('/matches');
+      User.updateCurrentPoints();
     } else {
       return next(err);
     }

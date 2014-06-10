@@ -8,23 +8,21 @@ block content
         tr
           th #
           th Name
-          th Anz. Gruppen
+          //-th Gruppe
           th Anz. Tipps
-          th Ø Punkte / Tipp
-          th Punkte gesamt
-          th Ø Punkte / Gruppe
+          th(title='Exakt, Tendenz, Falsch') E - T - F
+          th Punkte
       tbody
-        - var i = parseInt(page-1) * parseInt(perPage)
-        for usr in users
-
-          tr(class = (user && (usr.email === user.email)) ? 'you' : undefined)
+        - var i = 0
+        for usr in sortedUsers
+          tr(class = usr.email === user.email ? 'you' : undefined)
+            - var stats = usr.bestGroup
             td= ++i
             td= usr.profile.name
-            td= usr.groups.length
-            td= usr.tips.length
-            td= usr.tips.length ? (usr.totalPoints / usr.tips.length).toFixed(2) : 0
-            td= usr.totalPoints
-            td= (usr.groups.length && usr.tips.length) ? (usr.totalPoints / usr.groups.length).toFixed(2) : 0
+            //-td= usr.bestGroupDetails.name
+            td= usr.nrOfTips
+            td= (stats.correct || 0) + ' - ' + (stats.tendency || 0) + ' - ' + (stats.wrong || 0)
+            td= usr.maxPoints
 
 
     if (page > 1)
