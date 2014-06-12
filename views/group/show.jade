@@ -30,7 +30,7 @@ block content
               - var stats = usr.currentStats
               - var nrOfTips = usr.numberOfTipsInGroup(group._id)
               td= ++i
-              td.userImage: img(src=usr.profile.picture?usr.profile.picture:usr.gravatar())
+              td.userImage: img(width=30,src=usr.profile.picture?usr.profile.picture:usr.gravatar())
               td= usr.profile.name
               td= nrOfTips
               td= (stats.correct || 0) + ' - ' + (stats.tendency || 0) + ' - ' + (stats.wrong || 0)
