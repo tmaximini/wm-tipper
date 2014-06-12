@@ -43,18 +43,18 @@ exports.index = function(req, res) {
       });
 
 
-      var doubleSortedUsers = _(sortedUsers).chain().sortBy(function(usr) {
-        return -usr.bestGroup.correct;
-      }).sortBy(function(usr) {
-        return -usr.bestGroup.tendency;
-      }).value();
+      //var doubleSortedUsers = _(sortedUsers).chain().sortBy(function(usr) {
+      //  return -usr.bestGroup.correct;
+      //}).sortBy(function(usr) {
+      //  return -usr.bestGroup.tendency;
+      //}).value();
 
 
       // do something with sorted users
 
       res.render('top/index', {
         title: 'Bestenliste',
-        sortedUsers: doubleSortedUsers,
+        sortedUsers: sortedUsers,
         page: page,
         perPage: perPage,
         totalCount: totalCount
