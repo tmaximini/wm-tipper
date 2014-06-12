@@ -24,12 +24,15 @@ block content
           .userTip
             if match.userTip
               .title
-               | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
-               if !match.started
-                .editTip
-                  a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
-                    i.fa.fa-edit
-                    | Tip editieren
+                | Dein Tip: #{match.userTip.scoreTeam1} - #{match.userTip.scoreTeam2}
+                if !match.started
+                  .editTip
+                    a.btn.btn-primary(href='/groups/#{group.slug}/matches/#{match._id}/tips/#{match.userTip._id}/edit')
+                      i.fa.fa-edit
+                      | Tip editieren
+                else
+                  | &nbsp; (#{match.userTipPoints} #{match.userTipPoints === 1 ? 'Punkt' : 'Punkte'})
+
             else
               if !match.started
                 .title

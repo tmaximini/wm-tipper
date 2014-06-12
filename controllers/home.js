@@ -10,9 +10,12 @@ var News = require('../models/News');
 
 exports.index = function(req, res) {
 
+  var hour = 3600000;
+
   if (req.user) {
     Group.list({ criteria: { 'members': req.user._id } }, function (err, userGroups) {
       if (err) return next(err);
+
 
       var matchOptions = {
         orderBy: {
@@ -20,7 +23,7 @@ exports.index = function(req, res) {
         },
         criteria: {
           when: {
-            $gt: Date.now()
+            $gt: Date.now() - 2*hour
           }
         },
         limit: 4
@@ -51,7 +54,7 @@ exports.index = function(req, res) {
       },
       criteria: {
         when: {
-          $gt: Date.now()
+          $gt: Date.now() - 2*hour
         }
       },
       limit: 4

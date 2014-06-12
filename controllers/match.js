@@ -76,9 +76,11 @@ exports.groupIndex = function (req, res, next) {
             if ((match._id.equals(tip.match)) && (req.group._id.equals(tip.group))) {
               console.dir(tip);
               match.userTip = tip;
+              match.userTipPoints = utils.getPoints(match, match.userTip);
               break;
             } else {
               match.userTip = null;
+              match.userTipPoints = null;
             }
           }
         });

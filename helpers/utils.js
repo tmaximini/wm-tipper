@@ -62,6 +62,5 @@ exports.sortUsersByPoints = function(users, group) {
     } else {
       return -user.totalPointsAllGroups();
     }
-
   });
 }

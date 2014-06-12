@@ -166,3 +166,7 @@ tr.you td {
   left: 10px;
   top: 10px;
 }
+
+td.userImage img {
+  width: 30px;
+}

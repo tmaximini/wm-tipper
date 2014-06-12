@@ -153,8 +153,9 @@ if ((app.settings.env === 'development') || (parseInt(process.env.PORT) === 3001
   });
 
   // do one for start
-  User.updateCurrentPoints();
-
+  if (app.settings.env !== 'development') {
+    User.updateCurrentPoints();
+  }
 }
 
 
