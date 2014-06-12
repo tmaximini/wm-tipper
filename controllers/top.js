@@ -54,7 +54,7 @@ exports.index = function(req, res) {
 
       res.render('top/index', {
         title: 'Bestenliste',
-        sortedUsers: sortedUsers,
+        sortedUsers: doubleSortedUsers,
         page: page,
         perPage: perPage,
         totalCount: totalCount

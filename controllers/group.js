@@ -170,13 +170,18 @@ exports.show = function (req, res, next) {
       });
 
       //
-      var sortedUsers = _(group.members).chain().sortBy(function(usr) {
+      //var sortedUsers = _(group.members).chain().sortBy(function(usr) {
+      //  return -usr.currentPoints;
+      //}).sortBy(function(usr) {
+      //  return -usr.currentStats.correct;
+      //}).sortBy(function(usr) {
+      //  return -usr.currentStats.tendency;
+      //}).value();
+      //
+
+      var sortedUsers = _.sortBy(group.members, function(usr) {
         return -usr.currentPoints;
-      }).sortBy(function(usr) {
-        return -usr.currentStats.correct;
-      }).sortBy(function(usr) {
-        return -usr.currentStats.tendency;
-      }).value();
+      })
 
 
       res.render('group/show.jade', {
