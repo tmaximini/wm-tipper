@@ -14,15 +14,17 @@ block content
           th Punkte
       tbody
         - var i = parseInt(page-1) * parseInt(perPage)
+        - var lastUser = { maxPoints: 9999, bestGroup: { correct: 0, tendency: 0, wrong: 0 }};
         for usr in sortedUsers
-          tr(class = usr.email === user.email ? 'you' : undefined)
+          tr(class = user && (usr.email === user.email) ? 'you' : undefined)
             - var stats = usr.bestGroup
-            td= ++i
+            td= (usr.maxPoints === lastUser.maxPoints) && (stats.correct === lastUser.bestGroup.correct) ? i : ++i
             td= usr.profile.name
             //-td= usr.bestGroupDetails.name
             td= usr.nrOfTips
             td= (stats.correct || 0) + ' - ' + (stats.tendency || 0) + ' - ' + (stats.wrong || 0)
             td= usr.maxPoints
+            - lastUser = usr
 
 
     if (page > 1)

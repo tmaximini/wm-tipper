@@ -11,7 +11,7 @@ var _ = require('lodash');
 
 exports.index = function(req, res) {
 
-  var perPage = 10;
+  var perPage = 50;
   var page = req.query.page || 1;
 
   User.count({}, function(err, totalCount) {
@@ -43,6 +43,11 @@ exports.index = function(req, res) {
       });
 
 
+      var doubleSortedUsers = _(sortedUsers).chain().sortBy(function(usr) {
+        return -usr.bestGroup.correct;
+      }).sortBy(function(usr) {
+        return -usr.bestGroup.tendency;
+      }).value();
 
 
       // do something with sorted users
