@@ -18,7 +18,8 @@ block content
         for usr in sortedUsers
           tr(class = user && (usr.email === user.email) ? 'you' : undefined)
             - var stats = usr.bestGroup
-            td= (usr.maxPoints === lastUser.maxPoints) && (stats.correct === lastUser.bestGroup.correct) ? i : ++i
+            //-td= (usr.maxPoints === lastUser.maxPoints) && (stats.correct === lastUser.bestGroup.correct) ? i : ++i
+            td= ++i
             td= usr.profile.name
             //-td= usr.bestGroupDetails.name
             td= usr.nrOfTips
