@@ -181,7 +181,7 @@ exports.show = function (req, res, next) {
 
       var sortedUsers = _.sortBy(group.members, function(usr) {
         return -usr.currentPoints;
-      })
+      });
 
 
       res.render('group/show.jade', {

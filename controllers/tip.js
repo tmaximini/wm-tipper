@@ -75,8 +75,8 @@ exports.create = function (req, res, next) {
   newTip.group = req.group;
 
   for (var i = 0; i < req.user.tips.length; i++) {
-    if (req.user.tips[i].match.equals(req.body.match)) {
-      req.flash('error', { msg: 'Du hast dieses Match bereits getippt.' });
+    if (req.user.tips[i].match.equals(req.body.match) && req.user.tips[i].group.equals(req.group._id)) {
+      req.flash('error', { msg: 'Du hast dieses Match bereits in dieser Gruppe getippt.' });
       return res.redirect('groups/' + req.group.slug + '/spielplan');
     };
   }
