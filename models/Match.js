@@ -33,7 +33,7 @@ matchSchema.virtual('formattedDate').get(function () {
 });
 matchSchema.virtual('status').get(function () {
   var minute = 1000 * 60;
-  var matchEnds = this.when.getTime() + (minute * 119);
+  var matchEnds = this.when.getTime() + (minute * 109);
   if (this.when > Date.now()) {
     return 'Noch nicht begonnen';
   } else {
