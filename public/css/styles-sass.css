@@ -4,7 +4,7 @@
   margin: 5px 0;
   width: auto;
   position: relative;
-  min-height: 70px;
+  min-height: 85px;
 }
 .matches .match a.matchName {
   font-size: 18px;
@@ -19,10 +19,18 @@
 .matches .match .matchResult {
   position: absolute;
   right: 10px;
-  font-size: 11px;
+  font-size: 16px;
   color: #A0A0A0;
   top: 30px;
   text-align: right;
+}
+.matches .match .matchStatus {
+  position: absolute;
+  left: 10px;
+  font-size: 11px;
+  color: #A0A0A0;
+  bottom: 10px;
+  text-align: left;
 }
 
 ul, ol {

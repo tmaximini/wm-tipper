@@ -20,8 +20,8 @@ block content
         br
         a.matchName(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
         span.matchResult
-          | #{match.started ? match.status : undefined}
-          br
           | #{match.started ? match.result : '- : -'}
+        span.matchStatus
+          | #{match.started ? match.status : undefined}
 
 
