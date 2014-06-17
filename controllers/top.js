@@ -44,9 +44,9 @@ exports.index = function(req, res) {
 
 
       //var doubleSortedUsers = _(sortedUsers).chain().sortBy(function(usr) {
-      //  return -usr.bestGroup.correct;
+      //  return -usr.bestGroup.total;
       //}).sortBy(function(usr) {
-      //  return -usr.bestGroup.tendency;
+      //  return -usr.bestGroup.correct;
       //}).value();
 
 

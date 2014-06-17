@@ -46,10 +46,10 @@ matchSchema.virtual('status').get(function () {
       var min = Math.floor((diff/1000)/60);
 
       if (min < 46) {
-        return 'Match läuft - 1. Halbzeit - ' + min + '. min';
+        return 'Match läuft - 1. HZ - ' + min + '. min';
       }
       if (min > 61) {
-        return 'Match läuft - 2. Halbzeit - ' + (min - 15) + '. min';
+        return 'Match läuft - 2. HZ - ' + (min - 15) + '. min';
       }
       return 'Match läuft - Halbzeitpause';
     }

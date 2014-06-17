@@ -153,6 +153,10 @@ exports.update = function (req, res, next) {
   var tip = req.tip;
   var group = req.group;
 
+  if (req.tip.match.started) {
+    req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
+    res.redirect('/groups/' + req.tip.group.slug + '/spielplan');
+  }
 
   tip.scoreTeam1 = req.body.scoreTeam1;
   tip.scoreTeam2 = req.body.scoreTeam2;
