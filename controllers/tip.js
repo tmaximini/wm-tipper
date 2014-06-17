@@ -49,7 +49,7 @@ exports.edit = function (req, res, next) {
   console.dir(req.tip);
 
 
-  if (req.tip.match.started) {
+  if (req.tip.match.when <= Date.now()) {
     req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
     res.redirect('/groups/' + req.tip.group.slug + '/spielplan');
   }
@@ -153,31 +153,35 @@ exports.update = function (req, res, next) {
   var tip = req.tip;
   var group = req.group;
 
-  if (req.tip.match.started) {
-    req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
-    res.redirect('/groups/' + req.tip.group.slug + '/spielplan');
-  }
+  Match.findOne({ '_id': tip.match }, function(err, match) {
 
-  tip.scoreTeam1 = req.body.scoreTeam1;
-  tip.scoreTeam2 = req.body.scoreTeam2;
+    if (err) return next(err);
 
-  if (tip.scoreTeam1 > tip.scoreTeam2) {
-    tip.bet = '1';
-  }
-  if (tip.scoreTeam1 < tip.scoreTeam2) {
-    tip.bet = '2';
-  }
-  if (tip.scoreTeam1 === tip.scoreTeam2) {
-    tip.bet = 'X';
-  }
-
-
-  req.user.save(function(err, user) {
-    if (!err) {
-      req.flash('success', { msg: 'Dein Tip wurde aktualisiert.' });
-      return res.redirect('/groups/'+group.slug+'/spielplan')
+    if (!match || match.started) {
+      req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
+      return res.redirect('/groups/' + req.tip.group.slug + '/spielplan');
     } else {
-      return next(err);
+      tip.scoreTeam1 = req.body.scoreTeam1;
+      tip.scoreTeam2 = req.body.scoreTeam2;
+
+      if (tip.scoreTeam1 > tip.scoreTeam2) {
+        tip.bet = '1';
+      }
+      if (tip.scoreTeam1 < tip.scoreTeam2) {
+        tip.bet = '2';
+      }
+      if (tip.scoreTeam1 === tip.scoreTeam2) {
+        tip.bet = 'X';
+      }
+
+      req.user.save(function(err, user) {
+        if (!err) {
+          req.flash('success', { msg: 'Dein Tip wurde aktualisiert.' });
+          return res.redirect('/groups/'+group.slug+'/spielplan')
+        } else {
+          return next(err);
+        }
+      });
     }
   });
 
