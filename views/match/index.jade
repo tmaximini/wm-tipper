@@ -13,7 +13,7 @@ block content
 
   .matches
     each match in matches
-      .match
+      .match(class=match.started ? 'started' : undefined)
         span.matchInfo= match.i18nDateString
         span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gr. ' + match.team1.gruppe + ')' : '')
         //- i= moment(match.when).fromNow()

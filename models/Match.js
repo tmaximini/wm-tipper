@@ -22,17 +22,27 @@ var matchSchema = new Schema({
 /**
  * Virtuals
  */
+var minute = 1000 * 60;
+
 matchSchema.virtual('result').get(function () {
   return this.scoreTeam1 + ' : ' + this.scoreTeam2;
 });
 matchSchema.virtual('started').get(function () {
   return this.when <= Date.now();
 });
+matchSchema.virtual('over').get(function () {
+  var endTime = this.when + (110*minute);
+  return endTime <= Date.now();
+});
+matchSchema.virtual('running').get(function () {
+  var endTime = this.when + (110*minute);
+  return ((this.when <= Date.now()) && (Date.now() <= endTime));
+});
 matchSchema.virtual('formattedDate').get(function () {
   return moment(this.startDate).format('DD.MM.YYYY') + ' - ' + this.startTime;
 });
 matchSchema.virtual('status').get(function () {
-  var minute = 1000 * 60;
+
   var matchEnds = this.when.getTime() + (minute * 109);
   if (this.when > Date.now()) {
     return 'Noch nicht begonnen';

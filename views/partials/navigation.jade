@@ -31,6 +31,7 @@
         else
           li.dropdown(class=currentPath=='/account'?'active':undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
+              span.profilePoints= user.maxPoints
               if user.profile.picture
                 img.profile-image(src='#{user.profile.picture}')
               else
