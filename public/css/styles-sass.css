@@ -189,3 +189,12 @@ td.userImage img {
   padding-right: 10px;
   font-size: 16px;
 }
+
+.nextPage {
+  float: right;
+}
+
+.prevPage {
+  float: left;
+  margin-left: 10px;
+}
