@@ -425,19 +425,28 @@ exports.sendInvite = function(req, res, next) {
 
 exports.addComment = function(req, res, next) {
   var name = req.user.profile.name;
-  var comment = {
-    user: name,
-    date: Date.now(),
-    body: req.body.comment
-  };
 
-  var group = req.group;
 
-  group.comments.push(comment);
-  group.save(function(err, group) {
-    if (err) next(err);
-    req.flash('success', { msg: 'Kommentar wurde gespeichert.' });
+  if (req.body.comment && req.body.comment.length > 0) {
+    var comment = {
+      user: name,
+      date: Date.now(),
+      body: req.body.comment
+    };
+
+    var group = req.group;
+
+    group.comments.push(comment);
+    group.save(function(err, group) {
+      if (err) next(err);
+      req.flash('success', { msg: 'Kommentar wurde gespeichert.' });
+      res.redirect('/groups/' + group.slug);
+    });
+  } else {
+    req.flash('error', { msg: 'Du musst einen Kommentar angeben.' });
     res.redirect('/groups/' + group.slug);
-  });
+  }
+
+
 };
 
