@@ -34,6 +34,11 @@ exports.index = function (req, res, next) {
 
 exports.newMatchTip = function (req, res, next) {
 
+  if (req.match.started) {
+    req.flash('error', { msg: 'Zu spät! Diese Partie hat bereits angefangen.'});
+    return res.redirect('/groups/' + req.group.slug + '/spielplan');
+  }
+
   res.render('tip/new.jade', {
     title: "Neuen Tip erstellen",
     tip: new Tip({}),
@@ -49,7 +54,7 @@ exports.edit = function (req, res, next) {
   console.dir(req.tip);
 
 
-  if (req.tip.match.when <= Date.now()) {
+  if (req.match.started) {
     req.flash('error', { msg: 'Zu spät! Dieser Tip darf nicht mehr editiert werden.'});
     res.redirect('/groups/' + req.tip.group.slug + '/spielplan');
   }
@@ -67,8 +72,10 @@ exports.edit = function (req, res, next) {
 
 exports.create = function (req, res, next) {
 
-  console.log('creating new tip:');
-  console.dir(req.body);
+  if (req.match.started) {
+    req.flash('error', { msg: 'Zu spät! Diese Partie hat bereits angefangen.'});
+    return res.redirect('/groups/' + req.group.slug + '/spielplan');
+  }
 
   var newTip = new Tip(req.body);
 

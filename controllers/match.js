@@ -74,7 +74,7 @@ exports.groupIndex = function (req, res, next) {
           for (var i = 0; i < req.user.tips.length; i++) {
             var tip = req.user.tips[i];
             if ((match._id.equals(tip.match)) && (req.group._id.equals(tip.group))) {
-              console.dir(tip);
+              //console.dir(tip);
               match.userTip = tip;
               match.userTipPoints = utils.getPoints(match, match.userTip);
               break;
@@ -167,8 +167,6 @@ exports.show = function (req, res, next) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
     res.redirect('/matches');
   } else {
-
-    console.dir(match.team1);
 
     res.render('match/show.jade', {
       title: 'Match Details',

@@ -7,13 +7,19 @@ block content
       | Zum Tippen besuche bitte eine
       a(href='/groups') &nbsp;Gruppe
 
+  .controls
+    a.togglePastMatches(href='#') Vergangene Partien anzeigen
+  br
+
   if user && user.admin
     a.btn.btn-success(href='/matches/new')
       | Neue Partie erstellen
 
   .matches
     each match in matches
-      .match(class=match.started ? 'started' : undefined)
+      - var klass = match.started ? 'started' : undefined;
+      - if (match.running) klass += ' running';
+      .match(class=klass)
         span.matchInfo= match.i18nDateString
         span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gr. ' + match.team1.gruppe + ')' : '')
         //- i= moment(match.when).fromNow()

@@ -11,8 +11,19 @@
     min-height: 85px;
 
     &.started {
+      display: none;
       background-color: #fff;
       background-image: repeating-linear-gradient(45deg,transparent,transparent 15px,rgba(246, 250, 245, 0.7)15px,rgba(241,250,250,.7)30px);
+    }
+
+    &.running {
+      background-color: rgba(175, 245, 206, 0.36);
+      background-image: none;
+      display: block;
+    }
+
+    &.current {
+      display: block;
     }
 
     a.matchName {

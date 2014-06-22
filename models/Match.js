@@ -31,11 +31,11 @@ matchSchema.virtual('started').get(function () {
   return this.when <= Date.now();
 });
 matchSchema.virtual('over').get(function () {
-  var endTime = this.when + (110*minute);
+  var endTime = this.when.getTime() + (110*minute);
   return endTime <= Date.now();
 });
 matchSchema.virtual('running').get(function () {
-  var endTime = this.when + (110*minute);
+  var endTime = this.when.getTime() + (110*minute);
   return ((this.when <= Date.now()) && (Date.now() <= endTime));
 });
 matchSchema.virtual('formattedDate').get(function () {

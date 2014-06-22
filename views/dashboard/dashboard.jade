@@ -26,7 +26,7 @@ block content
       if nextMatches.length
         .matches
           each match in nextMatches
-            .match
+            .match(class= match.running ? 'running' : undefined)
               span.matchInfo= match.i18nDateString
               span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gr. ' + match.team1.gruppe + ')' : '')
                 //- i= moment(match.when).fromNow()

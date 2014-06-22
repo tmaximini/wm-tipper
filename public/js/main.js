@@ -18,6 +18,16 @@ $(document).ready(function() {
     return confirm('Newseintrag löschen?');
   });
 
+  $('.togglePastMatches').click(function() {
+    $('.matches .started').toggle();
+    if ($(this).text() === 'Vergangene Partien anzeigen') {
+      $(this).text('Vergangene Partien ausblenden');
+    } else {
+      $(this).text('Vergangene Partien anzeigen');
+    }
+    return false;
+  });
+
 
   // Find all YouTube videos
   //var $allVideos = $('iframe[src^="//www.youtube.com"]');
