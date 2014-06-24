@@ -91,6 +91,8 @@ exports.create = function (req, res, next) {
 
   req.user.tips.push(newTip);
 
+  req.user.groupName = req.group.name;
+
   req.user.save(function(err, tip) {
     if (err) {
       return next(err);
@@ -180,6 +182,8 @@ exports.update = function (req, res, next) {
       if (tip.scoreTeam1 === tip.scoreTeam2) {
         tip.bet = 'X';
       }
+
+      req.user.groupName = group.name;
 
       req.user.save(function(err, user) {
         if (!err) {

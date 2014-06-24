@@ -48,6 +48,7 @@ var userSchema = new mongoose.Schema({
   tips: [TipSchema],
   // total points per group, like group[i] has groupPoints[i]
   groupPoints: [ ],
+  groupName: String,
   groupStats: [ {} ],
   maxPoints: { type: Number, default: 0, index: true },
   // sum of all group points
@@ -117,7 +118,6 @@ var userSchema = new mongoose.Schema({
               }
 
               usr.groupPoints = _groupPoints;
-              console.dir(_groupStats);
               usr.groupStats  = _groupStats;
               usr.totalPoints = sum;
               usr.maxPoints = _groupPoints.length > 0 ? Math.max.apply(Math, _groupPoints) : 0;
