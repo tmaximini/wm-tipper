@@ -5,6 +5,7 @@ block content
   - var legend = match.isNew ? 'Neue Partie erstellen' : 'Partie bearbeiten'
   - var ergebnis = [0, 1, 2, 3, 4, 5, 6, 7, 7, 9]
   - var types = ['Vorrunde', 'Achtelfinale', 'Viertelfinale', 'Halbfinale', 'Spiel um Platz 3', 'Finale']
+  - var extras = [null, 'Verlängerung', 'Elfmeterschiessen']
   form(method='POST', action=action, autocomplete='off')
     legend= legend
     input(type='hidden', name='_csrf', value=token)
@@ -19,7 +20,7 @@ block content
         input.form-control(type='text', name='startTime', value=match.startTime, id='startTime', placeholder='Uhrzeit?', autofocus=true)
       .form-group
         label.control-label(for='isDummy') Dummy Match? (zum testen)
-        input.form-control(type='checkbox', name='isDummy', value=match.startTime, id='isDummy', checked=match.isDummy)
+        input.form-control(type='checkbox', name='isDummy', id='isDummy', checked=match.isDummy)
       .form-group
         label.control-label(for='team1') Team 1
         select.form-control(name='team1')
@@ -51,6 +52,16 @@ block content
           select.form-control(name='scoreTeam2', id='scoreTeam2')
             for nr in ergebnis
               option(selected = nr === parseInt(match.scoreTeam2)) #{nr}
+        .form-group
+          label.control-label(for='extraTime')
+            | Sonstiges
+          select.form-control(name='extraTime', id='extraTime')
+            for extra in extras
+              option(selected = extra === match.extraTime) #{extra}
+        .form-group
+          input(type='hidden', name='hasEnded', value=0)
+          label.control-label(for='hasEnded') Match beendet?
+          input.form-control(type='checkbox', name='hasEnded', id='hasEnded', checked=match.hasEnded)
       .form-group
         - var buttonText = match.isNew ? 'Partie erstellen' : 'Partie ändern'
         button.btn.btn-primary(type='submit')

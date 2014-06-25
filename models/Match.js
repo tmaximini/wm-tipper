@@ -15,6 +15,8 @@ var matchSchema = new Schema({
   scoreTeam1: { type: Number, required: true, default: 0 },
   scoreTeam2: { type: Number, required: true, default: 0 },
   isDummy: { type: Boolean, default: false },
+  hasEnded: { type: Boolean, default: false },
+  extraTime: String,
   matchType: String
 });
 
@@ -25,7 +27,14 @@ var matchSchema = new Schema({
 var minute = 1000 * 60;
 
 matchSchema.virtual('result').get(function () {
-  return this.scoreTeam1 + ' : ' + this.scoreTeam2;
+  var ergebnis = this.scoreTeam1 + ' : ' + this.scoreTeam2;
+  if (this.extraTime === 'Verlängerung') {
+    ergebnis += ' n. V.';
+  }
+  if (this.extraTime === 'Elfmeterschiessen') {
+    ergebnis += ' n. E.';
+  }
+  return ergebnis;
 });
 matchSchema.virtual('started').get(function () {
   return this.when <= Date.now();
@@ -35,8 +44,12 @@ matchSchema.virtual('over').get(function () {
   return endTime <= Date.now();
 });
 matchSchema.virtual('running').get(function () {
-  var endTime = this.when.getTime() + (110*minute);
-  return ((this.when <= Date.now()) && (Date.now() <= endTime));
+  if (this.isKo()) {
+    return this.started && !this.hasEnded;
+  } else {
+    var endTime = this.when.getTime() + (110*minute);
+    return ((this.when <= Date.now()) && (Date.now() <= endTime));
+  }
 });
 matchSchema.virtual('formattedDate').get(function () {
   return moment(this.startDate).format('DD.MM.YYYY') + ' - ' + this.startTime;
@@ -47,21 +60,39 @@ matchSchema.virtual('status').get(function () {
   if (this.when > Date.now()) {
     return 'Noch nicht begonnen';
   } else {
-    console.log(matchEnds, Date.now());
-    if (matchEnds < Date.now()) {
-      return 'Match beendet';
+
+    var diff = Date.now() - this.when.getTime();
+    var min = Math.floor((diff/1000)/60);
+
+    if (this.isKo()) {
+      if (this.hasEnded) {
+        return 'Match beendet';
+      } else {
+
+        if (min < 46) {
+          return 'Match läuft - 1. HZ - ' + min + '. min';
+        }
+        if (min > 61 && min < 109) {
+          return 'Match läuft - 2. HZ - ' + (min - 16) + '. min';
+        }
+        if (min > 109) {
+          return 'Verlängerung - ' + (min - 16) + '. min';
+        }
+        return 'Match läuft - Halbzeitpause';
+      }
     } else {
+      if (matchEnds < Date.now()) {
+        return 'Match beendet';
+      } else {
 
-      var diff = Date.now() - this.when.getTime();
-      var min = Math.floor((diff/1000)/60);
-
-      if (min < 46) {
-        return 'Match läuft - 1. HZ - ' + min + '. min';
+        if (min < 46) {
+          return 'Match läuft - 1. HZ - ' + min + '. min';
+        }
+        if (min > 61) {
+          return 'Match läuft - 2. HZ - ' + (min - 16) + '. min';
+        }
+        return 'Match läuft - Halbzeitpause';
       }
-      if (min > 61) {
-        return 'Match läuft - 2. HZ - ' + (min - 15) + '. min';
-      }
-      return 'Match läuft - Halbzeitpause';
     }
   }
 });
@@ -102,6 +133,10 @@ matchSchema.statics = {
       .exec(cb);
   }
 
+};
+
+matchSchema.methods.isKo = function() {
+  return this.matchType !== 'Vorrunde';
 };
 
 

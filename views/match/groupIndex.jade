@@ -18,7 +18,7 @@ block content
         - if (match.running) klass += ' running';
         .match(class=klass)
           span.matchInfo= match.i18nDateString
-          span.matchType= match.matchType + (match.matchType === 'Vorrunde' ? ' (Gr. ' + match.team1.gruppe + ')' : '')
+          span.matchType= match.matchType + (!match.isKo() ? ' (Gr. ' + match.team1.gruppe + ')' : '')
           br
           a.matchName(href='/groups/#{group.slug}/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
           span.matchResult
