@@ -1,4 +1,9 @@
 #flash
+  if currentPath!=='/regeln'
+    .alert.alert-info
+      div
+        | Hey. Um die Finalrunden noch spannender zu machen haben wir ein paar Anpassungen vorgenommen: &nbsp;
+        a(href='/regeln#finalrunde') Änderungen ansehen.
   if messages.error
     .alert.alert-danger.animated.fadeIn
       for error in messages.error

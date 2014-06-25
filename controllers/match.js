@@ -4,6 +4,8 @@ var Tip = require('../models/Tip');
 var Team = require('../models/Team');
 var User = require('../models/User');
 
+var async = require('async');
+
 var utils = require('../helpers/utils');
 
 var passportConf = require('../config/passport');
@@ -170,7 +172,8 @@ exports.show = function (req, res, next) {
 
     res.render('match/show.jade', {
       title: 'Match Details',
-      match: req.match
+      match: req.match,
+      matchUsers: []
     });
   }
 };
@@ -184,21 +187,42 @@ exports.showGroupTip = function (req, res, next) {
   var userTip = null;
   var group = req.group;
 
+  var matchUsers = [];
+
+
   if(!match) {
     req.flash('error', { msg: 'Dieses Match existiert nicht.' });
     res.redirect('/matches');
   } else {
+
     for (var i = 0; i < req.user.tips.length; i++) {
       if (match._id.equals(req.user.tips[i].match)) {
         userTip = req.user.tips[i];
         break;
       }
     }
+
+    if (match.isKo() && match.started) {
+      group.members.forEach(function(member) {
+        for (var i = 0; i < member.tips.length; i++) {
+          if (match._id.equals(member.tips[i].match)) {
+            var user = { name: member.profile.name, image: member.profile.picture ? member.profile.picture.replace('large', 'small', 'g') : member.gravatar() }
+            user.tip = member.tips[i];
+            user.points = utils.getPoints(req.match, user.tip)
+            matchUsers.push(user);
+            break;
+          }
+        }
+      });
+      console.dir('FINISHED FOR EACH', matchUsers);
+    }
+
     res.render('match/show.jade', {
       title: 'Match Details',
       match: req.match,
       userTip: userTip,
       group: group,
+      matchUsers: matchUsers,
       points: !userTip ? null : utils.getPoints(req.match, userTip)
     });
 

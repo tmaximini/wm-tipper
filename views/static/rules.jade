@@ -3,7 +3,10 @@ extends ../layout
 block content
   h1 Spielregeln
 
-  p.lead DIE TIPPABGABE
+
+
+  p.lead
+    a(name='tippabgabe') DIE TIPPABGABE
 
   p.bodytext
     | Die Tippabgabe ist immer bis zum Start des zu tippenden Spiels möglich. Auch Änderungen sind solange möglich. Ab dem Beginn des Spiels kann man keine Änderungen mehr durchführen.
@@ -11,7 +14,8 @@ block content
     | Es ist auch möglich, in mehreren Tippgruppen mitzuspielen.
 
   br
-  p.lead DAS PUNKTESYSTEM
+  p.lead
+    a(name='punktesystem') DAS PUNKTESYSTEM
 
   p.bodytext
     | Die abgegebenen Tipps werden je nach Richtigkeit mir Punkten belohnt. Es zählt immer das Endergebnis des Spiels.
@@ -21,8 +25,25 @@ block content
     li Ist das Ergebnis nicht genau, aber die Tendenz (Sieg, Niederlage oder Unentschieden) stimmt, erhältst Du einen Punkt.
     li Für komplett falsche Tipps (Ergebnis und Tendenz) gibt es keine Punkte
 
+
+  p.lead
+    a(name='finalrunde') FINALRUNDE
+
+  p.bodytext
+    | Ab dem Achtelfinale gibt es für das richtige Torverhältnis 2 Punkte: Das bedeutet, wenn ihr 2:1 tippt, das Spiel aber 5:4 nach Elfmeterschiessen ausgeht, bekommt ihr zumindest 2 Punkte statt bisher nur einen.
+    br
+    | Diese Regel trifft auf alle Spiele der K.O.-Runde zu und wird nicht rückwirkend auf Spiele der Vorrunde angewendet.
+    br
+    | Weiterhin gibt es 3 Punkte nur für den exakt richtigen Tipp auf das Endergebnis, ob mit oder ohne Verlängerung und Elfmeterschiessen.
+    br
+    | Um das Tippen noch etwas spannender zu machen, wird es ausserdem in der K.O.-Runde möglich sein, nach Spielbeginn die Tipps der anderen Gruppenmitglieder einzusehen.
+    br
+    | Dazu müsst ihr vom Gruppenspielplan aus in die Detailansicht eines Spiels wechseln.
+
+
   br
-  p.lead DAS GESAMTERGEBNIS
+  p.lead
+    a(name='ergebnis') DAS GESAMTERGEBNIS
 
   p.bodytext
     | Die Gesamtplatzierung wird am Ende des Turniers ermittelt. Natürlich kannst Du jederzeit deine aktuelle Platzierung in der Gruppe ansehen. So wird die Platzierung berechnet:

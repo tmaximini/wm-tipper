@@ -22,7 +22,10 @@ block content
             //-td= (usr.maxPoints === lastUser.maxPoints) && (stats.correct === lastUser.bestGroup.correct) ? i : ++i
             td= ++i
             td.userImage: img(width=30,src=usr.profile.picture?usr.profile.picture.replace('large', 'small', 'g'):usr.gravatar())
-            td= usr.profile.name
+            td
+              span.name #{usr.profile.name}
+              if usr.groupName
+                span.groupName #{usr.groupName}
             //-td= usr.bestGroupDetails.name
             td= usr.nrOfTips
             td= (stats.correct || 0) + ' - ' + (stats.tendency || 0) + ' - ' + (stats.wrong || 0)

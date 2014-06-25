@@ -55,6 +55,27 @@ block content
         i.fa.fa-trophy
         | Zu den Tippgruppen
 
+    if match.started && match.isKo() && matchUsers.length
+      .top10.table-responsive.matchTable
+        table.table.table-striped
+          thead
+            tr
+              th :-)
+              th Name
+              //-th Gruppe
+              th Tipp
+              th Punkte
+          tbody
+            for usr in matchUsers
+              tr(class = user && (usr.email === user.email) ? 'you' : undefined)
+                - var stats = usr.bestGroup
+                td.userImage: img(width=30,src=usr.image)
+                td= usr.name
+                //-td= usr.bestGroupDetails.name
+                td= usr.tip.scoreTeam1 + ' - ' + usr.tip.scoreTeam2
+                td= usr.points
+
+
   .actions
     if user && user.admin
       a.btn.btn-small.btn-primary(href='/matches/#{match._id}/edit')
@@ -66,5 +87,6 @@ block content
 
 
     if group
-      .back
-        a.backLink(href='/groups/#{group.slug}/spielplan') Zurück zur Gruppe
+      a.btn.btn-default(href='/groups/#{group.slug}/spielplan')
+        i.fa.fa-chevron-left
+        | Zurück zum Spielplan

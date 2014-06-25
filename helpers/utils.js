@@ -17,7 +17,7 @@ exports.getTipPointsPromise = function(tip) {
   Match.load(tip.match, function(err, match) {
     if (err) console.error(err); // log only for now
     if (match && match.started) {
-      console.log('tipped match found and started');
+      //console.log('tipped match found and started');
       var points = self.getPoints(match, tip);
       qIn.resolve(points);
     } else {
@@ -41,7 +41,7 @@ exports.getPoints = function(match, tip) {
   var st2 = match.scoreTeam2;
 
   var realDifference = st1 - st2;
-  var tipDifference = st1 - st2;
+  var tipDifference = tip.scoreTeam1 - tip.scoreTeam2;
 
   if ((st1 === tip.scoreTeam1) && (st2 === tip.scoreTeam2)) {
     points = 3;
