@@ -69,7 +69,12 @@ block content
             span.matchType= match.matchType + (!match.isKo() ? ' (Gr. ' + match.team1.gruppe + ')' : '')
               //- i= moment(match.when).fromNow()
             br
-            a(href='/matches/#{match._id}')= match.team1.name + ' - ' + match.team2.name
+            a(href='/matches/#{match._id}')
+              span.flag
+                img(src='/img/flags/#{match.team1.slug}.png', height=5)
+              span.teams= match.team1.name + ' - ' + match.team2.name
+              span.flag
+                img(src='/img/flags/#{match.team2.slug}.png', height=5)
             span.matchResult
               | #{match.started ? match.result : '- : -'}
             span.matchStatus
