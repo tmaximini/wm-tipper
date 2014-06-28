@@ -76,7 +76,7 @@ matchSchema.virtual('status').get(function () {
           return 'Match läuft - 2. HZ - ' + (min - 16) + '. min';
         }
         if (min > 109) {
-          return 'Verlängerung - ' + (min - 16) + '. min';
+          return 'Verlängerung';
         }
         return 'Match läuft - Halbzeitpause';
       }
