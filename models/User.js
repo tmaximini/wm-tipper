@@ -234,6 +234,9 @@ userSchema.methods.getTotalPoints = function (groupId) {
             case 3:
               correctTips++;
               break;
+            case 2:
+              tendencyTips++;
+              break;
             case 1:
               tendencyTips++;
               break;
