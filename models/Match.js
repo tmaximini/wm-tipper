@@ -72,10 +72,10 @@ matchSchema.virtual('status').get(function () {
         if (min < 46) {
           return 'Match läuft - 1. HZ - ' + min + '. min';
         }
-        if (min > 61 && min < 109) {
-          return 'Match läuft - 2. HZ - ' + (min - 16) + '. min';
+        if (min >= 62 && min < 109) {
+          return 'Match läuft - 2. HZ - ' + (min - 17) + '. min';
         }
-        if (min > 109) {
+        if (min >= 109) {
           return 'Verlängerung';
         }
         return 'Match läuft - Halbzeitpause';
@@ -89,7 +89,7 @@ matchSchema.virtual('status').get(function () {
           return 'Match läuft - 1. HZ - ' + min + '. min';
         }
         if (min > 61) {
-          return 'Match läuft - 2. HZ - ' + (min - 16) + '. min';
+          return 'Match läuft - 2. HZ - ' + (min - 17) + '. min';
         }
         return 'Match läuft - Halbzeitpause';
       }
