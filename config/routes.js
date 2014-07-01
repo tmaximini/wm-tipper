@@ -30,6 +30,7 @@ module.exports = exports = function (app) {
 
   // make moment.js available in all .jade views
   app.locals.moment = moment;
+  app.locals.utils = require('../helpers/utils');
 
   //// USER ////
   app.get('/', homeController.index);

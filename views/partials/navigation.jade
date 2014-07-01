@@ -14,7 +14,7 @@
         li(class=currentPath=='/news'?'active':undefined)
           a(href='/news') News
         li(class=currentPath=='/plan'?'active':undefined)
-          a(href=user && user.groups[0] ? '/groups/#{user.groups[0]}/spielplan' : '/plan') Spielplan
+          a(href=user && user.groupName ? '/groups/#{utils.convertToSlug(user.groupName)}/spielplan' : '/plan') Spielplan
         li(class=currentPath=='/groups'?'active':undefined)
           a(href='/groups') Tippgruppen
         li(class=currentPath=='/regeln'?'active':undefined)
