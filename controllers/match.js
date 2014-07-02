@@ -278,11 +278,11 @@ exports.update = function (req, res, next) {
         console.log('forked');
       });
 
-      // kill childProcess after 3 minutes
+      // kill childProcess after 5 minutes
       timeout = setTimeout(function() {
         childProcess.kill('SIGINT');
         childProcess = undefined;
-      }, 180000);
+      }, 300000);
 
       childProcess.on('exit', function() { console.log('child process terminated!'); });
 
