@@ -4,6 +4,7 @@ var secrets = require('../config/secrets');
 var User  = require('../models/User');
 var Team  = require('../models/Team');
 var Match = require('../models/Match');
+var Group = require('../models/Group');
 
 mongoose.connect(secrets.db);
 mongoose.connection.on('error', function() {
