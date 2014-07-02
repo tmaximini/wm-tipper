@@ -6,3 +6,4 @@ public/bower
 builtAssets
 start.sh
 stop.sh
+__aggregate.js
