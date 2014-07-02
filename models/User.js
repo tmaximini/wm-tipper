@@ -111,7 +111,6 @@ var userSchema = new mongoose.Schema({
             }
 
             Promise.all(promises).then(function() {
-              console.log('all promises resolved');
               var sum = 0;
               for (var j = _groupPoints.length; j--;) {
                 sum += _groupPoints[j];
@@ -138,8 +137,6 @@ var userSchema = new mongoose.Schema({
             usr.save(function(err, user) {
               if (err) {
                 console.error(err);
-              } else {
-                console.log('user has been saved');
               }
             });
           }

@@ -10,6 +10,9 @@ var utils = require('../helpers/utils');
 
 var passportConf = require('../config/passport');
 
+// child process, allow only 1 at a time
+var childProcess, timeout;
+
 'use strict';
 
 
@@ -260,7 +263,29 @@ exports.update = function (req, res, next) {
       console.log('update successful');
       req.flash('success', { msg: 'Partie wurde aktualisiert.' });
       res.redirect('/matches');
-      User.updateCurrentPoints();
+
+
+      // if there is already an child process running, kill it first
+      if (childProcess && childProcess.kill) {
+        childProcess.kill('SIGINT');
+        clearTimeout(timeout);
+      }
+
+      var fork = require('child_process').fork;
+      childProcess = fork('./helpers/updateHelper.js', function(err, stdout, stderr) {
+        //User.updateCurrentPoints();
+        if (err) console.error(err);
+        console.log('forked');
+      });
+
+      // kill childProcess after 3 minutes
+      timeout = setTimeout(function() {
+        childProcess.kill('SIGINT');
+        childProcess = undefined;
+      }, 180000);
+
+      childProcess.on('exit', function() { console.log('child process terminated!'); });
+
     } else {
       return next(err);
     }
