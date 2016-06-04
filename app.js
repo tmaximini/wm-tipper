@@ -24,6 +24,8 @@ var User = require('./models/User');
  * API keys + Passport configuration.
  */
 
+console.log('process.env.MONGODB', process.env.MONGODB);
+
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 

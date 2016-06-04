@@ -8,7 +8,7 @@ var News = require('../models/News');
  * Home page.
  */
 
-exports.index = function(req, res) {
+exports.index = function(req, res, next) {
 
   var hour = 3600000;
 
@@ -66,7 +66,7 @@ exports.index = function(req, res) {
         News.list({ criteria: { 'published': true }, orderBy: { 'createdAt': -1 }, perPage: 4 }, function(err, latestNews) {
           if (err) return next(err);
           res.render('home', {
-            title: 'Das WM-Tippspiel zur Fussball Weltmeisterschaft 2014 in Brasilien',
+            title: 'Das EM-Tippspiel zur Fussball Europameisterschaft 2016 in Frankreich',
             nextMatches: nextMatches,
             totalMatchCount: totalMatchCount,
             latestNews: latestNews
