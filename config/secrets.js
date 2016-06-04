@@ -1,5 +1,5 @@
 module.exports = {
-  db: process.env.MONGODB || 'mongodb://localhost:27017/wm-tipper-test',
+  db: process.env.MONGODB || 'mongodb://localhost:27017/wm-tipper-2016',
 
   sessionSecret: process.env.SESSION_SECRET || 'Your Session Secret goes here',
 
