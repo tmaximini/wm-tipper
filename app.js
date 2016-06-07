@@ -39,7 +39,12 @@ var app = express();
  * Mongoose configuration.
  */
 
-mongoose.connect(secrets.db);
+var options = {
+  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+  replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+};
+
+mongoose.connect(secrets.db, options);
 mongoose.connection.on('error', function() {
   console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
 });
