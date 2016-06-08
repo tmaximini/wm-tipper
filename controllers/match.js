@@ -205,7 +205,7 @@ exports.showGroupTip = function (req, res, next) {
       }
     }
 
-    if (match.isKo() && match.started) {
+    if (match.started) {
       group.members.forEach(function(member) {
         for (var i = 0; i < member.tips.length; i++) {
           if (match._id.equals(member.tips[i].match)) {
@@ -217,7 +217,7 @@ exports.showGroupTip = function (req, res, next) {
           }
         }
       });
-      console.dir('FINISHED FOR EACH', matchUsers);
+      // console.dir('FINISHED FOR EACH', matchUsers);
     }
 
     res.render('match/show.jade', {
