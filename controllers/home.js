@@ -23,7 +23,7 @@ exports.index = function(req, res, next) {
         },
         criteria: {
           when: {
-            $gt: Date.now() - 1.76*hour
+            $gt: Date.now() - 2 * hour
           }
         },
         limit: 4
