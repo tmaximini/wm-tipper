@@ -31,7 +31,7 @@ block content
               span.matchType= match.matchType + (!match.isKo() ? ' (Gr. ' + match.team1.gruppe + ')' : '')
                 //- i= moment(match.when).fromNow()
               br
-              a(href='/matches/#{match._id}')
+              a(href='/groups/#{userGroups[0].slug}/matches/#{match._id}')
                 span.flag
                   img(src=match.team1.isDummy ? '/img/flags/unknown.gif' : '/img/flags/#{match.team1.slug}.png', height=5)
                 span.teams= match.team1.name + ' - ' + match.team2.name
